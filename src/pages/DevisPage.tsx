@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useCart } from '../context/CartContext';
 import { useProducts } from '../context/ProductsContext';
 import { createReservation, type ReservationCartItem } from '../lib/directus';
 import { formatPrice } from '../lib/format';
 import styles from './DevisPage.module.css';
+
+const SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
 
 type Step = 'form' | 'loading' | 'success' | 'error';
 
@@ -12,10 +15,12 @@ export function DevisPage() {
   const { items, clear } = useCart();
   const { products } = useProducts();
   const navigate = useNavigate();
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const [step, setStep] = useState<Step>('form');
   const [trackingToken, setTrackingToken] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [cfToken, setCfToken] = useState('');
 
   const [type, setType] = useState<'particulier' | 'professionnel'>('particulier');
   const [firstName, setFirstName] = useState('');
@@ -45,6 +50,8 @@ export function DevisPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!cfToken) return;
+
     setStep('loading');
     try {
       const cartItemsMapped: ReservationCartItem[] = items.map(i => {
@@ -61,12 +68,16 @@ export function DevisPage() {
         notes,
         total_price: total,
         cartItems: cartItemsMapped,
+        cf_token: cfToken,
       });
       setTrackingToken(token);
       clear();
       setStep('success');
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Erreur inconnue');
+      // Réinitialise Turnstile pour permettre un nouvel essai
+      turnstileRef.current?.reset();
+      setCfToken('');
       setStep('error');
     }
   }
@@ -95,6 +106,7 @@ export function DevisPage() {
 
             <div className={styles.layout}>
               <form onSubmit={handleSubmit} className={styles.form}>
+
                 <section>
                   <h2>Vos informations</h2>
                   <div className={styles.typeToggle}>
@@ -127,7 +139,22 @@ export function DevisPage() {
                   )}
                 </section>
 
-                <button type="submit" className={styles.submitBtn}>Envoyer la demande</button>
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey={SITE_KEY}
+                  onSuccess={setCfToken}
+                  onExpire={() => setCfToken('')}
+                  onError={() => setCfToken('')}
+                  options={{ language: 'fr' }}
+                />
+
+                <button
+                  type="submit"
+                  className={styles.submitBtn}
+                  disabled={!cfToken}
+                >
+                  Envoyer la demande
+                </button>
               </form>
 
               <aside className={styles.summary}>

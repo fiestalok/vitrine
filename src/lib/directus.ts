@@ -167,6 +167,7 @@ export interface ReservationData {
   notes: string;
   total_price: number;
   cartItems: ReservationCartItem[];
+  cf_token: string;
 }
 
 export async function createReservation(data: ReservationData): Promise<string> {
@@ -188,6 +189,7 @@ export async function createReservation(data: ReservationData): Promise<string> 
       notes: data.notes,
       total_price: data.total_price,
       tracking_token: trackingToken,
+      cf_token: data.cf_token,
     }
   );
 
