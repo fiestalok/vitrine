@@ -1,0 +1,12 @@
+.tabs { display: flex; flex-wrap: wrap; gap: var(--space-sm); justify-content: center; }
+.tab {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-alt);
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+.tab:hover { background: var(--color-accent); }
+.active { background: var(--color-ink); color: var(--color-bg); }
+.active:hover { background: var(--color-ink); }

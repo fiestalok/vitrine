@@ -1,0 +1,36 @@
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  font-weight: 500;
+}
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  color: var(--color-ink);
+}
+h1 { font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem); }
+h2 { font-size: clamp(2rem, 3vw + 1rem, 3rem); }
+h3 { font-size: 1.5rem; }
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: 0 var(--space-lg);
+}
+::selection { background: var(--color-accent); color: var(--color-ink); }
+
+/* Pattern décoratif réutilisable (confettis) */
+.bg-confetti {
+  background-image:
+    radial-gradient(circle at 10% 20%, var(--color-accent) 0 6px, transparent 7px),
+    radial-gradient(circle at 80% 30%, var(--color-primary) 0 5px, transparent 6px),
+    radial-gradient(circle at 30% 80%, var(--color-danger) 0 4px, transparent 5px),
+    radial-gradient(circle at 70% 70%, var(--color-success) 0 5px, transparent 6px);
+  background-size: 280px 280px;
+  background-repeat: repeat;
+}
+
+html, body { overflow-x: hidden; }

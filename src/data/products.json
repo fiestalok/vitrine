@@ -1,0 +1,256 @@
+[
+  {
+    "id": "1",
+    "name": "Château Gonflable Classique",
+    "category": "chateau-gonflable",
+    "audiences": ["enfants"],
+    "shortDescription": "Le grand classique pour les anniversaires d'enfants. 4×4m, jusqu'à 6 enfants.",
+    "longDescription": "Un château gonflable coloré, sécurisé et homologué CE. Parfait pour les 3-10 ans. Installation en 30 min. On gonfle, vous kiffez !",
+    "price": 120,
+    "rating": 4.5,
+    "reviewCount": 2,
+    "specs": { "Dimensions": "4m × 4m × 3m", "Âge": "3 - 10 ans", "Capacité": "6 enfants" },
+    "images": [
+      "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?w=800",
+      "https://images.unsplash.com/photo-1567606404787-5d9e44d4fb41?w=800",
+      "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800"
+    ],
+    "badge": "TOP VENTE"
+  },
+  {
+    "id": "2",
+    "name": "Château Gonflable Toboggan",
+    "category": "chateau-gonflable",
+    "audiences": ["enfants"],
+    "shortDescription": "Un château avec toboggan intégré pour doubler le fun ! Glisse et saute sans fin.",
+    "longDescription": "Ce château gonflable avec toboggan XXL combine saut et glissade pour un max de sensations. Homologué CE, idéal pour les 4-12 ans. Livré et installé chez toi en moins d'une heure. La fête peut commencer !",
+    "price": 150,
+    "rating": 4.8,
+    "reviewCount": 7,
+    "specs": { "Dimensions": "5m × 4m × 3.5m", "Âge": "4 - 12 ans", "Capacité": "8 enfants", "Toboggan": "Oui" },
+    "images": [
+      "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800",
+      "https://images.unsplash.com/photo-1571752726703-5e7d1f6a986d?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "3",
+    "name": "Château Gonflable Obstacle",
+    "category": "chateau-gonflable",
+    "audiences": ["enfants", "adultes"],
+    "shortDescription": "Parcours d'obstacles gonflable pour petits et grands. Qui arrivera en premier ?",
+    "longDescription": "Un parcours d'obstacles gonflable de 8 mètres pour défier tes amis ! Tunnels, bosses et murs à escalader au programme. Convient aux enfants comme aux adultes jusqu'à 80 kg. Idéal pour les team buildings et les soirées qui déchirent.",
+    "price": 200,
+    "rating": 4.6,
+    "reviewCount": 5,
+    "specs": { "Dimensions": "8m × 3m × 2.5m", "Âge": "6 ans et +", "Capacité": "4 participants simultanés", "Poids max": "80 kg/pers." },
+    "images": [
+      "https://images.unsplash.com/photo-1526401485004-46910ecc8e51?w=800",
+      "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "4",
+    "name": "Photobooth Ouvert",
+    "category": "accessoire",
+    "audiences": ["adultes", "entreprises"],
+    "shortDescription": "Un photobooth open-air avec fond et accessoires pour immortaliser ta fête en mode fun.",
+    "longDescription": "Notre photobooth ouvert transforme n'importe quel événement en studio photo. Livré avec fond tendu, éclairage LED flatteur et une caisse à props délirants. Les photos sont imprimées sur place en 10 secondes. Le souvenir incontournable de ta soirée !",
+    "price": 180,
+    "rating": 4.7,
+    "reviewCount": 9,
+    "specs": { "Dimensions": "2m × 2m", "Impression": "10 sec", "Tirages": "Illimités", "Props": "Inclus" },
+    "images": [
+      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800",
+      "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "5",
+    "name": "Photobooth 360°",
+    "category": "accessoire",
+    "audiences": ["adultes", "entreprises"],
+    "shortDescription": "Capture tes moments à 360° pour des vidéos épiques à partager instantanément !",
+    "longDescription": "Le photobooth 360° fait tourner la caméra autour de toi pour créer des vidéos slow-motion spectaculaires. Partageable directement sur les réseaux sociaux via QR code. Effet garantit — tes invités vont a-do-rer. Parfait pour les lancements de produit et soirées corporate.",
+    "price": 280,
+    "rating": 4.9,
+    "reviewCount": 6,
+    "specs": { "Plateforme": "1.2m de diamètre", "Vitesse rotation": "Ajustable", "Export": "QR Code / Email", "Format vidéo": "MP4 + GIF" },
+    "images": [
+      "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800",
+      "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800"
+    ],
+    "badge": "NOUVEAU"
+  },
+  {
+    "id": "6",
+    "name": "Accessoires Déguisements",
+    "category": "accessoire",
+    "audiences": ["enfants", "adultes"],
+    "shortDescription": "Une malle de déguisements délirants pour toute la troupe. On s'déguise et on s'marre !",
+    "longDescription": "Une malle XXL remplie de costumes, chapeaux, perruques et accessoires pour 20 personnes. Du super-héros au pirate en passant par la disco queen — il y en a pour tous les goûts. Parfait pour animer une soirée thématique ou un anniversaire original.",
+    "price": 60,
+    "rating": 4.2,
+    "reviewCount": 3,
+    "specs": { "Contenu": "50+ accessoires", "Personnes": "Jusqu'à 20", "Thèmes": "Variés", "Nettoyage": "Prévu au retour" },
+    "images": [
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "7",
+    "name": "Miroir Personnalisé",
+    "category": "accessoire",
+    "audiences": ["adultes", "entreprises"],
+    "shortDescription": "Un miroir magique interactif pour des photos stylées avec tes messages personnalisés.",
+    "longDescription": "Notre miroir photo tactile guide tes invités avec une voix sympa et des animations. Tu personnalises le fond, le logo et les messages pour coller à ton événement. Impressions instantanées en 15 secondes. L'animation parfaite pour les mariages et événements corporate.",
+    "price": 220,
+    "rating": 4.6,
+    "reviewCount": 4,
+    "specs": { "Dimensions": "60cm × 150cm", "Impression": "15 sec", "Personnalisation": "Logo + texte", "Tirages": "Illimités" },
+    "images": [
+      "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800",
+      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "8",
+    "name": "Popcorn Machine",
+    "category": "restauration",
+    "audiences": ["enfants", "adultes", "entreprises"],
+    "shortDescription": "Du popcorn chaud et croustillant à volonté ! L'incontournable pour ta soirée cinéma.",
+    "longDescription": "Notre machine à popcorn professionnelle produit jusqu'à 3 kg/heure de popcorn frais et croustillant. Livré avec maïs, huile et sachets pour 100 portions. Facile à utiliser, aucune compétence culinaire requise. L'odeur va attirer tout le voisinage !",
+    "price": 45,
+    "rating": 4.4,
+    "reviewCount": 8,
+    "specs": { "Production": "3 kg/heure", "Portions": "100 incluses", "Puissance": "1200W", "Alimentation": "220V" },
+    "images": [
+      "https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=800",
+      "https://images.unsplash.com/photo-1599493758267-c6c884c7071f?w=800"
+    ],
+    "badge": "PROMO"
+  },
+  {
+    "id": "9",
+    "name": "Machine à Crêpes",
+    "category": "restauration",
+    "audiences": ["enfants", "adultes"],
+    "shortDescription": "Des crêpes maison à gogo ! Régale tes invités avec la vraie gourmandise bretonne.",
+    "longDescription": "Une crêpière professionnelle double plaque pour enchaîner les crêpes sans temps mort. Livrée avec la recette secrète de pâte maison et tous les ustensiles. Capacité de 40 à 60 crêpes par heure. Le hit sucré de ta fête d'anniversaire ou de ta kermesse.",
+    "price": 55,
+    "rating": 4.3,
+    "reviewCount": 5,
+    "specs": { "Capacité": "40-60 crêpes/h", "Puissance": "3000W", "Plaques": "2 × 40cm", "Alimentation": "220V" },
+    "images": [
+      "https://images.unsplash.com/photo-1506459225024-1428097a7e18?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "10",
+    "name": "Barbecue",
+    "category": "restauration",
+    "audiences": ["adultes", "entreprises"],
+    "shortDescription": "Un BBQ professionnel pour griller comme un chef et régaler toute la bande dehors !",
+    "longDescription": "Notre barbecue au charbon XXL est parfait pour les grandes tablées. Grille 80cm × 40cm pour cuire poissons, viandes et légumes en même temps. Livré avec allume-feu, pinces et gants. Idéal pour les soirées estivales et team buildings en plein air.",
+    "price": 80,
+    "rating": 4.1,
+    "reviewCount": 3,
+    "specs": { "Surface de cuisson": "80cm × 40cm", "Carburant": "Charbon", "Personnes": "Jusqu'à 30", "Hauteur réglable": "Oui" },
+    "images": [
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+      "https://images.unsplash.com/photo-1558030006-450675393462?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "11",
+    "name": "Barbe à Papa",
+    "category": "restauration",
+    "audiences": ["enfants", "adultes"],
+    "shortDescription": "De la barbe à papa rose et vaporeuse pour replonger en enfance. Magie sucrée garantie !",
+    "longDescription": "Notre machine à barbe à papa professionnelle produit des nuages de sucre fondants en quelques secondes. Livré avec sucre parfumé (fraise, vanille, framboise) et bâtons pour 80 portions. Le plus photogénique des snacks de fête !",
+    "price": 40,
+    "rating": 4.5,
+    "reviewCount": 6,
+    "specs": { "Production": "30 portions/h", "Parfums": "3 inclus", "Portions": "80 incluses", "Puissance": "900W" },
+    "images": [
+      "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800",
+      "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "12",
+    "name": "Enceinte Portable 500W",
+    "category": "enceintes",
+    "audiences": ["adultes", "entreprises"],
+    "shortDescription": "500W de son cristallin partout où tu vas. La fête s'invite à la campagne ou en salle !",
+    "longDescription": "Cette enceinte Bluetooth autonome de 500W délivre un son puissant et équilibré sans avoir besoin de prise secteur. Batterie intégrée pour 6h d'autonomie. Compatible micro et guitare pour les animations live. Le must pour les petites jauges.",
+    "price": 90,
+    "rating": 4.4,
+    "reviewCount": 7,
+    "specs": { "Puissance": "500W RMS", "Autonomie": "6 heures", "Connexion": "Bluetooth + Jack 6.35", "Poids": "12 kg" },
+    "images": [
+      "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=800",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "13",
+    "name": "Pack Sono 2000W",
+    "category": "enceintes",
+    "audiences": ["adultes", "entreprises"],
+    "shortDescription": "Le pack sono complet 2000W pour faire vibrer ta salle. Basses profondes, aigus nets.",
+    "longDescription": "Notre pack sono 2000W comprend 2 enceintes colonnes, un caisson de basse actif et une table de mixage 4 voies. Idéal pour 100 à 300 personnes. Livré câblé et prêt à l'emploi. Fais trembler les murs sans te prendre la tête !",
+    "price": 250,
+    "rating": 4.8,
+    "reviewCount": 10,
+    "specs": { "Puissance totale": "2000W RMS", "Couverture": "100 - 300 pers.", "Table de mixage": "4 voies", "Caisson basse": "Inclus" },
+    "images": [
+      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800",
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800"
+    ],
+    "badge": "TOP VENTE"
+  },
+  {
+    "id": "14",
+    "name": "Boule à Facette",
+    "category": "enceintes",
+    "audiences": ["adultes"],
+    "shortDescription": "La boule disco intemporelle pour une ambiance dancefloor garantie. Shining !",
+    "longDescription": "Notre boule à facettes de 40cm crée des milliers de reflets lumineux pour transformer n'importe quelle salle en dancefloor de folie. Livrée avec moteur rotatif et projecteurs LED colorés. Installation en 5 minutes. La magie de la disco à portée de main !",
+    "price": 35,
+    "rating": 4.0,
+    "reviewCount": 4,
+    "specs": { "Diamètre": "40 cm", "Moteur": "Rotatif inclus", "Éclairage": "2 projecteurs LED", "Installation": "Suspension au plafond" },
+    "images": [
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800"
+    ],
+    "badge": null
+  },
+  {
+    "id": "15",
+    "name": "Pack DJ Complet",
+    "category": "enceintes",
+    "audiences": ["adultes", "entreprises"],
+    "shortDescription": "Tout le matos pour mixer comme un pro : platines, table de mix et lumières incluses !",
+    "longDescription": "Le Pack DJ Complet inclut 2 platines CDJ professionnelles, une table de mixage DJ 2 voies, un casque monitoring et un kit d'éclairage LED (laser + stroboscope + PAR LED). Connexion USB et téléphone. Tu amènes ta playlist, on s'occupe du reste — DJ en herbe ou confirmé, c'est parti !",
+    "price": 350,
+    "rating": 4.9,
+    "reviewCount": 12,
+    "specs": { "Platines": "2 × CDJ USB", "Table de mix": "2 voies", "Éclairage": "Laser + Strobe + PAR", "Connexion": "USB / Jack / RCA" },
+    "images": [
+      "https://images.unsplash.com/photo-1571266752132-def65c03a571?w=800",
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
+      "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800"
+    ],
+    "badge": "NOUVEAU"
+  }
+]

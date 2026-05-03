@@ -1,0 +1,8 @@
+.sidebar { background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-lg); position: sticky; top: calc(var(--navbar-height) + var(--space-md)); }
+.title { font-family: var(--font-display); font-size: 1.2rem; color: var(--color-danger); letter-spacing: 0.1em; margin-bottom: var(--space-md); }
+.group { margin-bottom: var(--space-lg); }
+.group h4 { font-family: var(--font-body); font-weight: 800; font-size: 0.85rem; margin-bottom: var(--space-sm); text-transform: uppercase; letter-spacing: 0.05em; }
+.chips { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.chip { padding: 0.4rem 0.8rem; border-radius: var(--radius-pill); border: 1.5px solid var(--color-border); background: var(--color-bg); font-size: 0.85rem; font-weight: 700; }
+.chipActive { background: var(--color-accent); border-color: var(--color-ink); }
+.group input[type=range] { width: 100%; accent-color: var(--color-danger); }

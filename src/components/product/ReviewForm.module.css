@@ -1,0 +1,12 @@
+.form { display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.form h4 { font-family: var(--font-body); font-weight: 800; }
+.stars { display: flex; gap: 4px; font-size: 1.6rem; color: var(--color-danger); }
+.stars button { padding: 0 2px; }
+.form input, .form textarea {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  font-family: var(--font-body);
+}
+.form input:focus, .form textarea:focus { outline: none; border-color: var(--color-primary); }
