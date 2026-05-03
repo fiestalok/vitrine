@@ -1,4 +1,4 @@
-.wrap { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--color-danger); }
+.wrap { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--color-primary); }
 .stars { letter-spacing: 0.05em; }
 .value { font-weight: 800; color: var(--color-ink); }
 .count { color: var(--color-ink-soft); font-weight: 600; }

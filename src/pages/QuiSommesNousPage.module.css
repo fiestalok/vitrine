@@ -1,13 +1,13 @@
 .hero { background: var(--color-ink); color: var(--color-bg); padding: var(--space-3xl) 0; text-align: center; }
 .title { color: var(--color-bg); margin: var(--space-md) 0; }
-.title span { color: var(--color-danger); }
+.title span { color: var(--color-primary); }
 .lead { color: rgba(255,255,255,0.8); }
 
 .story { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2xl); align-items: center; }
 .photo { position: relative; }
 .photo img { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
 .photoTag { position: absolute; bottom: var(--space-md); left: var(--space-md); background: rgba(45,52,54,0.85); color: var(--color-bg); padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.8rem; font-weight: 700; }
-.eyebrow { color: var(--color-danger); font-family: var(--font-display); letter-spacing: 0.15em; font-size: 0.9rem; }
+.eyebrow { color: var(--color-primary); font-family: var(--font-display); letter-spacing: 0.15em; font-size: 0.9rem; }
 .text h2 { margin: var(--space-xs) 0 var(--space-md); }
 .text p { color: var(--color-ink-soft); line-height: 1.6; margin-bottom: var(--space-sm); }
 .ctas { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-md); }
@@ -20,8 +20,8 @@
 
 .stats { background: var(--color-ink); color: var(--color-bg); padding: var(--space-2xl) 0; }
 .statsGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); text-align: center; }
-.stat strong { display: block; font-family: var(--font-display); font-size: 2.4rem; color: var(--color-danger); }
-.stat span { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.stat strong { display: block; font-family: var(--font-display); font-size: 1.9rem; color: var(--color-primary); letter-spacing: 0.04em; line-height: 1.1; }
+.stat span { color: rgba(255,255,255,0.7); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; display: block; }
 
 .center { text-align: center; }
 

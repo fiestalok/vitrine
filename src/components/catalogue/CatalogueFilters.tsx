@@ -8,9 +8,9 @@ interface Props {
 }
 
 const AUDIENCE_LABELS: Record<Audience, string> = {
-  enfants: '🧒 Enfants',
-  adultes: '🎉 Adultes',
-  entreprises: '💼 Entreprises',
+  enfants:    '🧒 Enfants',
+  adultes:    '🎉 Adultes',
+  entreprises:'💼 Entreprises',
 };
 
 export function CatalogueFilters({ value, onChange }: Props) {
@@ -18,28 +18,29 @@ export function CatalogueFilters({ value, onChange }: Props) {
     const has = value.audiences.includes(a);
     onChange({ ...value, audiences: has ? value.audiences.filter((x) => x !== a) : [...value.audiences, a] });
   };
+
   return (
     <aside className={styles.sidebar}>
-      <h3 className={styles.title}>Filtres</h3>
+      <p className={styles.title}>Filtres</p>
 
       <div className={styles.group}>
-        <h4>Pour qui ?</h4>
-        <div className={styles.chips}>
-          {AUDIENCES.map((a) => (
-            <button
-              key={a}
-              type="button"
-              className={`${styles.chip} ${value.audiences.includes(a) ? styles.chipActive : ''}`}
-              onClick={() => toggleAudience(a)}
-            >
-              {AUDIENCE_LABELS[a]}
-            </button>
-          ))}
-        </div>
+        <p className={styles.groupLabel}>Pour qui ?</p>
+        {AUDIENCES.map((a) => (
+          <label key={a} className={styles.checkItem}>
+            <input
+              type="checkbox"
+              checked={value.audiences.includes(a)}
+              onChange={() => toggleAudience(a)}
+            />
+            <span>{AUDIENCE_LABELS[a]}</span>
+          </label>
+        ))}
       </div>
 
       <div className={styles.group}>
-        <h4>Prix max : {value.maxPrice}€</h4>
+        <p className={styles.groupLabel}>
+          Budget max&nbsp;<strong className={styles.priceVal}>{value.maxPrice}€</strong>
+        </p>
         <input
           type="range"
           min={30}
@@ -48,7 +49,17 @@ export function CatalogueFilters({ value, onChange }: Props) {
           value={value.maxPrice}
           onChange={(e) => onChange({ ...value, maxPrice: Number(e.target.value) })}
         />
+        <div className={styles.priceRange}><span>30€</span><span>400€</span></div>
       </div>
+
+      {(value.audiences.length > 0 || value.maxPrice < 400) && (
+        <button
+          className={styles.reset}
+          onClick={() => onChange({ ...value, audiences: [], maxPrice: 400 })}
+        >
+          Réinitialiser
+        </button>
+      )}
     </aside>
   );
 }

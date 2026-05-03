@@ -30,3 +30,4 @@
 .subtitle { color: var(--color-ink-soft); font-size: 1.1rem; }
 .dark .subtitle { color: rgba(255,255,255,0.75); }
 .dark .title    { color: var(--color-bg); }
+.dark h1, .dark h2, .dark h3, .dark h4 { color: var(--color-bg); }

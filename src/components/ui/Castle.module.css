@@ -6,7 +6,6 @@
 .scaler {
   --inflate: 0;
   --rotation: 0deg;
-  /* part à 18% de la taille et atteint 100% quand la bulle remonte dans le viewport */
   transform: rotate(var(--rotation)) scale(calc(0.18 + 0.82 * var(--inflate)));
   transform-origin: center bottom;
   transition: transform 90ms linear;

@@ -1,6 +1,6 @@
 .hero { background: var(--color-ink); color: var(--color-bg); padding: var(--space-3xl) 0; text-align: center; }
 .title { color: var(--color-bg); margin: var(--space-md) 0; }
-.title span { color: var(--color-danger); }
+.title span { color: var(--color-primary); }
 .lead { color: rgba(255,255,255,0.8); max-width: 640px; margin: 0 auto var(--space-lg); }
 .ctas { display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap; }
 
@@ -8,7 +8,7 @@
 .ref { padding: var(--space-md); background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--radius-md); text-align: center; font-weight: 800; box-shadow: var(--shadow-sm); }
 .statsRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
 .stat { padding: var(--space-lg); background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--radius-md); text-align: center; }
-.stat strong { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--color-danger); }
+.stat strong { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--color-primary); }
 .stat span { color: var(--color-ink-soft); }
 
 .formules { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); }

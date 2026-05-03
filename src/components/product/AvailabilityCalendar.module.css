@@ -2,7 +2,7 @@
 .header { display: flex; justify-content: space-between; align-items: center; background: var(--color-ink); color: var(--color-bg); padding: var(--space-sm) var(--space-md); font-family: var(--font-display); font-size: 1.1rem; text-transform: capitalize; }
 .header button { color: var(--color-bg); font-size: 1.4rem; padding: 0 var(--space-sm); }
 .weekdays, .grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-.weekdays { padding: var(--space-sm); color: var(--color-danger); font-weight: 800; font-size: 0.8rem; text-align: center; text-transform: uppercase; }
+.weekdays { padding: var(--space-sm); color: var(--color-primary); font-weight: 800; font-size: 0.8rem; text-align: center; text-transform: uppercase; }
 .grid { gap: 4px; padding: var(--space-sm); }
 .day { aspect-ratio: 1; display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--color-bg); font-weight: 700; font-size: 0.9rem; }
 .day:disabled { opacity: 0.35; cursor: not-allowed; }

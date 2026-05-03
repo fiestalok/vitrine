@@ -7,6 +7,8 @@ import { filterProducts, DEFAULT_FILTERS, type FilterState } from '../lib/filter
 import { ProductCard } from '../components/product/ProductCard';
 import { CategoryTabs } from '../components/catalogue/CategoryTabs';
 import { CatalogueFilters } from '../components/catalogue/CatalogueFilters';
+import { Bubbles } from '../components/ui/Bubbles';
+import { Castle } from '../components/ui/Castle';
 import styles from './CataloguePage.module.css';
 
 const products = productsRaw as unknown as Product[];
@@ -19,7 +21,6 @@ export function CataloguePage() {
   };
   const [filters, setFilters] = useState<FilterState>(initial);
 
-  // Sync category to URL
   useEffect(() => {
     if (filters.category === 'all') params.delete('cat');
     else params.set('cat', filters.category);
@@ -30,49 +31,61 @@ export function CataloguePage() {
   const filtered = useMemo(() => filterProducts(products, filters), [filters]);
 
   return (
-    <>
+    <div className={styles.page}>
       <section className={styles.heroBand}>
-        <div className="container">
+        <Bubbles variant="warm" />
+        <div className={`container ${styles.heroBandInner}`}>
           <p className={styles.eyebrow}>Fiestalo'K</p>
           <h1 className={styles.title}>Notre <span>catalogue</span></h1>
           <p className={styles.lead}>Tout le matériel pour une fête réussie.</p>
         </div>
       </section>
 
-      <div className={`container ${styles.tabsBar}`}>
-        <CategoryTabs active={filters.category} onChange={(c) => setFilters((f) => ({ ...f, category: c }))} />
-      </div>
+      <div className={styles.contentArea}>
+        <Bubbles variant="warm" />
+        <Castle size={120} rotation={5} className={styles.castleRight} noInflate />
+        <div className={`container ${styles.tabsBar}`}>
+          <div />
+          <CategoryTabs active={filters.category} onChange={(c) => setFilters((f) => ({ ...f, category: c }))} />
+        </div>
 
-      <div className={`container ${styles.layout}`}>
-        <CatalogueFilters value={filters} onChange={setFilters} />
+        <div className={`container ${styles.layout}`}>
+          <CatalogueFilters value={filters} onChange={setFilters} />
 
-        <div className={styles.results}>
-          <div className={styles.resultsHeader}>
-            <p>{filtered.length} résultat{filtered.length > 1 ? 's' : ''}</p>
-            <select
-              value={filters.sort}
-              onChange={(e) => setFilters((f) => ({ ...f, sort: e.target.value as FilterState['sort'] }))}
-              className={styles.sort}
-            >
-              <option value="default">Tri par défaut</option>
-              <option value="price-asc">Prix croissant</option>
-              <option value="price-desc">Prix décroissant</option>
-              <option value="rating">Mieux notés</option>
-            </select>
+          <div className={styles.results}>
+            <div className={styles.resultsHeader}>
+              <p className={styles.count}>{filtered.length} résultat{filtered.length > 1 ? 's' : ''}</p>
+              <div className={styles.sortWrap}>
+                {([
+                  { value: 'default',    label: 'Défaut' },
+                  { value: 'price-asc',  label: 'Prix ↑' },
+                  { value: 'price-desc', label: 'Prix ↓' },
+                  { value: 'rating',     label: '★ Notes' },
+                ] as const).map((o) => (
+                  <button
+                    key={o.value}
+                    className={`${styles.sortBtn} ${filters.sort === o.value ? styles.sortActive : ''}`}
+                    onClick={() => setFilters((f) => ({ ...f, sort: o.value }))}
+                  >
+                    {o.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {filtered.length === 0 ? (
+              <div className={styles.empty}>
+                <p>Aucun produit ne correspond à tes filtres.</p>
+                <button onClick={() => setFilters(DEFAULT_FILTERS)}>Réinitialiser</button>
+              </div>
+            ) : (
+              <div className={styles.grid}>
+                {filtered.map((p) => <ProductCard key={p.id} product={p} />)}
+              </div>
+            )}
           </div>
-
-          {filtered.length === 0 ? (
-            <div className={styles.empty}>
-              <p>Aucun produit ne correspond à tes filtres.</p>
-              <button onClick={() => setFilters(DEFAULT_FILTERS)}>Réinitialiser</button>
-            </div>
-          ) : (
-            <div className={styles.grid}>
-              {filtered.map((p) => <ProductCard key={p.id} product={p} />)}
-            </div>
-          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

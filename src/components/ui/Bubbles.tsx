@@ -72,6 +72,25 @@ const PRESETS: Record<string, BubbleSpec[]> = {
     { top: '12%', left: '50%', size: 24, color: 'pêche', opacity: 0.7 },
     { top: '94%', left: '92%', size: 16, color: 'jaune', opacity: 0.55 },
   ],
+  sides: [
+    { top: '3%',  left: '1%',   size: 40, color: 'jaune',     opacity: 0.75 },
+    { top: '8%',  left: '96%',  size: 28, color: 'corail',    opacity: 0.7 },
+    { top: '14%', left: '3%',   size: 20, color: 'turquoise', opacity: 0.65 },
+    { top: '20%', left: '97%',  size: 42, color: 'vert',      opacity: 0.7 },
+    { top: '26%', left: '2%',   size: 16, color: 'lavande',   opacity: 0.65 },
+    { top: '32%', left: '95%',  size: 24, color: 'jaune',     opacity: 0.65 },
+    { top: '38%', left: '1%',   size: 34, color: 'corail',    opacity: 0.7 },
+    { top: '44%', left: '98%',  size: 18, color: 'turquoise', opacity: 0.65 },
+    { top: '50%', left: '4%',   size: 22, color: 'pêche',     opacity: 0.7 },
+    { top: '56%', left: '96%',  size: 36, color: 'vert',      opacity: 0.65 },
+    { top: '62%', left: '2%',   size: 18, color: 'jaune',     opacity: 0.65 },
+    { top: '68%', left: '97%',  size: 20, color: 'lavande',   opacity: 0.65 },
+    { top: '74%', left: '1%',   size: 28, color: 'corail',    opacity: 0.7 },
+    { top: '80%', left: '95%',  size: 32, color: 'pêche',     opacity: 0.65 },
+    { top: '86%', left: '3%',   size: 16, color: 'turquoise', opacity: 0.65 },
+    { top: '92%', left: '96%',  size: 22, color: 'jaune',     opacity: 0.65 },
+    { top: '97%', left: '2%',   size: 24, color: 'vert',      opacity: 0.65 },
+  ],
   light: [
     { top: '8%',  left: '4%',  size: 22, color: 'turquoise', opacity: 0.55 },
     { top: '18%', left: '92%', size: 30, color: 'corail',    opacity: 0.6 },
@@ -91,6 +110,7 @@ const PRESETS: Record<string, BubbleSpec[]> = {
 interface BubblesProps {
   variant?: keyof typeof PRESETS;
 }
+
 
 export function Bubbles({ variant = 'light' }: BubblesProps) {
   const bubbles = PRESETS[variant];

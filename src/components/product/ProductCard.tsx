@@ -15,7 +15,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <img src={product.images[0]} alt={product.name} loading="lazy" />
         {cat && <span className={styles.cat}>{cat.emoji}</span>}
         {product.badge && <Badge tone={product.badge === 'PROMO' ? 'danger' : product.badge === 'NOUVEAU' ? 'primary' : 'accent'} className={styles.badge}>{product.badge}</Badge>}
-        <span className={styles.price}>{product.price}€/jour</span>
+        <span className={styles.price}>À partir de {product.price}€/jour</span>
       </div>
       <div className={styles.body}>
         <h3 className={styles.name}>{product.name}</h3>

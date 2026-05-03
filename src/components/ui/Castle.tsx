@@ -5,16 +5,24 @@ interface CastleProps {
   size?: number;
   rotation?: number;
   className?: string;
+  noInflate?: boolean;
 }
 
-export function Castle({ size = 200, rotation = 0, className }: CastleProps) {
+export function Castle({ size = 200, rotation = 0, className, noInflate = false }: CastleProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const scalerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const wrap = wrapRef.current;
     const scaler = scalerRef.current;
-    if (!wrap || !scaler) return;
+    if (!scaler) return;
+
+    if (noInflate) {
+      scaler.style.setProperty('--inflate', '1');
+      return;
+    }
+
+    const wrap = wrapRef.current;
+    if (!wrap) return;
     let raf = 0;
 
     const update = () => {
@@ -22,7 +30,6 @@ export function Castle({ size = 200, rotation = 0, className }: CastleProps) {
       const rect = wrap.getBoundingClientRect();
       const vh = window.innerHeight;
       const center = rect.top + rect.height / 2;
-      // 0 quand le centre du château est sous le viewport, 1 quand il atteint ~30% du haut
       const progress = Math.min(1, Math.max(0, (vh - center) / (vh * 0.7)));
       scaler.style.setProperty('--inflate', String(progress));
     };
@@ -39,7 +46,7 @@ export function Castle({ size = 200, rotation = 0, className }: CastleProps) {
       window.removeEventListener('resize', onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [noInflate]);
 
   return (
     <div

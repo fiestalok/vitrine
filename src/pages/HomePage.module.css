@@ -8,40 +8,83 @@
 .title { font-size: clamp(3rem, 6vw + 1rem, 5.5rem); margin: var(--space-md) 0 var(--space-md); }
 .titleAccent { color: var(--color-danger); display: inline-block; transform: rotate(-2deg); }
 .lead { font-size: 1.2rem; color: var(--color-ink-soft); margin-bottom: var(--space-lg); }
+.heroFeatures { list-style: none; padding: 0; margin: 0 0 var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xs); }
+.heroFeatures li { font-size: 0.95rem; color: var(--color-ink-soft); display: flex; align-items: center; gap: 0.4rem; }
 .ctas { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
 .trust { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); background: var(--color-bg-alt); border: 2px solid var(--color-ink); border-radius: var(--radius-lg); padding: var(--space-lg); box-shadow: var(--shadow-sticker); }
 .trust li strong { display: block; font-family: var(--font-display); font-size: 1.4rem; color: var(--color-danger); letter-spacing: 0.04em; }
 .trust li span { color: var(--color-ink-soft); font-size: 0.9rem; }
 
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
-.step { position: relative; z-index: 1; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-lg); box-shadow: var(--shadow-sm); }
-.stepNum { font-family: var(--font-display); font-size: 2.4rem; color: var(--color-danger); display: block; }
+.step { position: relative; z-index: 1; perspective: 800px; min-height: 220px; }
+
+.stepFlipper {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+  min-height: 220px;
+}
+.step:hover .stepFlipper { transform: rotateY(180deg); }
+
+.stepFront, .stepBack {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: var(--space-lg);
+}
+.stepFront { background: var(--color-bg-alt); }
+.stepBack  { background: var(--color-danger); color: #fff; transform: rotateY(180deg); }
+
+.stepIcon { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: var(--space-sm); flex-shrink: 0; }
+.stepNum { font-family: var(--font-display); font-size: 2.4rem; color: var(--color-danger); display: block; line-height: 1; }
+.stepBack .stepNum { color: rgba(255,255,255,0.8); font-size: 1.8rem; }
 .step h3 { margin: var(--space-xs) 0; }
-.step p { color: var(--color-ink-soft); font-size: 0.95rem; }
+.stepBack h3 { color: #fff; }
+.stepBack p { color: rgba(255,255,255,0.9); font-size: 0.95rem; margin-top: var(--space-xs); }
 
 .categories { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); }
-.cat { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: var(--space-xs); padding: var(--space-lg); background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--radius-lg); transition: transform 0.2s; }
-.cat:hover { transform: translateY(-4px); border-color: var(--color-primary); }
-.catEmoji { font-size: 2.4rem; }
-.catLabel { font-family: var(--font-display); font-size: 1.1rem; }
-.catLink { color: var(--color-danger); font-weight: 800; font-size: 0.85rem; }
+.cat {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-sm);
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  background: var(--color-bg-alt);
+  border: 1.5px solid var(--color-border);
+  border-top: 3px solid var(--cat-color, var(--color-primary));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cat:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.catCircle {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.catEmoji { font-size: 2.2rem; line-height: 1; }
+.catLabel { font-family: var(--font-display); font-size: 1.15rem; text-align: center; }
+.catLink { color: var(--cat-color, var(--color-primary)); font-weight: 800; font-size: 0.85rem; margin-top: auto; }
 
 .productGrid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); }
 .center { text-align: center; margin-top: var(--space-xl); }
 
-.darkLead { text-align: center; max-width: 640px; margin: 0 auto var(--space-2xl); color: rgba(255,255,255,0.8); font-size: 1.05rem; }
+.darkLead { text-align: center; max-width: 640px; margin: 0 auto var(--space-2xl); color: var(--color-ink-soft); font-size: 1.05rem; }
 .values { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
-.value { position: relative; z-index: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-lg); padding: var(--space-lg); }
+.value { position: relative; z-index: 1; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-lg); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: center; text-align: center; }
 .valueIcon { font-size: 2rem; }
-.value h3 { color: var(--color-bg); margin: var(--space-xs) 0; }
-.value p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+.value h3 { color: var(--color-ink); margin: var(--space-xs) 0; }
+.value p { color: var(--color-ink-soft); font-size: 0.9rem; }
 
-/* Châteaux décoratifs — placés dans la zone titre des sections (haute, large)
-   où il y a de l'espace vide à côté du titre centré. */
+/* Châteaux décoratifs */
 .castleHero { position: absolute; right: calc(1% + 50px); top: 6%; z-index: 0; }
 .castleWarm { position: absolute; left: 2%; top: calc(6% - 100px); z-index: 0; }
-.castleCool { position: absolute; right: 2%;  top: calc(6% - 150px);z-index: 0; }
-.castleDark { position: absolute; left: 2%; top: calc(6% - 150px); z-index: 0; }
+.castleCool { position: absolute; right: 2%;  top: calc(6% - 150px); z-index: 0; }
+.castleDark { position: fixed; right: 1rem; bottom: 0; z-index: 10; pointer-events: none; }
 
 @media (max-width: 1100px) {
   .castleHero, .castleWarm, .castleCool, .castleDark { display: none; }

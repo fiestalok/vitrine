@@ -23,11 +23,11 @@
 .item { display: grid; grid-template-columns: 80px 1fr auto; gap: var(--space-sm); align-items: center; padding: var(--space-sm); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
 .item img { width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); }
 .itemName { font-weight: 800; font-size: 0.95rem; }
-.itemPrice { color: var(--color-danger); font-weight: 700; font-size: 0.85rem; }
+.itemPrice { color: var(--color-primary); font-weight: 700; font-size: 0.85rem; }
 .qty { display: flex; align-items: center; gap: var(--space-xs); margin-top: var(--space-2xs); }
 .qty button { width: 26px; height: 26px; border-radius: 50%; background: var(--color-bg); border: 1px solid var(--color-border); font-weight: 800; }
 .removeBtn { font-size: 1.1rem; }
 .footer { padding: var(--space-lg); border-top: 1px solid var(--color-border); display: flex; flex-direction: column; gap: var(--space-sm); }
 .totalRow { display: flex; justify-content: space-between; font-size: 1.1rem; }
-.totalRow strong { font-family: var(--font-display); font-size: 1.6rem; color: var(--color-danger); }
+.totalRow strong { font-family: var(--font-display); font-size: 1.6rem; color: var(--color-primary); }
 .clearBtn { color: var(--color-ink-soft); font-size: 0.85rem; text-decoration: underline; }

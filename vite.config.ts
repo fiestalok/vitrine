@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  base: '/fiestalok/',
   server: { port: 5174, open: true },
   test: {
     environment: 'jsdom',

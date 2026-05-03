@@ -10,10 +10,10 @@ const VALUES = [
 ];
 
 const STATS = [
-  { v: 'Pro', l: 'Équipe certifiée' },
-  { v: 'RC',  l: 'Assurance RC Pro' },
-  { v: '2',   l: 'Départements couverts' },
-  { v: '98%', l: 'Clients satisfaits' },
+  { v: 'PRO',           l: 'Équipe certifiée' },
+  { v: '100%',          l: 'Alsacien' },
+  { v: 'HOMOLOGUÉ CE',  l: 'Norme EN 14960' },
+  { v: 'RC PRO',        l: 'Assurance incluse' },
 ];
 
 export function QuiSommesNousPage() {
