@@ -5,8 +5,9 @@ import { Section } from '../components/ui/Section';
 import { Bubbles } from '../components/ui/Bubbles';
 import { Castle } from '../components/ui/Castle';
 import { ProductCard } from '../components/product/ProductCard';
-import productsRaw from '../data/products.json';
-import { CATEGORIES } from '../data/categories';
+import { useProducts } from '../context/ProductsContext';
+import { useCategories } from '../context/CategoriesContext';
+import styles from './HomePage.module.css';
 
 const CAT_COLORS: Record<string, { bg: string; circle: string }> = {
   'chateau-gonflable': { bg: '#FFF0F0', circle: '#FF6B6B' },
@@ -14,11 +15,6 @@ const CAT_COLORS: Record<string, { bg: string; circle: string }> = {
   'restauration':      { bg: '#FFFBE6', circle: '#FFD84D' },
   'enceintes':         { bg: '#E8FDFB', circle: '#4ECDC4' },
 };
-import type { Product } from '../data/types';
-import styles from './HomePage.module.css';
-
-const products = productsRaw as unknown as Product[];
-const featured = products.slice(0, 6);
 
 const STEPS = [
   { n: '01', icon: '🏰', iconBg: '#D4F0EE', title: 'Choisissez', text: 'Naviguez par catégorie ou utilisez les filtres. Besoin d\'un conseil ? Contactez-nous.' },
@@ -35,6 +31,10 @@ const TRUST = [
 ];
 
 export function HomePage() {
+  const { products } = useProducts();
+  const { categories } = useCategories();
+  const featured = products.slice(0, 6);
+
   return (
     <>
       <section className={styles.hero}>
@@ -88,8 +88,8 @@ export function HomePage() {
 
       <Section eyebrow="Nos catégories" title="Tout ce qu'il faut pour la fête">
         <div className={styles.categories}>
-          {CATEGORIES.map((c) => {
-            const col = CAT_COLORS[c.id];
+          {categories.map((c) => {
+            const col = CAT_COLORS[c.id] ?? { bg: '#F5F5F5', circle: '#999' };
             return (
               <Link key={c.id} to={`/catalogue?cat=${c.id}`} className={styles.cat}
                 style={{ '--cat-color': col.circle, '--cat-bg': col.bg } as React.CSSProperties}>

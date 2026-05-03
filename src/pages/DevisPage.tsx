@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import productsRaw from '../data/products.json';
-import type { Product } from '../data/types';
+import { useProducts } from '../context/ProductsContext';
 import { createReservation, type ReservationCartItem } from '../lib/directus';
 import { formatPrice } from '../lib/format';
 import styles from './DevisPage.module.css';
-
-const products = productsRaw as unknown as Product[];
 
 type Step = 'form' | 'loading' | 'success' | 'error';
 
 export function DevisPage() {
   const { items, clear } = useCart();
+  const { products } = useProducts();
   const navigate = useNavigate();
 
   const [step, setStep] = useState<Step>('form');
@@ -30,14 +28,16 @@ export function DevisPage() {
   const [delivery, setDelivery] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState('');
 
+  const findProduct = (id: string) => products.find(p => p.id === id);
+
   const total = items.reduce((sum, i) => {
-    const p = products.find(p => p.id === i.productId);
+    const p = findProduct(i.productId);
     return sum + (p ? p.price * i.quantity : 0);
   }, 0);
 
   const notes = items
     .map(i => {
-      const p = products.find(p => p.id === i.productId);
+      const p = findProduct(i.productId);
       return p ? `${p.name} x${i.quantity} (${i.startDate ?? '?'} → ${i.endDate ?? '?'})` : null;
     })
     .filter(Boolean)
@@ -48,19 +48,12 @@ export function DevisPage() {
     setStep('loading');
     try {
       const cartItemsMapped: ReservationCartItem[] = items.map(i => {
-        const p = products.find(p => p.id === i.productId);
+        const p = findProduct(i.productId);
         return { productId: i.productId, quantity: i.quantity, unit_price: p?.price ?? 0 };
       });
 
       const token = await createReservation({
-        client: {
-          type,
-          first_name: firstName,
-          last_name: lastName,
-          company_name: type === 'professionnel' ? company : undefined,
-          email,
-          phone,
-        },
+        client: { type, first_name: firstName, last_name: lastName, company_name: type === 'professionnel' ? company : undefined, email, phone },
         date_start: dateStart,
         date_end: dateEnd,
         delivery,
@@ -109,52 +102,28 @@ export function DevisPage() {
                     <button type="button" className={type === 'professionnel' ? styles.active : ''} onClick={() => setType('professionnel')}>Professionnel</button>
                   </div>
                   <div className={styles.row}>
-                    <label>
-                      Prénom *
-                      <input required value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Marie" />
-                    </label>
-                    <label>
-                      Nom *
-                      <input required value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Dupont" />
-                    </label>
+                    <label>Prénom *<input required value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Marie" /></label>
+                    <label>Nom *<input required value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Dupont" /></label>
                   </div>
                   {type === 'professionnel' && (
-                    <label>
-                      Société *
-                      <input required value={company} onChange={e => setCompany(e.target.value)} placeholder="Ma Société SAS" />
-                    </label>
+                    <label>Société *<input required value={company} onChange={e => setCompany(e.target.value)} placeholder="Ma Société SAS" /></label>
                   )}
-                  <label>
-                    Email *
-                    <input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="marie@exemple.fr" />
-                  </label>
-                  <label>
-                    Téléphone *
-                    <input required type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="06 12 34 56 78" />
-                  </label>
+                  <label>Email *<input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="marie@exemple.fr" /></label>
+                  <label>Téléphone *<input required type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="06 12 34 56 78" /></label>
                 </section>
 
                 <section>
                   <h2>Détails de la location</h2>
                   <div className={styles.row}>
-                    <label>
-                      Date de début *
-                      <input required type="date" value={dateStart} onChange={e => setDateStart(e.target.value)} />
-                    </label>
-                    <label>
-                      Date de fin *
-                      <input required type="date" value={dateEnd} onChange={e => setDateEnd(e.target.value)} min={dateStart} />
-                    </label>
+                    <label>Date de début *<input required type="date" value={dateStart} onChange={e => setDateStart(e.target.value)} /></label>
+                    <label>Date de fin *<input required type="date" value={dateEnd} onChange={e => setDateEnd(e.target.value)} min={dateStart} /></label>
                   </div>
                   <div className={styles.typeToggle}>
                     <button type="button" className={!delivery ? styles.active : ''} onClick={() => setDelivery(false)}>Retrait sur place</button>
                     <button type="button" className={delivery ? styles.active : ''} onClick={() => setDelivery(true)}>Livraison (+frais)</button>
                   </div>
                   {delivery && (
-                    <label>
-                      Adresse de livraison *
-                      <input required value={deliveryAddress} onChange={e => setDeliveryAddress(e.target.value)} placeholder="12 rue des Lilas, 67000 Strasbourg" />
-                    </label>
+                    <label>Adresse de livraison *<input required value={deliveryAddress} onChange={e => setDeliveryAddress(e.target.value)} placeholder="12 rue des Lilas, 67000 Strasbourg" /></label>
                   )}
                 </section>
 
@@ -165,7 +134,7 @@ export function DevisPage() {
                 <h2>Récapitulatif</h2>
                 <ul>
                   {items.map(i => {
-                    const p = products.find(p => p.id === i.productId);
+                    const p = findProduct(i.productId);
                     return p ? (
                       <li key={i.productId} className={styles.summaryItem}>
                         <img src={p.images[0]} alt={p.name} />
@@ -187,9 +156,7 @@ export function DevisPage() {
         )}
 
         {step === 'loading' && (
-          <div className={styles.center}>
-            <p>Envoi en cours...</p>
-          </div>
+          <div className={styles.center}><p>Envoi en cours…</p></div>
         )}
 
         {step === 'success' && (

@@ -1,4 +1,5 @@
-import { CATEGORIES, type CategoryId } from '../../data/categories';
+import { useCategories } from '../../context/CategoriesContext';
+import type { CategoryId } from '../../data/categories';
 import styles from './CategoryTabs.module.css';
 
 interface Props {
@@ -7,6 +8,8 @@ interface Props {
 }
 
 export function CategoryTabs({ active, onChange }: Props) {
+  const { categories } = useCategories();
+
   return (
     <div className={styles.tabs}>
       <button
@@ -16,7 +19,7 @@ export function CategoryTabs({ active, onChange }: Props) {
         <span className={styles.tabIcon}>✦</span>
         <span className={styles.tabLabel}>Tout voir</span>
       </button>
-      {CATEGORIES.map((c) => (
+      {categories.map((c) => (
         <button
           key={c.id}
           className={`${styles.tab} ${active === c.id ? styles.active : ''}`}

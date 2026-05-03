@@ -1,9 +1,8 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import productsRaw from '../data/products.json';
-import type { Product } from '../data/types';
 import type { CategoryId } from '../data/categories';
 import { filterProducts, DEFAULT_FILTERS, type FilterState } from '../lib/filterProducts';
+import { useProducts } from '../context/ProductsContext';
 import { ProductCard } from '../components/product/ProductCard';
 import { CategoryTabs } from '../components/catalogue/CategoryTabs';
 import { CatalogueFilters } from '../components/catalogue/CatalogueFilters';
@@ -11,9 +10,8 @@ import { Bubbles } from '../components/ui/Bubbles';
 import { Castle } from '../components/ui/Castle';
 import styles from './CataloguePage.module.css';
 
-const products = productsRaw as unknown as Product[];
-
 export function CataloguePage() {
+  const { products, loading } = useProducts();
   const [params, setParams] = useSearchParams();
   const initial: FilterState = {
     ...DEFAULT_FILTERS,
@@ -28,7 +26,7 @@ export function CataloguePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters.category]);
 
-  const filtered = useMemo(() => filterProducts(products, filters), [filters]);
+  const filtered = useMemo(() => filterProducts(products, filters), [products, filters]);
 
   return (
     <div className={styles.page}>
@@ -54,7 +52,9 @@ export function CataloguePage() {
 
           <div className={styles.results}>
             <div className={styles.resultsHeader}>
-              <p className={styles.count}>{filtered.length} résultat{filtered.length > 1 ? 's' : ''}</p>
+              <p className={styles.count}>
+                {loading ? 'Chargement…' : `${filtered.length} résultat${filtered.length > 1 ? 's' : ''}`}
+              </p>
               <div className={styles.sortWrap}>
                 {([
                   { value: 'default',    label: 'Défaut' },
@@ -73,7 +73,9 @@ export function CataloguePage() {
               </div>
             </div>
 
-            {filtered.length === 0 ? (
+            {loading ? (
+              <div className={styles.empty}><p>Chargement des produits…</p></div>
+            ) : filtered.length === 0 ? (
               <div className={styles.empty}>
                 <p>Aucun produit ne correspond à tes filtres.</p>
                 <button onClick={() => setFilters(DEFAULT_FILTERS)}>Réinitialiser</button>

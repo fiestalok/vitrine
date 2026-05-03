@@ -1,18 +1,17 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import productsRaw from '../../data/products.json';
-import type { Product } from '../../data/types';
+import { useProducts } from '../../context/ProductsContext';
 import { Button } from '../ui/Button';
 import { formatPrice } from '../../lib/format';
 import styles from './CartDrawer.module.css';
 
-const products = productsRaw as unknown as Product[];
-const findProduct = (id: string) => products.find((p) => p.id === id);
-
 export function CartDrawer() {
   const { isOpen, close, items, remove, setQuantity, clear } = useCart();
+  const { products } = useProducts();
   const navigate = useNavigate();
+
+  const findProduct = (id: string) => products.find((p) => p.id === id);
 
   useEffect(() => {
     if (!isOpen) return;

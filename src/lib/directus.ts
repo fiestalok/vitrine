@@ -1,7 +1,14 @@
 import type { Product } from '../data/types';
-import type { CategoryId, Audience } from '../data/categories';
+import type { Category, CategoryId, Audience } from '../data/categories';
 
 const DIRECTUS_URL = import.meta.env.VITE_DIRECTUS_URL ?? 'http://localhost:8055';
+
+const CATEGORY_EMOJI: Record<string, string> = {
+  'chateau-gonflable': '🏰',
+  'accessoire': '🎭',
+  'restauration': '🍴',
+  'enceintes': '🔊',
+};
 
 async function directusPost<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`${DIRECTUS_URL}${path}`, {
@@ -70,6 +77,16 @@ function mapArticle(a: DirectusArticle): Product {
 }
 
 // ── Fetch ─────────────────────────────────────────────────────────────────────
+
+export async function fetchCategories(): Promise<Category[]> {
+  const res = await fetch(`${DIRECTUS_URL}/items/categories?sort=id`);
+  const json = await res.json();
+  return (json.data ?? []).map((c: { id: number; name: string; slug: string }) => ({
+    id: c.slug,
+    label: c.name,
+    emoji: CATEGORY_EMOJI[c.slug] ?? '📦',
+  }));
+}
 
 export async function fetchArticles(): Promise<Product[]> {
   const res = await fetch(

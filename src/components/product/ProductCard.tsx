@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 import type { Product } from '../../data/types';
 import { Badge } from '../ui/Badge';
 import { StarRating } from '../ui/StarRating';
-import { CATEGORIES } from '../../data/categories';
+import { useCategories } from '../../context/CategoriesContext';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps { product: Product; }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const cat = CATEGORIES.find((c) => c.id === product.category);
+  const { categories } = useCategories();
+  const cat = categories.find((c) => c.id === product.category);
   return (
     <Link to={`/produit/${product.id}`} className={styles.card}>
       <div className={styles.imgWrap}>
