@@ -12,6 +12,7 @@ import { ProductPage } from './pages/ProductPage';
 import { EntreprisePage } from './pages/EntreprisePage';
 import { QuiSommesNousPage } from './pages/QuiSommesNousPage';
 import { DevisPage } from './pages/DevisPage';
+import { SuiviPage } from './pages/SuiviPage';
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
                 <Route path="/entreprise" element={<EntreprisePage />} />
                 <Route path="/qui-sommes-nous" element={<QuiSommesNousPage />} />
                 <Route path="/devis" element={<DevisPage />} />
+            <Route path="/suivi" element={<SuiviPage />} />
               </Routes>
             </main>
             <Footer />

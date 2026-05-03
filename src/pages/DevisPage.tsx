@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useCart } from '../context/CartContext';
 import { useProducts } from '../context/ProductsContext';
@@ -194,9 +194,9 @@ export function DevisPage() {
             {trackingToken && (
               <div className={styles.tracking}>
                 <p>Suivez l'avancement de votre réservation :</p>
-                <a href={`/suivi?token=${trackingToken}`} className={styles.trackingLink}>
+                <Link to={`/suivi?token=${trackingToken}`} className={styles.trackingLink}>
                   Voir le statut de ma réservation →
-                </a>
+                </Link>
               </div>
             )}
             <button className={styles.submitBtn} onClick={() => navigate('/')}>Retour à l'accueil</button>

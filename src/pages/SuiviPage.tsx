@@ -132,11 +132,11 @@ export function SuiviPage() {
             <ul className={styles.articleList}>
               {reservation.articles.map((item, i) => (
                 <li key={i} className={styles.articleItem}>
-                  {item.article?.images_urls?.[0] && (
-                    <img src={item.article.images_urls[0]} alt={item.article.name ?? ''} />
+                  {item.articles_id?.images_urls?.[0] && (
+                    <img src={item.articles_id.images_urls[0]} alt={item.articles_id.name ?? ''} />
                   )}
                   <div>
-                    <p className={styles.articleName}>{item.article?.name ?? 'Article'}</p>
+                    <p className={styles.articleName}>{item.articles_id?.name ?? 'Article'}</p>
                     <p className={styles.articleMeta}>
                       Qté : {item.quantity} · {item.unit_price}€/unité
                     </p>

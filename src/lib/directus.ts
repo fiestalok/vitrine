@@ -101,7 +101,7 @@ export async function fetchArticles(): Promise<Product[]> {
 export interface ReservationArticleItem {
   quantity: number;
   unit_price: number;
-  article: { name: string; images_urls: string[] | null; slug: string } | null;
+  articles_id: { name: string; images_urls: string[] | null; slug: string } | null;
 }
 
 export interface ReservationTracking {
@@ -125,7 +125,7 @@ export async function fetchReservationByToken(token: string): Promise<Reservatio
   if (!resa) return null;
 
   const artRes = await fetch(
-    `${DIRECTUS_URL}/items/reservations_articles?filter[reservation][_eq]=${resa.id}&fields=quantity,unit_price,article.name,article.images_urls,article.slug`
+    `${DIRECTUS_URL}/items/reservations_articles?filter[reservations_id][_eq]=${resa.id}&fields=quantity,unit_price,articles_id.name,articles_id.images_urls,articles_id.slug`
   );
   const artJson = await artRes.json();
 
@@ -210,8 +210,8 @@ export async function createReservation(data: ReservationData): Promise<string> 
       const articleId = articleBySlug[item.productId];
       if (!articleId) return Promise.resolve();
       return directusPost('/items/reservations_articles', {
-        reservation: reservation.id,
-        article: articleId,
+        reservations_id: reservation.id,
+        articles_id: articleId,
         quantity: item.quantity,
         unit_price: item.unit_price,
       });
