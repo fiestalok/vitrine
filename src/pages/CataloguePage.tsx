@@ -1,15 +1,17 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import productsRaw from '../data/products.json';
+import type { Product } from '../data/types';
 import type { CategoryId } from '../data/categories';
-import { useProducts } from '../context/ProductsContext';
 import { filterProducts, DEFAULT_FILTERS, type FilterState } from '../lib/filterProducts';
 import { ProductCard } from '../components/product/ProductCard';
 import { CategoryTabs } from '../components/catalogue/CategoryTabs';
 import { CatalogueFilters } from '../components/catalogue/CatalogueFilters';
 import styles from './CataloguePage.module.css';
 
+const products = productsRaw as unknown as Product[];
+
 export function CataloguePage() {
-  const { products, loading } = useProducts();
   const [params, setParams] = useSearchParams();
   const initial: FilterState = {
     ...DEFAULT_FILTERS,
@@ -59,9 +61,7 @@ export function CataloguePage() {
             </select>
           </div>
 
-          {loading ? (
-            <p>Chargement...</p>
-          ) : filtered.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className={styles.empty}>
               <p>Aucun produit ne correspond à tes filtres.</p>
               <button onClick={() => setFilters(DEFAULT_FILTERS)}>Réinitialiser</button>

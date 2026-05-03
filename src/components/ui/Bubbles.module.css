@@ -1,0 +1,44 @@
+.bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(0.3px);
+  opacity: 0.85;
+  animation: float 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.bubble:nth-child(odd)  { animation-duration: 7s; animation-delay: -1s; }
+.bubble:nth-child(3n)   { animation-name: floatB; animation-duration: 9s;  animation-delay: -3s; }
+.bubble:nth-child(4n)   { animation-name: floatC; animation-duration: 11s; animation-delay: -5s; }
+.bubble:nth-child(5n)   { animation-name: floatB; animation-duration: 6s;  animation-delay: -2s; }
+.bubble:nth-child(7n)   { animation-name: floatC; animation-duration: 8s;  animation-delay: -4s; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  25%      { transform: translate(8px, -14px); }
+  50%      { transform: translate(-6px, -28px); }
+  75%      { transform: translate(-12px, -10px); }
+}
+@keyframes floatB {
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(-14px, -22px); }
+  66%      { transform: translate(10px, -16px); }
+}
+@keyframes floatC {
+  0%, 100% { transform: translate(0, 0); }
+  20%      { transform: translate(12px, -8px); }
+  50%      { transform: translate(0, -32px); }
+  80%      { transform: translate(-10px, -12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble { animation: none; }
+}

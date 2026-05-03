@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
-import { useProducts } from '../../context/ProductsContext';
+import productsRaw from '../../data/products.json';
+import type { Product } from '../../data/types';
 import { Button } from '../ui/Button';
 import { formatPrice } from '../../lib/format';
-import { ReservationModal } from '../reservation/ReservationModal';
 import styles from './CartDrawer.module.css';
+
+const products = productsRaw as unknown as Product[];
+const findProduct = (id: string) => products.find((p) => p.id === id);
 
 export function CartDrawer() {
   const { isOpen, close, items, remove, setQuantity, clear } = useCart();
-  const { products } = useProducts();
-  const findProduct = (id: string) => products.find((p) => p.id === id);
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -75,7 +75,7 @@ export function CartDrawer() {
                 <span>Total estimé</span>
                 <strong>{total}€</strong>
               </div>
-              <Button variant="primary" size="lg" onClick={() => { close(); setShowModal(true); }}>
+              <Button variant="primary" size="lg" onClick={() => alert('Demande de devis envoyée — on vous rappelle !')}>
                 Demander un devis
               </Button>
               <button className={styles.clearBtn} onClick={clear}>Vider le panier</button>
@@ -83,13 +83,6 @@ export function CartDrawer() {
           </>
         )}
       </aside>
-      <ReservationModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        items={items}
-        products={products}
-        total={total}
-      />
     </>
   );
 }

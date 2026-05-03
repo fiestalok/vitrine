@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
+import productsRaw from '../data/products.json';
+import type { Product } from '../data/types';
 import { CATEGORIES } from '../data/categories';
-import { useProducts } from '../context/ProductsContext';
+import { UNAVAILABLE_DATES } from '../data/unavailable';
 import { useCart } from '../context/CartContext';
 import { useReviews } from '../context/ReviewsContext';
 import { ProductGallery } from '../components/product/ProductGallery';
@@ -14,16 +16,16 @@ import { Button } from '../components/ui/Button';
 import { format } from 'date-fns';
 import styles from './ProductPage.module.css';
 
+const products = productsRaw as unknown as Product[];
+
 export function ProductPage() {
   const { id } = useParams<{ id: string }>();
-  const { products, loading } = useProducts();
   const product = products.find((p) => p.id === id);
   const cat = product && CATEGORIES.find((c) => c.id === product.category);
   const { add, open } = useCart();
   const { forProduct, add: addReview } = useReviews();
   const [date, setDate] = useState<Date | null>(null);
 
-  if (loading) return <div className="container" style={{ padding: '4rem 0' }}>Chargement...</div>;
   if (!product) return <Navigate to="/catalogue" replace />;
 
   const reviews = forProduct(product.id);
@@ -74,7 +76,7 @@ export function ProductPage() {
         <header><h2>Disponibilités</h2><p>Choisis ta date pour vérifier la dispo.</p></header>
         <AvailabilityCalendar
           productId={product.id}
-          unavailableDates={[]}
+          unavailableDates={UNAVAILABLE_DATES[product.id] ?? []}
           value={date}
           onChange={setDate}
         />

@@ -2,10 +2,16 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Section } from '../components/ui/Section';
+import { Bubbles } from '../components/ui/Bubbles';
+import { Castle } from '../components/ui/Castle';
 import { ProductCard } from '../components/product/ProductCard';
+import productsRaw from '../data/products.json';
 import { CATEGORIES } from '../data/categories';
-import { useProducts } from '../context/ProductsContext';
+import type { Product } from '../data/types';
 import styles from './HomePage.module.css';
+
+const products = productsRaw as unknown as Product[];
+const featured = products.slice(0, 6);
 
 const STEPS = [
   { n: '01', title: 'Choisissez', text: 'Naviguez par catégorie ou utilisez les filtres. Besoin d\'un conseil ? Contactez-nous.' },
@@ -22,12 +28,11 @@ const TRUST = [
 ];
 
 export function HomePage() {
-  const { products } = useProducts();
-  const featured = products.slice(0, 6);
-
   return (
     <>
       <section className={styles.hero}>
+        <Bubbles variant="hero" />
+        <Castle size={144} rotation={-4} className={styles.castleHero} />
         <div className={`container ${styles.heroInner}`}>
           <div>
             <Badge tone="danger" rotation={-3}>LES KINGS DU GONFLABLE 👑</Badge>
@@ -52,7 +57,8 @@ export function HomePage() {
         </div>
       </section>
 
-      <Section eyebrow="Simple & rapide" title="Comment ça marche ?">
+      <Section background="gradientWarm" eyebrow="Simple & rapide" title="Comment ça marche ?">
+        <Castle size={220} rotation={6} className={styles.castleWarm} />
         <div className={styles.steps}>
           {STEPS.map((s) => (
             <article key={s.n} className={styles.step}>
@@ -76,7 +82,8 @@ export function HomePage() {
         </div>
       </Section>
 
-      <Section eyebrow="Produits stars" title="On dirait qu'ils kiffent.">
+      <Section background="gradientCool" eyebrow="Produits stars" title="On dirait qu'ils kiffent.">
+        <Castle size={200} rotation={-7} className={styles.castleCool} />
         <div className={styles.productGrid}>
           {featured.map((p) => <ProductCard key={p.id} product={p} />)}
         </div>
@@ -86,6 +93,7 @@ export function HomePage() {
       </Section>
 
       <Section background="dark" eyebrow="Pourquoi nous" title="L'événementiel alsacien, avec le cœur.">
+        <Castle size={260} rotation={-30} className={styles.castleDark} />
         <p className={styles.darkLead}>Fiestalo'K est née d'une passion simple : rendre chaque fête mémorable. Basée à Strasbourg, on intervient dans tout le Bas-Rhin et le Haut-Rhin.</p>
         <div className={styles.values}>
           {[

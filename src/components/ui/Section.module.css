@@ -1,7 +1,22 @@
-.section { padding: var(--space-3xl) 0; }
+.section { padding: var(--space-3xl) 0; position: relative; overflow: hidden; }
+.inner { position: relative; z-index: 1; }
 .light  { background: var(--color-bg); color: var(--color-ink); }
 .dark   { background: var(--color-ink); color: var(--color-bg); }
 .accent { background: var(--color-accent); color: var(--color-ink); }
+
+/* Gradients pastel inspirés du moodboard "Pop Décalé" */
+.gradientWarm {
+  background: linear-gradient(110deg, #FFF1A8 0%, #C8EDA0 60%, #A6E08A 100%);
+  color: var(--color-ink);
+}
+.gradientCool {
+  background: linear-gradient(120deg, #B5EDE9 0%, #C0EBA8 55%, #A6E08A 100%);
+  color: var(--color-ink);
+}
+.gradientPlay {
+  background: linear-gradient(115deg, #FFD0CB 0%, #FFE9A6 55%, #C8EDA0 100%);
+  color: var(--color-ink);
+}
 
 .header { text-align: center; max-width: 720px; margin: 0 auto var(--space-2xl); }
 .eyebrow {

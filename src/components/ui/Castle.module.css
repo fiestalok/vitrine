@@ -1,0 +1,37 @@
+.castle {
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scaler {
+  --inflate: 0;
+  --rotation: 0deg;
+  /* part à 18% de la taille et atteint 100% quand la bulle remonte dans le viewport */
+  transform: rotate(var(--rotation)) scale(calc(0.18 + 0.82 * var(--inflate)));
+  transform-origin: center bottom;
+  transition: transform 90ms linear;
+  filter: drop-shadow(0 14px 24px rgba(45, 52, 54, 0.18));
+}
+
+.wobble {
+  animation: bounce 3.4s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scaleY(1) scaleX(1) translateY(0); }
+  25%      { transform: scaleY(0.97) scaleX(1.03) translateY(0); }
+  50%      { transform: scaleY(1.04) scaleX(0.98) translateY(-6px); }
+  75%      { transform: scaleY(0.98) scaleX(1.02) translateY(0); }
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wobble  { animation: none; }
+  .scaler  { transition: none; }
+}
