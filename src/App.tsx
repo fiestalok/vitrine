@@ -9,6 +9,7 @@ import { CataloguePage } from './pages/CataloguePage';
 import { ProductPage } from './pages/ProductPage';
 import { EntreprisePage } from './pages/EntreprisePage';
 import { QuiSommesNousPage } from './pages/QuiSommesNousPage';
+import { DevisPage } from './pages/DevisPage';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/produit/:id" element={<ProductPage />} />
             <Route path="/entreprise" element={<EntreprisePage />} />
             <Route path="/qui-sommes-nous" element={<QuiSommesNousPage />} />
+            <Route path="/devis" element={<DevisPage />} />
           </Routes>
         </main>
         <Footer />

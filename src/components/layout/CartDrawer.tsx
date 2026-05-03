@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import productsRaw from '../../data/products.json';
 import type { Product } from '../../data/types';
@@ -11,6 +12,7 @@ const findProduct = (id: string) => products.find((p) => p.id === id);
 
 export function CartDrawer() {
   const { isOpen, close, items, remove, setQuantity, clear } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -23,6 +25,11 @@ export function CartDrawer() {
     const p = findProduct(i.productId);
     return sum + (p ? p.price * i.quantity : 0);
   }, 0);
+
+  function handleDevis() {
+    close();
+    navigate('/devis');
+  }
 
   return (
     <>
@@ -75,7 +82,7 @@ export function CartDrawer() {
                 <span>Total estimé</span>
                 <strong>{total}€</strong>
               </div>
-              <Button variant="primary" size="lg" onClick={() => alert('Demande de devis envoyée — on vous rappelle !')}>
+              <Button variant="primary" size="lg" onClick={handleDevis}>
                 Demander un devis
               </Button>
               <button className={styles.clearBtn} onClick={clear}>Vider le panier</button>
