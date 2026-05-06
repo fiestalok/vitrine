@@ -9,6 +9,13 @@
   margin: 0 auto;
   padding: 0 var(--space-lg);
 }
+@media (max-width: 560px) {
+  .container { padding: 0 5%; }
+  .container > h1 { font-size: 1.6rem; margin: var(--space-sm) 0 var(--space-md); }
+  .layout { gap: var(--space-lg); }
+  .summary { position: static; padding: var(--space-md); }
+  .form section { margin-bottom: var(--space-lg); }
+}
 
 .container > h1 {
   font-size: 2rem;

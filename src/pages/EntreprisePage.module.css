@@ -1,7 +1,7 @@
-.hero { background: var(--color-ink); color: var(--color-bg); padding: var(--space-3xl) 0; text-align: center; }
-.title { color: var(--color-bg); margin: var(--space-md) 0; }
+.hero { background: var(--color-bg); color: var(--color-ink); padding: var(--space-3xl) 0; text-align: center; }
+.title { color: var(--color-ink); margin: var(--space-md) 0; }
 .title span { color: var(--color-primary); }
-.lead { color: rgba(255,255,255,0.8); max-width: 640px; margin: 0 auto var(--space-lg); }
+.lead { color: var(--color-ink-soft); max-width: 640px; margin: 0 auto var(--space-lg); }
 .ctas { display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap; }
 
 .refs { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-md); margin-bottom: var(--space-2xl); }
@@ -19,7 +19,7 @@
 .formule ul { display: flex; flex-direction: column; gap: var(--space-2xs); font-size: 0.9rem; }
 
 .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
-.galleryItem { aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); }
+.galleryItem { aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-alt); border: 1px solid var(--color-border); box-shadow: var(--shadow-sm); }
 .galleryItem img { width: 100%; height: 100%; object-fit: cover; }
 
 .compliance { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
@@ -28,10 +28,31 @@
 .complianceItem h3 { margin: var(--space-xs) 0; }
 .complianceItem p { color: var(--color-ink-soft); }
 
-.darkLead { text-align: center; color: rgba(255,255,255,0.8); max-width: 640px; margin: 0 auto var(--space-lg); }
+.darkLead { text-align: center; color: var(--color-ink-soft); max-width: 640px; margin: 0 auto var(--space-lg); }
 .center { text-align: center; }
 
 @media (max-width: 900px) {
   .refs { grid-template-columns: repeat(2, 1fr); }
   .formules, .gallery, .compliance, .statsRow { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  /* Hero — même traitement que la home : padding réduit, contenu centré, CTAs full-width */
+  .hero { padding: var(--space-2xl) 0; }
+  .title { font-size: clamp(2.4rem, 11vw, 3.4rem); margin: var(--space-md) 0; }
+  .title br { display: none; }
+  .lead { font-size: 1rem; margin: 0 0 var(--space-lg); }
+  .ctas { flex-direction: column; align-items: stretch; gap: var(--space-sm); }
+  .ctas > * { width: 100%; }
+
+  /* Refs : 5 items, on garde 2 colonnes serrées */
+  .refs { grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); margin-bottom: var(--space-lg); }
+  .ref { padding: var(--space-sm); font-size: 0.9rem; }
+
+  /* Compliance : single column comme les autres grilles */
+  .compliance { grid-template-columns: 1fr; }
+
+  /* Dark CTA section : aligner le bouton sur les marges */
+  .darkLead { margin-bottom: var(--space-md); }
+  .center > * { width: 100%; }
 }

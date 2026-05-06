@@ -3,6 +3,14 @@
   max-width: 800px;
 }
 
+@media (max-width: 560px) {
+  .page { padding: var(--space-xl) 5% var(--space-2xl); }
+  .header h1 { font-size: 1.6rem; }
+  .progressStep { font-size: 0.7rem; min-width: 60px; }
+  .statusCard { padding: var(--space-md); }
+  .statusValue { font-size: 1rem; }
+}
+
 .center {
   display: flex;
   justify-content: center;

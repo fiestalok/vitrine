@@ -44,11 +44,27 @@
     position: absolute; top: var(--navbar-height); left: 0; right: 0;
     background: var(--color-bg-alt);
     flex-direction: column;
-    padding: var(--space-md);
-    border-bottom: 1px solid var(--color-border);
-    transform: translateY(-110%);
-    transition: transform 0.25s ease;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 0 var(--space-md);
+    border-bottom: 1px solid transparent;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    /* le menu s'étend depuis le bas du header : max-height + padding animés */
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      padding 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.4s ease,
+      border-color 0.4s ease;
   }
-  .navOpen { transform: translateY(0); }
+  .navOpen {
+    max-height: 80vh;
+    padding: var(--space-sm) var(--space-md);
+    border-bottom-color: var(--color-border);
+    box-shadow: var(--shadow-md);
+  }
+  .nav .link { font-size: 1.1rem; padding: 0.6rem 1rem; border-bottom: none; }
+  .nav .active { border-bottom: 2px solid var(--color-primary); }
   .cartLabel { display: none; }
 }
