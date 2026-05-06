@@ -1,7 +1,7 @@
-.hero { background: var(--color-ink); color: var(--color-bg); padding: var(--space-3xl) 0; text-align: center; }
-.title { color: var(--color-bg); margin: var(--space-md) 0; }
+.hero { background: var(--color-bg); color: var(--color-ink); padding: var(--space-3xl) 0; text-align: center; }
+.title { color: var(--color-ink); margin: var(--space-md) 0; }
 .title span { color: var(--color-primary); }
-.lead { color: rgba(255,255,255,0.8); }
+.lead { color: var(--color-ink-soft); }
 
 .story { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2xl); align-items: center; }
 .photo { position: relative; }
@@ -18,13 +18,32 @@
 .value h3 { margin: var(--space-xs) 0; }
 .value p { color: var(--color-ink-soft); }
 
-.stats { background: var(--color-ink); color: var(--color-bg); padding: var(--space-2xl) 0; }
+.stats { background: linear-gradient(120deg, #B5EDE9 0%, #C0EBA8 55%, #A6E08A 100%); color: var(--color-ink); padding: var(--space-2xl) 0; }
 .statsGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); text-align: center; }
-.stat strong { display: block; font-family: var(--font-display); font-size: 1.9rem; color: var(--color-primary); letter-spacing: 0.04em; line-height: 1.1; }
-.stat span { color: rgba(255,255,255,0.7); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; display: block; }
+.stat strong { display: block; font-family: var(--font-display); font-size: 1.9rem; color: var(--color-danger); letter-spacing: 0.04em; line-height: 1.1; }
+.stat span { color: var(--color-ink-soft); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; display: block; }
 
 .center { text-align: center; }
 
 @media (max-width: 900px) {
   .story, .values, .statsGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  /* Hero — même traitement que la home/entreprise */
+  .hero { padding: var(--space-2xl) 0; }
+  .title { font-size: clamp(2.4rem, 11vw, 3.4rem); margin: var(--space-md) 0; }
+  .lead { font-size: 1rem; }
+
+  /* Story : CTAs full-width column-stretch */
+  .ctas { flex-direction: column; align-items: stretch; }
+  .ctas > * { width: 100%; }
+
+  /* Stats : 2 colonnes serrées au lieu d'une seule très étirée */
+  .statsGrid { grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+  .stat strong { font-size: 1.4rem; }
+  .stat { padding: var(--space-md); }
+
+  /* Bouton final en full-width */
+  .center > * { width: 100%; }
 }

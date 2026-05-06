@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
+import { Bubbles } from '../ui/Bubbles';
 import styles from './Footer.module.css';
 
 export function Footer() {
   return (
     <footer className={styles.footer}>
+      <Bubbles variant="warm" />
       <div className={`container ${styles.grid}`}>
         <div>
           <p className={styles.logo}>Fiestalo'<span>K</span></p>

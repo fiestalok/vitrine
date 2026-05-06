@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import styles from './Section.module.css';
 import { Bubbles } from './Bubbles';
 
-type Background = 'light' | 'dark' | 'accent' | 'gradientWarm' | 'gradientCool' | 'gradientPlay';
+type Background = 'light' | 'gradientWarm' | 'gradientCool';
 
 interface SectionProps {
   eyebrow?: string;

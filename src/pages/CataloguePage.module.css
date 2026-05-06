@@ -57,4 +57,12 @@
 }
 @media (max-width: 560px) {
   .grid { grid-template-columns: 1fr; }
+  .heroBand { padding: var(--space-xl) 0; }
+  .title { font-size: clamp(2rem, 8vw, 2.8rem); }
+  .lead { font-size: 0.95rem; }
+  .heroBullets { gap: var(--space-2xs) var(--space-md); font-size: 0.85rem; }
+  .tabsBar { padding: var(--space-md) 0 var(--space-lg); }
+  .layout { gap: var(--space-md); padding-bottom: var(--space-2xl); }
+  .resultsHeader { flex-wrap: wrap; gap: var(--space-xs); }
+  .sortBtn { padding: 0.3rem 0.65rem; font-size: 0.75rem; }
 }

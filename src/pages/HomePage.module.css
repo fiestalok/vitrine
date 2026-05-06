@@ -4,10 +4,20 @@
   position: relative;
   overflow: hidden;
 }
-.heroInner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--space-2xl); align-items: center; }
+.heroInner {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-areas: "text trust" "ctas trust";
+  gap: var(--space-lg) var(--space-2xl);
+  align-items: center;
+}
+.heroText { grid-area: text; }
+.ctas     { grid-area: ctas; }
+.trust    { grid-area: trust; }
 .title { font-size: clamp(3rem, 6vw + 1rem, 5.5rem); margin: var(--space-md) 0 var(--space-md); }
 .titleAccent { color: var(--color-danger); display: inline-block; transform: rotate(-2deg); }
-.lead { font-size: 1.2rem; color: var(--color-ink-soft); margin-bottom: var(--space-lg); }
+.lead { font-size: 1.2rem; color: var(--color-ink-soft); margin-bottom: 0; }
 .heroFeatures { list-style: none; padding: 0; margin: 0 0 var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xs); }
 .heroFeatures li { font-size: 0.95rem; color: var(--color-ink-soft); display: flex; align-items: center; gap: 0.4rem; }
 .ctas { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
@@ -91,10 +101,82 @@
 }
 
 @media (max-width: 900px) {
-  .heroInner { grid-template-columns: 1fr; }
+  .heroInner {
+    grid-template-columns: 1fr;
+    grid-template-areas: "text" "ctas" "trust";
+  }
   .steps, .categories, .values, .productGrid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 560px) {
   .steps, .categories, .values, .productGrid { grid-template-columns: 1fr; }
-  .trust { grid-template-columns: 1fr; }
+  .trust { grid-template-columns: 1fr 1fr; padding: var(--space-md); }
+
+  /* Hero — bloc central, contenu centré, présence forte ; CTAs sous le bloc trust pour proximité avec le pouce */
+  .hero { padding: var(--space-2xl) 0; }
+  .heroInner {
+    grid-template-areas: "text" "trust" "ctas";
+    gap: var(--space-lg);
+    text-align: center;
+    justify-items: center;
+  }
+  .heroText { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .title { font-size: clamp(2.8rem, 13vw, 4rem); margin: var(--space-md) 0; }
+  .lead  { font-size: 1.05rem; margin: 0; }
+  .title br, .lead br { display: none; }
+  .titleAccent::before { content: " "; } /* JSX strip le whitespace entre <br/> et <span> */
+  .trust { width: 100%; }
+  .ctas { flex-direction: column; align-items: stretch; width: 100%; }
+  .ctas > * { width: 100%; }
+
+  /* Steps — pas de hover sur mobile, on aplatit et on affiche tout le contenu */
+  .steps { gap: var(--space-md); }
+  .step {
+    min-height: 0; perspective: none; padding: 0;
+    /* Empilement au scroll : chaque carte sticky avec offset progressif (effet deck) */
+    position: sticky;
+  }
+  /* "Comment ça marche" : section sticky — titre épinglé au top,
+     card 1 statique sous le titre, cards 2/3/4 stack par-dessus */
+  :global(#how-it-works) {
+    --section-header-h: 87px; /* hauteur titre + margin (~63 + 24 = --space-lg) */
+  }
+  :global(#how-it-works) > div > header {
+    position: sticky;
+    top: var(--navbar-height);
+    z-index: 3;
+    /* margin-bottom hérite du Section.module.css mobile = --space-lg, conserve le style original */
+  }
+  /* Card 1 : sticky au même point que le titre (juste dessous) — reste statique sous le titre */
+  :global(#how-it-works) .step:nth-child(1) { top: calc(var(--navbar-height) + var(--section-header-h)); z-index: 1; }
+  /* Cards 2/3/4 : sticky par-dessus card 1 avec offset stair pour le peek */
+  :global(#how-it-works) .step:nth-child(2) { top: calc(var(--navbar-height) + var(--section-header-h) + 16px); z-index: 2; }
+  :global(#how-it-works) .step:nth-child(3) { top: calc(var(--navbar-height) + var(--section-header-h) + 32px); z-index: 3; }
+  :global(#how-it-works) .step:nth-child(4) { top: calc(var(--navbar-height) + var(--section-header-h) + 48px); z-index: 4; }
+  .stepFlipper {
+    position: static;
+    transform: none !important;
+    transform-style: flat;
+    min-height: 0;
+    display: block;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-lg);
+  }
+  .stepFront, .stepBack {
+    position: static;
+    inset: auto;
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+    transform: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+  }
+  .stepBack { margin-top: var(--space-sm); }
+  .stepBack .stepNum, .stepBack h3 { display: none; } /* doublons du recto */
+  .stepBack p { color: var(--color-ink-soft); font-size: 0.95rem; margin-top: 0; }
 }

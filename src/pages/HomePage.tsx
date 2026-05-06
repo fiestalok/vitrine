@@ -41,7 +41,7 @@ export function HomePage() {
         <Bubbles variant="hero" />
         <Castle size={144} rotation={-4} className={styles.castleHero} />
         <div className={`container ${styles.heroInner}`}>
-          <div>
+          <div className={styles.heroText}>
             <Badge tone="danger" rotation={-3}>LES KINGS DU GONFLABLE 👑</Badge>
             <h1 className={styles.title}>
               Ta fête va<br/>
@@ -51,10 +51,10 @@ export function HomePage() {
               Châteaux gonflables, photobooths, sono et bien plus —<br/>
               on s'occupe de tout, vous kiffez.
             </p>
-            <div className={styles.ctas}>
-              <Button to="/catalogue" variant="primary" size="lg">Voir le catalogue →</Button>
-              <Button to="/entreprise" variant="secondary" size="lg">Offres entreprise</Button>
-            </div>
+          </div>
+          <div className={styles.ctas}>
+            <Button to="/catalogue" variant="primary" size="lg">Voir le catalogue →</Button>
+            <Button to="/entreprise" variant="secondary" size="lg">Offres entreprise</Button>
           </div>
           <ul className={styles.trust}>
             {TRUST.map((t) => (
@@ -64,7 +64,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <Section background="gradientWarm" eyebrow="Simple & rapide" title="Comment ça marche ?">
+      <Section id="how-it-works" background="gradientWarm" eyebrow="Simple & rapide" title="Comment ça marche ?">
         <Castle size={220} rotation={6} className={styles.castleWarm} />
         <div className={styles.steps}>
           {STEPS.map((s) => (

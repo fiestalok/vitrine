@@ -48,7 +48,7 @@ export function EntreprisePage() {
       <section className={styles.hero}>
         <div className="container">
           <Badge tone="danger">SOLUTIONS CORPORATE · ALSACE</Badge>
-          <h1 className={styles.title}>L'événementiel<br/>qui donne <span>envie de se retrouver.</span></h1>
+          <h1 className={styles.title}>L'événementiel <br/>qui donne <span>envie de se retrouver.</span></h1>
           <p className={styles.lead}>De la kermesse d'entreprise au séminaire festif — on s'occupe de tout, vous profitez.</p>
           <div className={styles.ctas}>
             <Button variant="primary" size="lg">Demander un devis →</Button>
@@ -57,7 +57,7 @@ export function EntreprisePage() {
         </div>
       </section>
 
-      <Section eyebrow="Références" title="Ils nous ont fait confiance">
+      <Section background="gradientWarm" eyebrow="Références" title="Ils nous ont fait confiance">
         <div className={styles.refs}>
           {REFS.map((r) => (
             <div key={r} className={styles.ref}>
@@ -96,7 +96,7 @@ export function EntreprisePage() {
         </div>
       </Section>
 
-      <Section background="dark" eyebrow="En images" title="Nos événements corporate">
+      <Section background="gradientCool" eyebrow="En images" title="Nos événements corporate">
         <div className={styles.gallery}>
           {EVENTS.map((src) => (
             <div key={src} className={styles.galleryItem}>
@@ -118,7 +118,7 @@ export function EntreprisePage() {
         </div>
       </Section>
 
-      <Section background="dark" title="Prêt à organiser votre prochain événement ?">
+      <Section background="gradientWarm" title="Prêt à organiser votre prochain événement ?">
         <p className={styles.darkLead}>Devis gratuit sous 24h. On s'adapte à votre budget et à vos contraintes logistiques.</p>
         <div className={styles.center}>
           <Button variant="primary" size="lg">Demander un devis gratuit →</Button>

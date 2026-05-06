@@ -27,7 +27,7 @@ export function QuiSommesNousPage() {
         </div>
       </section>
 
-      <Section>
+      <Section background="gradientWarm">
         <div className={styles.story}>
           <div className={styles.photo}>
             <img src="https://images.unsplash.com/photo-1543007631-283050bb3e8c?w=900" alt="L'équipe Fiestalo'K" />
