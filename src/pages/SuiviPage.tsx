@@ -13,7 +13,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; step: number
   annulee:        { label: 'Annulée',                  color: '#ef4444', step: 0 },
 };
 
-const STEPS = ['En attente', 'Devis réalisé', 'Devis confirmé', 'Terminée'];
+const STEPS = ['En cours de traitement', 'Devis réalisé', 'Devis confirmé', 'Terminée'];
 
 function formatDate(iso: string) {
   return format(new Date(iso), 'dd MMMM yyyy', { locale: fr });
