@@ -90,7 +90,7 @@ export async function fetchCategories(): Promise<Category[]> {
 
 export async function fetchArticles(): Promise<Product[]> {
   const res = await fetch(
-    `${DIRECTUS_URL}/items/articles?filter[status][_eq]=published&fields=*,category.slug,category.name&sort=id`
+    `${DIRECTUS_URL}/items/articles?fields=*,category.slug,category.name&sort=id`
   );
   const json = await res.json();
   return (json.data ?? []).map(mapArticle);
@@ -134,7 +134,7 @@ export async function fetchReservationByToken(token: string): Promise<Reservatio
 
 export async function fetchArticle(slug: string): Promise<Product | null> {
   const res = await fetch(
-    `${DIRECTUS_URL}/items/articles?filter[slug][_eq]=${slug}&filter[status][_eq]=published&fields=*,category.slug,category.name&limit=1`
+    `${DIRECTUS_URL}/items/articles?filter[slug][_eq]=${slug}&fields=*,category.slug,category.name&limit=1`
   );
   const json = await res.json();
   const article = json.data?.[0];
