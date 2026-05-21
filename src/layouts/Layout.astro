@@ -1,0 +1,81 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  noindex?: boolean;
+  ogImage?: string;
+  jsonLdProduct?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description,
+  canonical = new URL(Astro.url.pathname, Astro.site).href,
+  noindex = false,
+  ogImage = '/og-default.jpg',
+  jsonLdProduct,
+} = Astro.props;
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: "Fiestalo'K",
+  description: 'Location de matériel festif : châteaux gonflables, enceintes, photobooths.',
+  url: 'https://fiestalok.fr',
+  telephone: '+33679515925',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Strasbourg',
+    addressLocality: 'Strasbourg',
+    postalCode: '67000',
+    addressRegion: 'Alsace',
+    addressCountry: 'FR',
+  },
+  areaServed: [
+    { '@type': 'State', name: 'Bas-Rhin' },
+    { '@type': 'State', name: 'Haut-Rhin' },
+    { '@type': 'City', name: 'Strasbourg' },
+    { '@type': 'City', name: 'Colmar' },
+    { '@type': 'City', name: 'Mulhouse' },
+  ],
+  priceRange: '€€',
+  openingHours: 'Mo-Su 08:00-20:00',
+};
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+    <meta name="theme-color" content="#FFE66D" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+    {jsonLdProduct && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLdProduct)} />
+    )}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+
+    <ViewTransitions />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

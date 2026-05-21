@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /devis
+Disallow: /suivi
+
+Sitemap: https://fiestalok.fr/sitemap-index.xml
