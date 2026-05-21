@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { fetchReservationByToken, type ReservationTracking } from '../lib/directus';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import type { ReservationTracking } from '../lib/directus';
 import styles from './SuiviPage.module.css';
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; step: number }> = {
@@ -19,41 +17,20 @@ function formatDate(iso: string) {
   return format(new Date(iso), 'dd MMMM yyyy', { locale: fr });
 }
 
-export function SuiviPage() {
-  const [params] = useSearchParams();
-  const token = params.get('token') ?? params.get('tracking_token');
+interface SuiviPageProps {
+  reservation: ReservationTracking | null;
+  token: string | null;
+}
 
-  const [reservation, setReservation] = useState<ReservationTracking | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
-
-  useEffect(() => {
-    if (!token) { setLoading(false); setNotFound(true); return; }
-    fetchReservationByToken(token)
-      .then((data) => {
-        if (!data) setNotFound(true);
-        else setReservation(data);
-      })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [token]);
-
-  if (loading) {
-    return (
-      <div className={`container ${styles.center}`}>
-        <p>Chargement de votre réservation...</p>
-      </div>
-    );
-  }
-
-  if (notFound || !reservation) {
+export function SuiviPage({ reservation, token }: SuiviPageProps) {
+  if (!reservation) {
     return (
       <div className={`container ${styles.center}`}>
         <div className={styles.notFound}>
           <p className={styles.notFoundIcon}>🔍</p>
           <h1>Réservation introuvable</h1>
           <p>Le lien de suivi est invalide ou a expiré.</p>
-          <Link to="/" className={styles.backLink}>Retour à l'accueil</Link>
+          <a href="/" className={styles.backLink}>Retour à l'accueil</a>
         </div>
       </div>
     );
@@ -71,7 +48,6 @@ export function SuiviPage() {
         <p className={styles.token}>Référence : <code>{reservation.tracking_token.slice(0, 8).toUpperCase()}</code></p>
       </div>
 
-      {/* Barre de progression */}
       {!isCancelled && (
         <div className={styles.progress}>
           {STEPS.map((step, i) => {
@@ -89,7 +65,6 @@ export function SuiviPage() {
         </div>
       )}
 
-      {/* Statut */}
       <div className={styles.statusCard} style={{ borderColor: status.color }}>
         <div className={styles.statusDot} style={{ background: status.color }} />
         <div>
@@ -100,32 +75,21 @@ export function SuiviPage() {
 
       <div className={styles.grid}>
 
-        {/* Détails */}
         <div className={styles.card}>
           <h2>Détails de la location</h2>
           <dl className={styles.details}>
-            <div>
-              <dt>Date de début</dt>
-              <dd>{formatDate(reservation.date_start)}</dd>
-            </div>
-            <div>
-              <dt>Date de fin</dt>
-              <dd>{formatDate(reservation.date_end)}</dd>
-            </div>
+            <div><dt>Date de début</dt><dd>{formatDate(reservation.date_start)}</dd></div>
+            <div><dt>Date de fin</dt><dd>{formatDate(reservation.date_end)}</dd></div>
             <div>
               <dt>Livraison</dt>
               <dd>{reservation.delivery ? `Oui — ${reservation.delivery_address ?? ''}` : 'Retrait sur place'}</dd>
             </div>
             {reservation.total_price > 0 && (
-              <div>
-                <dt>Total estimé</dt>
-                <dd><strong>{reservation.total_price} €</strong></dd>
-              </div>
+              <div><dt>Total estimé</dt><dd><strong>{reservation.total_price} €</strong></dd></div>
             )}
           </dl>
         </div>
 
-        {/* Articles */}
         {reservation.articles.length > 0 && (
           <div className={styles.card}>
             <h2>Articles réservés</h2>
@@ -137,9 +101,7 @@ export function SuiviPage() {
                   )}
                   <div>
                     <p className={styles.articleName}>{item.articles_id?.name ?? 'Article'}</p>
-                    <p className={styles.articleMeta}>
-                      Qté : {item.quantity} · {item.unit_price}€/unité
-                    </p>
+                    <p className={styles.articleMeta}>Qté : {item.quantity} · {item.unit_price}€/unité</p>
                   </div>
                 </li>
               ))}
@@ -149,27 +111,16 @@ export function SuiviPage() {
 
       </div>
 
-      {/* Prochaines étapes */}
       <div className={styles.nextSteps}>
-        {reservation.status === 'en_attente' && (
-          <p>📞 Nous allons vous contacter prochainement pour établir votre devis.</p>
-        )}
-        {reservation.status === 'devis_realise' && (
-          <p>📄 Votre devis est prêt. Vérifiez vos emails et confirmez pour bloquer votre date.</p>
-        )}
-        {reservation.status === 'devis_confirme' && (
-          <p>✅ Votre réservation est confirmée ! Nous vous contacterons pour les détails logistiques.</p>
-        )}
-        {reservation.status === 'terminee' && (
-          <p>🎉 Merci d'avoir fait confiance à Fiestalo'K ! À bientôt pour votre prochaine fête.</p>
-        )}
-        {reservation.status === 'annulee' && (
-          <p>❌ Cette réservation a été annulée. Contactez-nous si vous avez des questions.</p>
-        )}
+        {reservation.status === 'en_attente' && <p>📞 Nous allons vous contacter prochainement pour établir votre devis.</p>}
+        {reservation.status === 'devis_realise' && <p>📄 Votre devis est prêt. Vérifiez vos emails et confirmez pour bloquer votre date.</p>}
+        {reservation.status === 'devis_confirme' && <p>✅ Votre réservation est confirmée ! Nous vous contacterons pour les détails logistiques.</p>}
+        {reservation.status === 'terminee' && <p>🎉 Merci d'avoir fait confiance à Fiestalo'K ! À bientôt pour votre prochaine fête.</p>}
+        {reservation.status === 'annulee' && <p>❌ Cette réservation a été annulée. Contactez-nous si vous avez des questions.</p>}
       </div>
 
       <div className={styles.footer}>
-        <Link to="/" className={styles.backLink}>← Retour à l'accueil</Link>
+        <a href="/" className={styles.backLink}>← Retour à l'accueil</a>
         <a href="mailto:contact@fiestalok.fr" className={styles.contactLink}>Nous contacter</a>
       </div>
 

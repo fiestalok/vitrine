@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar } from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer.astro';
+import { CartDrawer } from '../components/layout/CartDrawer';
+import { SuiviPage } from '../views/SuiviPage';
+import { fetchReservationByToken } from '../lib/directus';
+
+const token = Astro.url.searchParams.get('token') ?? Astro.url.searchParams.get('tracking_token');
+const reservation = token ? await fetchReservationByToken(token) : null;
+---
+<Layout
+  title="Suivi de réservation — Fiestalo'K"
+  description="Suivez l'avancement de votre réservation Fiestalo'K."
+  noindex={true}
+>
+  <Navbar client:load />
+  <main>
+    <SuiviPage reservation={reservation} token={token} client:load />
+  </main>
+  <Footer />
+  <CartDrawer products={[]} client:load />
+</Layout>
