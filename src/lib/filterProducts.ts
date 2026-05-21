@@ -1,5 +1,5 @@
 import type { Product } from '../data/types';
-import type { Audience, CategoryId } from './categories';
+import type { Audience, CategoryId } from '../data/categories';
 
 export interface FilterState {
   category: CategoryId | 'all';
