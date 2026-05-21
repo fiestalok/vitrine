@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar } from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer.astro';
+import { CartDrawer } from '../components/layout/CartDrawer';
+import { CatalogueClient } from '../components/catalogue/CatalogueClient';
+import { fetchArticles, fetchCategories } from '../lib/directus';
+
+const products = await fetchArticles();
+const categories = await fetchCategories();
+const initialCategory = Astro.url.searchParams.get('cat') ?? 'all';
+---
+<Layout
+  title="Catalogue — Location matériel festif Alsace | Fiestalo'K"
+  description="Parcourez notre catalogue : châteaux gonflables, enceintes, photobooths, machines à popcorn. Location en Alsace, livraison incluse."
+>
+  <Navbar client:load />
+  <main>
+    <CatalogueClient
+      products={products}
+      categories={categories}
+      initialCategory={initialCategory}
+      client:load
+    />
+  </main>
+  <Footer />
+  <CartDrawer products={products} client:load />
+</Layout>

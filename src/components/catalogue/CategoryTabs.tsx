@@ -1,15 +1,13 @@
-import { useCategories } from '../../context/CategoriesContext';
-import type { CategoryId } from '../../data/categories';
+import type { Category, CategoryId } from '../../data/categories';
 import styles from './CategoryTabs.module.css';
 
 interface Props {
+  categories: Category[];
   active: CategoryId | 'all';
   onChange: (id: CategoryId | 'all') => void;
 }
 
-export function CategoryTabs({ active, onChange }: Props) {
-  const { categories } = useCategories();
-
+export function CategoryTabs({ categories, active, onChange }: Props) {
   return (
     <div className={styles.tabs}>
       <button
