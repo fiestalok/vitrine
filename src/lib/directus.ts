@@ -233,18 +233,7 @@ export async function fetchReservationByToken(token: string): Promise<Reservatio
   return { ...resa, articles: artJson.data ?? [] };
 }
 
-<<<<<<< HEAD
-export async function fetchArticle(slug: string): Promise<Product | null> {
-  const res = await fetch(
-    `${DIRECTUS_URL}/items/articles?filter[slug][_eq]=${slug}&fields=*,category.slug,category.name&limit=1`
-  );
-  const json = await res.json();
-  const article = json.data?.[0];
-  return article ? mapArticle(article) : null;
-}
 
-=======
->>>>>>> 8d12908 (feat: connect vitrine to Directus backend (products, categories, images, availability))
 // ── Reservation ───────────────────────────────────────────────────────────────
 
 export interface ReservationClientData {

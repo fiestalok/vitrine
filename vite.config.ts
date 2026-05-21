@@ -12,6 +12,7 @@ export default defineConfig({
       '/api': {
         target: 'https://back.fiestalok.fr',
         changeOrigin: true,
+        secure: false,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
