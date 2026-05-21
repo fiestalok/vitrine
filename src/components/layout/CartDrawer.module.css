@@ -31,3 +31,5 @@
 .totalRow { display: flex; justify-content: space-between; font-size: 1.1rem; }
 .totalRow strong { font-family: var(--font-display); font-size: 1.6rem; color: var(--color-primary); }
 .clearBtn { color: var(--color-ink-soft); font-size: 0.85rem; text-decoration: underline; }
+.catalogueLink { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); font-family: var(--font-body); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; border-radius: var(--radius-pill); transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; white-space: nowrap; padding: 0.75rem 1.5rem; font-size: 0.9rem; background: var(--color-accent); color: var(--color-ink); box-shadow: var(--shadow-md); text-decoration: none; }
+.catalogueLink:hover { transform: translateY(-2px); background: #ffe24a; }

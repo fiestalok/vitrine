@@ -1,24 +1,26 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
-import { useProducts } from '../../context/ProductsContext';
+import { useStore } from '@nanostores/react';
+import { cartStore, removeFromCart, setCartQuantity, clearCart, closeCart } from '../../stores/cart';
 import { Button } from '../ui/Button';
 import { formatPrice } from '../../lib/format';
+import type { Product } from '../../data/types';
 import styles from './CartDrawer.module.css';
 
-export function CartDrawer() {
-  const { isOpen, close, items, remove, setQuantity, clear } = useCart();
-  const { products } = useProducts();
-  const navigate = useNavigate();
+interface CartDrawerProps {
+  products: Product[];
+}
+
+export function CartDrawer({ products }: CartDrawerProps) {
+  const { items, isOpen } = useStore(cartStore);
 
   const findProduct = (id: string) => products.find((p) => p.id === id);
 
   useEffect(() => {
     if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeCart(); };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [isOpen, close]);
+  }, [isOpen]);
 
   const total = items.reduce((sum, i) => {
     const p = findProduct(i.productId);
@@ -26,15 +28,15 @@ export function CartDrawer() {
   }, 0);
 
   function handleDevis() {
-    close();
-    navigate('/devis');
+    closeCart();
+    window.location.href = '/devis';
   }
 
   return (
     <>
       <div
         className={`${styles.backdrop} ${isOpen ? styles.open : ''}`}
-        onClick={close}
+        onClick={closeCart}
         aria-hidden={!isOpen}
       />
       <aside className={`${styles.drawer} ${isOpen ? styles.open : ''}`} aria-label="Panier">
@@ -43,7 +45,7 @@ export function CartDrawer() {
             <h3>Mon panier</h3>
             <p>{items.length === 0 ? 'Aucun article' : `${items.length} article${items.length > 1 ? 's' : ''}`}</p>
           </div>
-          <button onClick={close} aria-label="Fermer" className={styles.closeBtn}>✕</button>
+          <button onClick={closeCart} aria-label="Fermer" className={styles.closeBtn}>✕</button>
         </header>
 
         {items.length === 0 ? (
@@ -51,7 +53,7 @@ export function CartDrawer() {
             <div className={styles.emptyIcon}>🛒</div>
             <p className={styles.emptyTitle}>Panier vide</p>
             <p className={styles.emptyText}>Ajoutez des articles depuis le catalogue</p>
-            <Button to="/catalogue" variant="primary" size="md">Voir le catalogue</Button>
+            <a href="/catalogue" className={styles.catalogueLink}>Voir le catalogue</a>
           </div>
         ) : (
           <>
@@ -66,12 +68,12 @@ export function CartDrawer() {
                       <p className={styles.itemName}>{p.name}</p>
                       <p className={styles.itemPrice}>{formatPrice(p.price)}</p>
                       <div className={styles.qty}>
-                        <button onClick={() => setQuantity(i.productId, i.quantity - 1)}>−</button>
+                        <button onClick={() => setCartQuantity(i.productId, i.quantity - 1)}>−</button>
                         <span>{i.quantity}</span>
-                        <button onClick={() => setQuantity(i.productId, i.quantity + 1)}>+</button>
+                        <button onClick={() => setCartQuantity(i.productId, i.quantity + 1)}>+</button>
                       </div>
                     </div>
-                    <button className={styles.removeBtn} onClick={() => remove(i.productId)} aria-label="Retirer">🗑</button>
+                    <button className={styles.removeBtn} onClick={() => removeFromCart(i.productId)} aria-label="Retirer">🗑</button>
                   </li>
                 );
               })}
@@ -84,7 +86,7 @@ export function CartDrawer() {
               <Button variant="primary" size="lg" onClick={handleDevis}>
                 Demander un devis
               </Button>
-              <button className={styles.clearBtn} onClick={clear}>Vider le panier</button>
+              <button className={styles.clearBtn} onClick={clearCart}>Vider le panier</button>
             </footer>
           </>
         )}
