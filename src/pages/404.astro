@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar } from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer.astro';
+import { CartDrawer } from '../components/layout/CartDrawer';
+---
+<Layout
+  title="Page introuvable — Fiestalo'K"
+  description="Cette page n'existe pas."
+  noindex={true}
+>
+  <Navbar client:load />
+  <main class="container" style="text-align: center; padding: 4rem 1rem;">
+    <h1 style="font-size: 6rem; margin: 0; font-family: var(--font-display);">404</h1>
+    <p style="font-size: 1.25rem; margin: 1rem 0 2rem; color: var(--color-ink-soft);">
+      Oups, cette page a décollé sans nous prévenir. 🎈
+    </p>
+    <a href="/" style="display: inline-block; background: var(--color-danger); color: white; padding: 0.75rem 2rem; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 1rem;">
+      Retour à l'accueil
+    </a>
+  </main>
+  <Footer />
+  <CartDrawer products={[]} client:load />
+</Layout>
