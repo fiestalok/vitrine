@@ -1,7 +1,7 @@
 import type { Product } from '../data/types';
 import type { Category, CategoryId, Audience } from '../data/categories';
 
-const DIRECTUS_URL = import.meta.env.VITE_DIRECTUS_URL ?? 'http://localhost:8055';
+const DIRECTUS_URL = import.meta.env.DIRECTUS_URL ?? 'http://localhost:8055';
 
 const CATEGORY_EMOJI: Record<string, string> = {
   'chateau-gonflable': '🏰',
@@ -139,84 +139,4 @@ export async function fetchArticle(slug: string): Promise<Product | null> {
   const json = await res.json();
   const article = json.data?.[0];
   return article ? mapArticle(article) : null;
-}
-
-// ── Reservation ───────────────────────────────────────────────────────────────
-
-export interface ReservationClientData {
-  type: 'particulier' | 'professionnel';
-  first_name: string;
-  last_name: string;
-  company_name?: string;
-  email: string;
-  phone: string;
-}
-
-export interface ReservationCartItem {
-  productId: string; // slug
-  quantity: number;
-  unit_price: number;
-}
-
-export interface ReservationData {
-  client: ReservationClientData;
-  date_start: string;
-  date_end: string;
-  delivery: boolean;
-  delivery_address?: string;
-  notes: string;
-  total_price: number;
-  cartItems: ReservationCartItem[];
-  cf_token: string;
-}
-
-export async function createReservation(data: ReservationData): Promise<string> {
-  const trackingToken = crypto.randomUUID();
-
-  // 1. Créer le client
-  const client = await directusPost<{ id: number }>('/items/clients', data.client);
-
-  // 2. Créer la réservation (token généré côté front)
-  const reservation = await directusPost<{ id: number }>(
-    '/items/reservations',
-    {
-      client: client.id,
-      date_start: data.date_start,
-      date_end: data.date_end,
-      status: 'en_attente',
-      delivery: data.delivery,
-      delivery_address: data.delivery_address ?? null,
-      notes: data.notes,
-      total_price: data.total_price,
-      tracking_token: trackingToken,
-      cf_token: data.cf_token,
-    }
-  );
-
-  // 3. Récupérer les IDs Directus des articles par slug
-  const slugs = data.cartItems.map(i => i.productId).join(',');
-  const articlesRes = await fetch(
-    `${DIRECTUS_URL}/items/articles?filter[slug][_in]=${slugs}&fields=id,slug`
-  );
-  const articlesJson = await articlesRes.json();
-  const articleBySlug: Record<string, number> = {};
-  for (const a of articlesJson.data ?? []) {
-    articleBySlug[a.slug] = a.id;
-  }
-
-  // 4. Créer les reservation_articles
-  await Promise.all(
-    data.cartItems.map((item) => {
-      const articleId = articleBySlug[item.productId];
-      if (!articleId) return Promise.resolve();
-      return directusPost('/items/reservations_articles', {
-        reservations_id: reservation.id,
-        articles_id: articleId,
-        quantity: item.quantity,
-        unit_price: item.unit_price,
-      });
-    })
-  );
-
-  return trackingToken;
 }
