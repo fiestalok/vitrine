@@ -1,0 +1,105 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import { Navbar } from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer.astro';
+import { CartDrawer } from '../components/layout/CartDrawer';
+import styles from '../views/QuiSommesNousPage.module.css';
+import sectionStyles from '../components/ui/Section.module.css';
+import btnStyles from '../components/ui/Button.module.css';
+
+const VALUES = [
+  { icon: '❤️', title: 'Passion', text: "Fiestalo'K est née d'une passion simple : rendre chaque fête unique et mémorable, qu'il s'agisse d'un anniv d'enfant ou d'un séminaire d'entreprise." },
+  { icon: '🤝', title: 'Engagement', text: "On s'engage sur chaque prestation : ponctualité, propreté, et une équipe disponible du montage jusqu'au démontage." },
+  { icon: '📍', title: 'Ancrage local', text: 'Entreprise 100% alsacienne, on connaît le territoire. On livre dans tout le Bas-Rhin et le Haut-Rhin, souvent le jour même.' },
+];
+
+const STATS = [
+  { v: 'PRO', l: 'Équipe certifiée' },
+  { v: '100%', l: 'Alsacien' },
+  { v: 'HOMOLOGUÉ CE', l: 'Norme EN 14960' },
+  { v: 'RC PRO', l: 'Assurance incluse' },
+];
+---
+<Layout
+  title="Qui sommes-nous — Fiestalo'K Alsace"
+  description="Découvrez l'équipe Fiestalo'K, spécialiste de la location festive à Strasbourg."
+  canonical="https://fiestalok.fr/qui-sommes-nous"
+>
+  <Navbar client:load />
+  <main>
+    <section class={styles.hero}>
+      <div class="container">
+        <span class="badge-danger">NOTRE HISTOIRE</span>
+        <h1 class={styles.title}>Qui <span>sommes-nous ?</span></h1>
+        <p class={styles.lead}>Une équipe alsacienne, pro et passionnée par les belles fêtes.</p>
+      </div>
+    </section>
+
+    <section class={`${sectionStyles.section} ${sectionStyles.gradientWarm}`}>
+      <div class={`container ${sectionStyles.inner}`}>
+        <div class={styles.story}>
+          <div class={styles.photo}>
+            <img src="https://images.unsplash.com/photo-1543007631-283050bb3e8c?w=900" alt="L'équipe Fiestalo'K" />
+            <span class={styles.photoTag}>L'équipe Fiestalo'K · Strasbourg · Alsace</span>
+          </div>
+          <div class={styles.text}>
+            <p class={styles.eyebrow}>Notre histoire</p>
+            <h2>Tout a commencé par une envie de faire la fête.</h2>
+            <p>Tout a commencé par une décision audacieuse : <strong>6 mecs bien gaulés du cerveau</strong> ont décidé de se lancer dans une aventure magique. Pas de bureau, pas de costard — juste une envie folle de rendre chaque fête inoubliable.</p>
+            <p>De cette belle idée est née Fiestalo'K à Strasbourg. On équipe des événements à travers toute l'Alsace — des anniversaires d'enfants aux team buildings d'entreprise, en passant par les kermesses de quartier.</p>
+            <p>La magie, on ne l'a pas perdue. Notre équipe est là pour vous, du premier coup de fil jusqu'au démontage du dernier château gonflable.</p>
+            <div class={styles.ctas}>
+              <a href="/catalogue">Voir nos produits →</a>
+              <a href="/entreprise">Offres entreprise</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class={`${sectionStyles.section} ${sectionStyles.light}`}>
+      <div class={`container ${sectionStyles.inner}`}>
+        <header class={sectionStyles.header}>
+          <p class={sectionStyles.eyebrow}>Ce qui nous anime</p>
+          <h2 class={sectionStyles.title}>Nos valeurs</h2>
+        </header>
+        <div class={styles.values}>
+          {VALUES.map((v) => (
+            <article class={styles.value}>
+              <span class={styles.valueIcon}>{v.icon}</span>
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class={styles.stats}>
+      <div class={`container ${styles.statsGrid}`}>
+        {STATS.map((s) => (
+          <div class={styles.stat}>
+            <strong>{s.v}</strong>
+            <span>{s.l}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class={`${sectionStyles.section} ${sectionStyles.light}`}>
+      <div class={`container ${sectionStyles.inner}`}>
+        <header class={sectionStyles.header}>
+          <h2 class={sectionStyles.title}>On se rencontre ?</h2>
+        </header>
+        <p class={styles.center}>Venez visiter notre dépôt à Strasbourg ou contactez-nous pour un premier échange sans engagement.</p>
+        <div class={styles.center}>
+          <a href="/devis" class={`${btnStyles.btn} ${btnStyles.lg} ${btnStyles.danger}`}>Nous contacter →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <CartDrawer products={[]} client:load />
+</Layout>

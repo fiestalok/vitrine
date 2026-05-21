@@ -1,0 +1,145 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import { Navbar } from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer.astro';
+import { CartDrawer } from '../components/layout/CartDrawer';
+import styles from '../views/EntreprisePage.module.css';
+import sectionStyles from '../components/ui/Section.module.css';
+import btnStyles from '../components/ui/Button.module.css';
+
+const REFS = ['Crédit Mutuel', 'Eurocorps', 'Groupe Eilor', 'EDF Alsace', 'Hôtel Régent'];
+
+const FORMULES = [
+  { icon: '🏆', title: 'Team Building', text: "On vous fournit tout : matériel pour animer votre journée cohésion : parcours gonflables, jeux collectifs, sono pour mettre l'ambiance.", items: ['Parcours & châteaux gonflables', 'Jeux collectifs', 'Matériel sono & enceintes'] },
+  { icon: '🥂', title: 'Séminaire & Soirée', text: "On équipe votre événement avec sono pro et photobooth. Vous gérez la com, on s'occupe du matos.", items: ['Sono & enceintes pro', 'Photobooth & miroir 360°', 'Boule à facette & éclairage'] },
+  { icon: '🎪', title: 'Kermesse & Famille', text: 'On fournit tout le matériel pour régaler petits et grands : châteaux, machines pop-corn & barbe à papa.', items: ['Châteaux gonflables', 'Machine pop-corn & barbe à papa', 'Plancha tarte flambée & BBQ'] },
+];
+
+const EVENTS = [
+  'https://picsum.photos/seed/fiestalok-corp-1/600/450',
+  'https://picsum.photos/seed/fiestalok-corp-2/600/450',
+  'https://picsum.photos/seed/fiestalok-corp-3/600/450',
+  'https://picsum.photos/seed/fiestalok-corp-4/600/450',
+  'https://picsum.photos/seed/fiestalok-corp-5/600/450',
+  'https://picsum.photos/seed/fiestalok-corp-6/600/450',
+];
+
+const COMPLIANCE = [
+  { icon: '🛡️', title: 'Norme EN 14960', text: 'Tous nos équipements gonflables sont certifiés CE et conformes à la norme européenne EN 14960. Contrôle technique annuel obligatoire.' },
+  { icon: '📋', title: 'RC Pro & Assurance', text: 'Couverture Responsabilité Civile Professionnelle complète pour tous nos événements. Documentation fournie sur demande pour vos services RH et juridiques.' },
+  { icon: '⚡', title: 'Conformité électrique', text: 'Tout le matériel électrique (sono, éclairage, machines) est vérifié et conforme aux normes NF C 15-100. Câblage adapté à vos installations.' },
+  { icon: '🧯', title: 'Protocole sécurité', text: "Briefing sécurité avant chaque installation. Présence d'un responsable Fiestalo'K durant le montage et le démontage. Vérification des zones d'installation." },
+];
+---
+<Layout
+  title="Offres entreprise — Fiestalo'K Strasbourg"
+  description="Animation team-building, kermesses, séminaires festifs en Alsace. Matériel certifié, équipe pro, devis gratuit."
+  canonical="https://fiestalok.fr/entreprise"
+>
+  <Navbar client:load />
+  <main>
+    <!-- Hero -->
+    <section class={styles.hero}>
+      <div class="container">
+        <span class="badge-danger">SOLUTIONS CORPORATE · ALSACE</span>
+        <h1 class={styles.title}>L'événementiel <br/>qui donne <span>envie de se retrouver.</span></h1>
+        <p class={styles.lead}>De la kermesse d'entreprise au séminaire festif — on s'occupe de tout, vous profitez.</p>
+        <div class={styles.ctas}>
+          <a href="/devis" class={`${btnStyles.btn} ${btnStyles.lg} ${btnStyles.danger}`}>Demander un devis →</a>
+          <a href="/catalogue" class={`${btnStyles.btn} ${btnStyles.lg} ${btnStyles.secondary}`}>Voir le catalogue</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Références -->
+    <section class={`${sectionStyles.section} ${sectionStyles.gradientWarm}`}>
+      <div class={`container ${sectionStyles.inner}`}>
+        <header class={sectionStyles.header}>
+          <p class={sectionStyles.eyebrow}>Références</p>
+          <h2 class={sectionStyles.title}>Ils nous ont fait confiance</h2>
+        </header>
+        <div class={styles.refs}>
+          {REFS.map((r) => <div class={styles.ref}><span>{r}</span></div>)}
+        </div>
+        <div class={styles.statsRow}>
+          {[{v: 'Pro', l: 'Équipe certifiée'}, {v: 'RC Pro', l: 'Assurance incluse'}, {v: '100%', l: 'Alsacien'}].map((s) => (
+            <div class={styles.stat}><strong>{s.v}</strong><span>{s.l}</span></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Formules -->
+    <section class={`${sectionStyles.section} ${sectionStyles.light}`}>
+      <div class={`container ${sectionStyles.inner}`}>
+        <header class={sectionStyles.header}>
+          <p class={sectionStyles.eyebrow}>Ce qu'on propose</p>
+          <h2 class={sectionStyles.title}>Nos formules entreprise</h2>
+        </header>
+        <div class={styles.formules}>
+          {FORMULES.map((f) => (
+            <article class={styles.formule}>
+              <div class={styles.formuleHead}>
+                <span class={styles.formuleIcon}>{f.icon}</span>
+                <h3>{f.title}</h3>
+              </div>
+              <p>{f.text}</p>
+              <ul>{f.items.map((i) => <li>✓ {i}</li>)}</ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class={`${sectionStyles.section} ${sectionStyles.gradientCool}`}>
+      <div class={`container ${sectionStyles.inner}`}>
+        <header class={sectionStyles.header}>
+          <p class={sectionStyles.eyebrow}>En images</p>
+          <h2 class={sectionStyles.title}>Nos événements corporate</h2>
+        </header>
+        <div class={styles.gallery}>
+          {EVENTS.map((src) => (
+            <div class={styles.galleryItem}><img src={src} alt="" loading="lazy" /></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Compliance -->
+    <section class={`${sectionStyles.section} ${sectionStyles.light}`}>
+      <div class={`container ${sectionStyles.inner}`}>
+        <header class={sectionStyles.header}>
+          <p class={sectionStyles.eyebrow}>Conformité & sécurité</p>
+          <h2 class={sectionStyles.title}>Chaque détail, certifié et sécurisé.</h2>
+        </header>
+        <div class={styles.compliance}>
+          {COMPLIANCE.map((c) => (
+            <article class={styles.complianceItem}>
+              <span class={styles.complianceIcon}>{c.icon}</span>
+              <h3>{c.title}</h3>
+              <p>{c.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class={`${sectionStyles.section} ${sectionStyles.gradientWarm}`}>
+      <div class={`container ${sectionStyles.inner}`}>
+        <header class={sectionStyles.header}>
+          <h2 class={sectionStyles.title}>Prêt à organiser votre prochain événement ?</h2>
+        </header>
+        <p class={styles.darkLead}>Devis gratuit sous 24h. On s'adapte à votre budget et à vos contraintes logistiques.</p>
+        <div class={styles.center}>
+          <a href="/devis" class={`${btnStyles.btn} ${btnStyles.lg} ${btnStyles.danger}`}>Demander un devis gratuit →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <CartDrawer products={[]} client:load />
+</Layout>
