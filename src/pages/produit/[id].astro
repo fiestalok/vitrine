@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Navbar } from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer.astro';
+import { CartDrawer } from '../../components/layout/CartDrawer';
+import { ProductGallery } from '../../components/product/ProductGallery';
+import { AddToCartButton } from '../../components/product/AddToCartButton';
+import { ReviewsSection } from '../../components/product/ReviewsSection';
+import { StarRating } from '../../components/ui/StarRating';
+import { fetchArticle, fetchArticles, fetchCategories } from '../../lib/directus';
+
+const { id } = Astro.params;
+const product = await fetchArticle(id!);
+
+if (!product) return Astro.redirect('/catalogue');
+
+const [allProducts, categories] = await Promise.all([fetchArticles(), fetchCategories()]);
+const cat = categories.find((c) => c.id === product.category);
+
+const jsonLdProduct = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.name,
+  description: product.shortDescription,
+  image: product.images[0] ?? '',
+  offers: {
+    '@type': 'Offer',
+    price: product.price,
+    priceCurrency: 'EUR',
+    availability: 'https://schema.org/InStock',
+  },
+};
+---
+<Layout
+  title={`${product.name} — Location Strasbourg | Fiestalo'K`}
+  description={`${product.shortDescription} — disponible à la location en Alsace. Livraison incluse.`}
+  canonical={`https://fiestalok.fr/produit/${product.id}`}
+  jsonLdProduct={jsonLdProduct}
+>
+  <Navbar client:load />
+  <main class="container product-page">
+    <nav class="crumbs" aria-label="Fil d'Ariane">
+      <a href="/catalogue">Catalogue</a>
+      <span aria-hidden="true"> / </span>
+      <span>{product.name}</span>
+    </nav>
+
+    <div class="product-top">
+      <ProductGallery images={product.images} alt={product.name} client:load />
+
+      <div class="product-info">
+        {cat && <p class="product-cat">{cat.emoji} {cat.label}</p>}
+        {product.badge && <span class="badge">{product.badge}</span>}
+        <h1>{product.name}</h1>
+        <StarRating value={product.rating} count={product.reviewCount} size="md" client:load />
+        <p class="product-desc">{product.longDescription}</p>
+        {Object.keys(product.specs).length > 0 && (
+          <ul class="product-specs">
+            {Object.entries(product.specs).map(([k, v]) => (
+              <li><span>{k}</span><strong>{v}</strong></li>
+            ))}
+          </ul>
+        )}
+        <div class="price-row">
+          <span class="price">{product.price}€</span>
+          <span class="unit">/jour</span>
+        </div>
+        <AddToCartButton product={product} client:load />
+      </div>
+    </div>
+
+    <section class="reviews-section">
+      <h2>Avis clients</h2>
+      <ReviewsSection productId={product.id} client:visible />
+    </section>
+  </main>
+  <Footer />
+  <CartDrawer products={allProducts} client:load />
+</Layout>
+
+<style>
+  .product-page { padding: 2rem 1rem 4rem; }
+  .crumbs { color: var(--color-ink-soft); font-size: 0.9rem; margin-bottom: 2rem; }
+  .crumbs a { color: var(--color-ink-soft); }
+  .crumbs a:hover { color: var(--color-danger); }
+  .product-top { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-bottom: 4rem; }
+  .product-info { display: flex; flex-direction: column; gap: 1rem; }
+  .product-cat { color: var(--color-ink-soft); font-size: 0.9rem; margin: 0; }
+  .badge { display: inline-block; background: var(--color-danger); color: #fff; padding: 0.2rem 0.8rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; }
+  h1 { margin: 0; }
+  .product-desc { color: var(--color-ink-soft); line-height: 1.6; margin: 0; }
+  .product-specs { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+  .product-specs li { display: flex; justify-content: space-between; font-size: 0.9rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.4rem; }
+  .product-specs span { color: var(--color-ink-soft); }
+  .price-row { display: flex; align-items: baseline; gap: 0.3rem; }
+  .price { font-family: var(--font-display); font-size: 2rem; color: var(--color-danger); }
+  .unit { color: var(--color-ink-soft); }
+  .reviews-section { margin-top: 2rem; }
+  @media (max-width: 768px) {
+    .product-top { grid-template-columns: 1fr; }
+  }
+</style>
