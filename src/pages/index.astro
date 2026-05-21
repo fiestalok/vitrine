@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar } from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer.astro';
+import { CartDrawer } from '../components/layout/CartDrawer';
+import HeroSection from '../components/home/HeroSection.astro';
+import HowItWorksSection from '../components/home/HowItWorksSection.astro';
+import CategoriesSection from '../components/home/CategoriesSection.astro';
+import { FeaturedProducts } from '../components/home/FeaturedProducts';
+import WhyUsSection from '../components/home/WhyUsSection.astro';
+import ZoneSection from '../components/home/ZoneSection.astro';
+import { fetchArticles, fetchCategories } from '../lib/directus';
+
+const products = await fetchArticles();
+const categories = await fetchCategories();
+const featured = products.slice(0, 6);
+---
+<Layout
+  title="Fiestalo'K — Location château gonflable Strasbourg & Alsace"
+  description="Location de châteaux gonflables, sono, photobooths à Strasbourg et en Alsace. Livraison et montage inclus. Devis gratuit sous 24h."
+  canonical="https://fiestalok.fr/"
+>
+  <Navbar client:load />
+  <main>
+    <HeroSection />
+    <HowItWorksSection />
+    <CategoriesSection categories={categories} />
+    <section>
+      <FeaturedProducts products={featured} categories={categories} client:load />
+    </section>
+    <WhyUsSection />
+    <ZoneSection />
+  </main>
+  <Footer />
+  <CartDrawer products={products} client:load />
+</Layout>
