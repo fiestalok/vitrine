@@ -1,0 +1,29 @@
+---
+import styles from '../../views/HomePage.module.css';
+import sectionStyles from '../ui/Section.module.css';
+
+const VALUES = [
+  { icon: '🛡️', title: 'Matériel homologué CE', text: 'Norme EN 14960 sur tous nos gonflables.' },
+  { icon: '📋', title: 'Assurance RC Pro', text: 'Votre événement est couvert.' },
+  { icon: '🎪', title: 'Équipe pro', text: 'On monte, on sécurise, avec le sourire.' },
+  { icon: '📍', title: 'Ancrage local', text: 'Livraison Bas-Rhin & Haut-Rhin sans surcoût.' },
+];
+---
+<section class={`${sectionStyles.section} ${sectionStyles.light}`}>
+  <div class={`container ${sectionStyles.inner}`}>
+    <header class={sectionStyles.header}>
+      <p class={sectionStyles.eyebrow}>Pourquoi nous</p>
+      <h2 class={sectionStyles.title}>L'événementiel alsacien, avec le cœur.</h2>
+    </header>
+    <p class={styles.darkLead}>Fiestalo'K est née d'une passion simple : rendre chaque fête mémorable. Basée à Strasbourg, on intervient dans tout le Bas-Rhin et le Haut-Rhin.</p>
+    <div class={styles.values}>
+      {VALUES.map((v) => (
+        <article class={styles.value}>
+          <span class={styles.valueIcon}>{v.icon}</span>
+          <h3>{v.title}</h3>
+          <p>{v.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

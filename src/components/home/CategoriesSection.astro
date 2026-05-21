@@ -1,0 +1,41 @@
+---
+import type { Category } from '../../data/categories';
+import styles from '../../views/HomePage.module.css';
+import sectionStyles from '../ui/Section.module.css';
+
+interface Props {
+  categories: Category[];
+}
+
+const { categories } = Astro.props;
+
+const CAT_COLORS: Record<string, { bg: string; circle: string }> = {
+  'chateau-gonflable': { bg: '#FFF0F0', circle: '#FF6B6B' },
+  'accessoire':        { bg: '#F3EEFF', circle: '#8E72D9' },
+  'restauration':      { bg: '#FFFBE6', circle: '#FFD84D' },
+  'enceintes':         { bg: '#E8FDFB', circle: '#4ECDC4' },
+};
+---
+<section class={`${sectionStyles.section} ${sectionStyles.light}`}>
+  <div class={`container ${sectionStyles.inner}`}>
+    <header class={sectionStyles.header}>
+      <p class={sectionStyles.eyebrow}>Nos catégories</p>
+      <h2 class={sectionStyles.title}>Tout ce qu'il faut pour la fête</h2>
+    </header>
+    <div class={styles.categories}>
+      {categories.map((c) => {
+        const col = CAT_COLORS[c.id] ?? { bg: '#F5F5F5', circle: '#999' };
+        return (
+          <a href={`/catalogue?cat=${c.id}`} class={styles.cat}
+            style={`--cat-color: ${col.circle}; --cat-bg: ${col.bg}`}>
+            <span class={styles.catCircle} style={`background: ${col.bg}`}>
+              <span class={styles.catEmoji}>{c.emoji}</span>
+            </span>
+            <span class={styles.catLabel}>{c.label}</span>
+            <span class={styles.catLink}>Voir →</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</section>

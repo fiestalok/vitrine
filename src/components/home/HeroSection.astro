@@ -1,0 +1,35 @@
+---
+import styles from '../../views/HomePage.module.css';
+import btnStyles from '../ui/Button.module.css';
+
+const TRUST = [
+  { kicker: 'Pro', label: 'Équipe certifiée' },
+  { kicker: '100%', label: 'Alsacien' },
+  { kicker: 'Homologué CE', label: 'Norme EN 14960' },
+  { kicker: 'RC Pro', label: 'Assurance incluse' },
+];
+---
+<section class={styles.hero}>
+  <div class={`container ${styles.heroInner}`}>
+    <div class={styles.heroText}>
+      <span class="badge-danger">LES KINGS DU GONFLABLE 👑</span>
+      <h1 class={styles.title}>
+        Ta fête va<br/>
+        <span class={styles.titleAccent}>décoller.</span>
+      </h1>
+      <p class={styles.lead}>
+        Châteaux gonflables, photobooths, sono et bien plus —<br/>
+        on s'occupe de tout, vous kiffez.
+      </p>
+    </div>
+    <div class={styles.ctas}>
+      <a href="/catalogue" class={`${btnStyles.btn} ${btnStyles.lg} ${btnStyles.primary}`}>Voir le catalogue →</a>
+      <a href="/entreprise" class={`${btnStyles.btn} ${btnStyles.lg} ${btnStyles.secondary}`}>Offres entreprise</a>
+    </div>
+    <ul class={styles.trust}>
+      {TRUST.map((t) => (
+        <li><strong>{t.kicker}</strong><span>{t.label}</span></li>
+      ))}
+    </ul>
+  </div>
+</section>

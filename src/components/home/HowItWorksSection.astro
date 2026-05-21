@@ -1,0 +1,37 @@
+---
+import styles from '../../views/HomePage.module.css';
+import sectionStyles from '../ui/Section.module.css';
+
+const STEPS = [
+  { n: '01', icon: '🏰', iconBg: '#D4F0EE', title: 'Choisissez', text: "Naviguez par catégorie ou utilisez les filtres. Besoin d'un conseil ? Contactez-nous." },
+  { n: '02', icon: '📅', iconBg: '#FFF3C4', title: 'Livraison ou retrait', text: 'Livraison sur site en Alsace ou retrait dans notre dépôt à Strasbourg.' },
+  { n: '03', icon: '🚚', iconBg: '#D4F0E0', title: 'On installe', text: 'Notre équipe monte et sécurise le matériel sur place. Démonstration incluse.' },
+  { n: '04', icon: '🎉', iconBg: '#FFE0DC', title: 'Vous kiffez', text: "Profitez de votre fête sans stress. À l'heure convenue, on revient tout démonter." },
+];
+---
+<section id="how-it-works" class={`${sectionStyles.section} ${sectionStyles.gradientWarm}`}>
+  <div class={`container ${sectionStyles.inner}`}>
+    <header class={sectionStyles.header}>
+      <p class={sectionStyles.eyebrow}>Simple & rapide</p>
+      <h2 class={sectionStyles.title}>Comment ça marche ?</h2>
+    </header>
+    <div class={styles.steps}>
+      {STEPS.map((s) => (
+        <article class={styles.step}>
+          <div class={styles.stepFlipper}>
+            <div class={styles.stepFront}>
+              <span class={styles.stepIcon} style={`background: ${s.iconBg}`}>{s.icon}</span>
+              <span class={styles.stepNum}>{s.n}</span>
+              <h3>{s.title}</h3>
+            </div>
+            <div class={styles.stepBack}>
+              <span class={styles.stepNum}>{s.n}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

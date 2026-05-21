@@ -1,0 +1,37 @@
+---
+import styles from './Footer.module.css';
+---
+<footer class={styles.footer}>
+  <div class={`container ${styles.grid}`}>
+    <div>
+      <p class={styles.logo}>Fiestalo'<span>K</span></p>
+      <p class={styles.tagline}>Location de matériel festif en Alsace.<br/>On gonfle, vous kiffez.</p>
+      <div class={styles.socials}>
+        <a href="#" aria-label="Instagram">📷</a>
+        <a href="#" aria-label="Facebook">👍</a>
+        <a href="#" aria-label="TikTok">🎵</a>
+      </div>
+    </div>
+    <div>
+      <h4 class={styles.title}>Navigation</h4>
+      <ul>
+        <li><a href="/catalogue">Catalogue</a></li>
+        <li><a href="/entreprise">Entreprise</a></li>
+        <li><a href="/qui-sommes-nous">Qui sommes-nous</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class={styles.title}>Contact</h4>
+      <ul>
+        <li>📍 Strasbourg, Alsace</li>
+        <li>📞 +33 6 79 51 59 25</li>
+        <li>✉️ <a href="mailto:contact@fiestalok.fr">contact@fiestalok.fr</a></li>
+        <li>🕐 Lun–Sam, 9h–19h</li>
+      </ul>
+    </div>
+  </div>
+  <div class={styles.bottom}>
+    <p>© 2026 Fiestalo'K — Tous droits réservés</p>
+    <p>Fait avec ❤️ en Alsace</p>
+  </div>
+</footer>

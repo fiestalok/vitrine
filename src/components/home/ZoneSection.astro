@@ -1,0 +1,41 @@
+---
+import sectionStyles from '../ui/Section.module.css';
+---
+<section class={`${sectionStyles.section} ${sectionStyles.gradientCool}`}>
+  <div class={`container ${sectionStyles.inner}`}>
+    <header class={sectionStyles.header}>
+      <p class={sectionStyles.eyebrow}>Zone de livraison</p>
+      <h2 class={sectionStyles.title}>Toute l'Alsace, on vient chez vous.</h2>
+    </header>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 600px; margin: 0 auto;">
+      <div>
+        <h3 style="font-family: var(--font-display); color: var(--color-danger); margin-bottom: 1rem;">Bas-Rhin (67)</h3>
+        <ul style="display: flex; flex-direction: column; gap: 0.4rem; color: var(--color-ink); font-weight: 600;">
+          <li>📍 Strasbourg</li>
+          <li>📍 Schiltigheim</li>
+          <li>📍 Haguenau</li>
+          <li>📍 Illkirch-Graffenstaden</li>
+          <li>📍 Sélestat</li>
+          <li>📍 Obernai</li>
+          <li>📍 Saverne</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family: var(--font-display); color: var(--color-danger); margin-bottom: 1rem;">Haut-Rhin (68)</h3>
+        <ul style="display: flex; flex-direction: column; gap: 0.4rem; color: var(--color-ink); font-weight: 600;">
+          <li>📍 Colmar</li>
+          <li>📍 Mulhouse</li>
+          <li>📍 Guebwiller</li>
+          <li>📍 Saint-Louis</li>
+          <li>📍 Thann</li>
+          <li>📍 Rouffach</li>
+          <li>📍 Wittenheim</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align: center; margin-top: 2rem; color: var(--color-ink-soft);">
+      Livraison, installation et démontage inclus dans un rayon de 50 km autour de Strasbourg.
+      <a href="/devis" style="color: var(--color-danger); font-weight: 700; margin-left: 0.5rem;">Demander un devis →</a>
+    </p>
+  </div>
+</section>
