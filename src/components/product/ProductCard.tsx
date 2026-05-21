@@ -1,17 +1,18 @@
-import { Link } from 'react-router-dom';
 import type { Product } from '../../data/types';
+import type { Category } from '../../data/categories';
 import { Badge } from '../ui/Badge';
 import { StarRating } from '../ui/StarRating';
-import { useCategories } from '../../context/CategoriesContext';
 import styles from './ProductCard.module.css';
 
-interface ProductCardProps { product: Product; }
+interface ProductCardProps {
+  product: Product;
+  categories?: Category[];
+}
 
-export function ProductCard({ product }: ProductCardProps) {
-  const { categories } = useCategories();
+export function ProductCard({ product, categories = [] }: ProductCardProps) {
   const cat = categories.find((c) => c.id === product.category);
   return (
-    <Link to={`/produit/${product.id}`} className={styles.card}>
+    <a href={`/produit/${product.id}`} className={styles.card}>
       <div className={styles.imgWrap}>
         <img src={product.images[0]} alt={product.name} loading="lazy" />
         {cat && <span className={styles.cat}>{cat.emoji}</span>}
@@ -22,6 +23,6 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className={styles.name}>{product.name}</h3>
         <StarRating value={product.rating} count={product.reviewCount} />
       </div>
-    </Link>
+    </a>
   );
 }

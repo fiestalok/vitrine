@@ -24,6 +24,29 @@
 .selected { margin-top: var(--space-sm); padding: var(--space-sm); background: var(--color-accent); border-radius: var(--radius-md); display: inline-block; }
 .back { display: inline-block; margin-top: var(--space-2xl); color: var(--color-primary); font-weight: 700; }
 
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  font-family: var(--font-body);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-pill);
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-md);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  white-space: nowrap;
+}
+.addBtn:hover { background: #ffe24a; transform: translateY(-2px); }
+.addBtn:active { transform: translateY(0); }
+
 @media (max-width: 900px) {
   .top { grid-template-columns: 1fr; }
 }
