@@ -42,6 +42,7 @@ export function removeFromCart(productId: string) {
 }
 
 export function setCartQuantity(productId: string, qty: number) {
+  // qty ≤ 0 removes the item (intentional — CartDrawer guards the button)
   if (qty <= 0) {
     removeFromCart(productId);
     return;
