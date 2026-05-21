@@ -6,13 +6,13 @@ import { CategoriesProvider } from './context/CategoriesContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { CartDrawer } from './components/layout/CartDrawer';
-import { HomePage } from './pages/HomePage';
-import { CataloguePage } from './pages/CataloguePage';
-import { ProductPage } from './pages/ProductPage';
-import { EntreprisePage } from './pages/EntreprisePage';
-import { QuiSommesNousPage } from './pages/QuiSommesNousPage';
-import { DevisPage } from './pages/DevisPage';
-import { SuiviPage } from './pages/SuiviPage';
+import { HomePage } from './views/HomePage';
+import { CataloguePage } from './views/CataloguePage';
+import { ProductPage } from './views/ProductPage';
+import { EntreprisePage } from './views/EntreprisePage';
+import { QuiSommesNousPage } from './views/QuiSommesNousPage';
+import { DevisPage } from './views/DevisPage';
+import { SuiviPage } from './views/SuiviPage';
 
 export default function App() {
   return (
