@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar } from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer.astro';
+import { CartDrawer } from '../components/layout/CartDrawer';
+import { DevisForm } from '../views/DevisPage';
+import { fetchArticles } from '../lib/directus';
+
+const products = await fetchArticles();
+---
+<Layout
+  title="Demande de devis — Fiestalo'K"
+  description="Demandez votre devis de location de matériel festif en Alsace."
+  noindex={true}
+>
+  <Navbar client:load />
+  <main>
+    <DevisForm products={products} client:load />
+  </main>
+  <Footer />
+  <CartDrawer products={products} client:load />
+</Layout>

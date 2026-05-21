@@ -1,20 +1,21 @@
 import { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
-import { useCart } from '../context/CartContext';
-import { useProducts } from '../context/ProductsContext';
-import { createReservation, type ReservationCartItem } from '../lib/directus';
+import { useStore } from '@nanostores/react';
+import { cartStore, clearCart } from '../stores/cart';
 import { formatPrice } from '../lib/format';
+import type { Product } from '../data/types';
 import styles from './DevisPage.module.css';
 
-const SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
+const SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string;
 
 type Step = 'form' | 'loading' | 'success' | 'error';
 
-export function DevisPage() {
-  const { items, clear } = useCart();
-  const { products } = useProducts();
-  const navigate = useNavigate();
+interface DevisFormProps {
+  products: Product[];
+}
+
+export function DevisForm({ products }: DevisFormProps) {
+  const { items } = useStore(cartStore);
   const turnstileRef = useRef<TurnstileInstance>(null);
 
   const [step, setStep] = useState<Step>('form');
@@ -54,28 +55,38 @@ export function DevisPage() {
 
     setStep('loading');
     try {
-      const cartItemsMapped: ReservationCartItem[] = items.map(i => {
+      const cartItemsMapped = items.map(i => {
         const p = findProduct(i.productId);
         return { productId: i.productId, quantity: i.quantity, unit_price: p?.price ?? 0 };
       });
 
-      const token = await createReservation({
-        client: { type, first_name: firstName, last_name: lastName, company_name: type === 'professionnel' ? company : undefined, email, phone },
-        date_start: dateStart,
-        date_end: dateEnd,
-        delivery,
-        delivery_address: delivery ? deliveryAddress : undefined,
-        notes,
-        total_price: total,
-        cartItems: cartItemsMapped,
-        cf_token: cfToken,
+      const res = await fetch('/api/reservation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client: { type, first_name: firstName, last_name: lastName, company_name: type === 'professionnel' ? company : undefined, email, phone },
+          date_start: dateStart,
+          date_end: dateEnd,
+          delivery,
+          delivery_address: delivery ? deliveryAddress : undefined,
+          notes,
+          total_price: total,
+          cartItems: cartItemsMapped,
+          cf_token: cfToken,
+        }),
       });
+
+      if (!res.ok) {
+        const err = await res.json() as { error: string };
+        throw new Error(err.error ?? 'Erreur inconnue');
+      }
+
+      const { trackingToken: token } = await res.json() as { trackingToken: string };
       setTrackingToken(token);
-      clear();
+      clearCart();
       setStep('success');
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Erreur inconnue');
-      // Réinitialise Turnstile pour permettre un nouvel essai
       turnstileRef.current?.reset();
       setCfToken('');
       setStep('error');
@@ -87,7 +98,7 @@ export function DevisPage() {
       <div className={styles.page}>
         <div className={styles.empty}>
           <p>Votre panier est vide.</p>
-          <button className={styles.backBtn} onClick={() => navigate('/catalogue')}>
+          <button className={styles.backBtn} onClick={() => window.location.href = '/catalogue'}>
             Voir le catalogue
           </button>
         </div>
@@ -101,7 +112,7 @@ export function DevisPage() {
 
         {step === 'form' && (
           <>
-            <button className={styles.backBtn} onClick={() => navigate(-1)}>← Retour</button>
+            <button className={styles.backBtn} onClick={() => window.history.back()}>← Retour</button>
             <h1>Demande de devis</h1>
 
             <div className={styles.layout}>
@@ -194,12 +205,12 @@ export function DevisPage() {
             {trackingToken && (
               <div className={styles.tracking}>
                 <p>Suivez l'avancement de votre réservation :</p>
-                <Link to={`/suivi?token=${trackingToken}`} className={styles.trackingLink}>
+                <a href={`/suivi?token=${trackingToken}`} className={styles.trackingLink}>
                   Voir le statut de ma réservation →
-                </Link>
+                </a>
               </div>
             )}
-            <button className={styles.submitBtn} onClick={() => navigate('/')}>Retour à l'accueil</button>
+            <button className={styles.submitBtn} onClick={() => window.location.href = '/'}>Retour à l'accueil</button>
           </div>
         )}
 
