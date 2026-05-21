@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { CategoryId } from '../data/categories';
 import { filterProducts, DEFAULT_FILTERS, type FilterState } from '../lib/filterProducts';
+import { fetchReservedArticleIds } from '../lib/directus';
 import { useProducts } from '../context/ProductsContext';
 import { ProductCard } from '../components/product/ProductCard';
 import { CategoryTabs } from '../components/catalogue/CategoryTabs';
@@ -19,6 +20,9 @@ export function CataloguePage() {
   };
   const [filters, setFilters] = useState<FilterState>(initial);
 
+  const [reservedIds, setReservedIds] = useState<Set<number>>(new Set());
+  const [availLoading, setAvailLoading] = useState(false);
+
   useEffect(() => {
     if (filters.category === 'all') params.delete('cat');
     else params.set('cat', filters.category);
@@ -26,7 +30,33 @@ export function CataloguePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters.category]);
 
+  const allArticleIds = useMemo(
+    () => products.flatMap((p) => p.articleIds),
+    [products],
+  );
+
+  useEffect(() => {
+    if (!filters.dateStart || !filters.dateEnd) {
+      setReservedIds(new Set());
+      return;
+    }
+    setAvailLoading(true);
+    fetchReservedArticleIds(allArticleIds, filters.dateStart, filters.dateEnd)
+      .then(setReservedIds)
+      .catch(() => setReservedIds(new Set()))
+      .finally(() => setAvailLoading(false));
+  }, [filters.dateStart, filters.dateEnd, allArticleIds]);
+
+  const datesSelected = !!(filters.dateStart && filters.dateEnd);
+
   const filtered = useMemo(() => filterProducts(products, filters), [products, filters]);
+
+  const displayed = useMemo(() => {
+    if (!datesSelected) return filtered;
+    return filtered.filter((p) => p.articleIds.some((id) => !reservedIds.has(id)));
+  }, [filtered, datesSelected, reservedIds]);
+
+  const isLoading = loading || availLoading;
 
   return (
     <div className={styles.page}>
@@ -53,7 +83,9 @@ export function CataloguePage() {
           <div className={styles.results}>
             <div className={styles.resultsHeader}>
               <p className={styles.count}>
-                {loading ? 'Chargement…' : `${filtered.length} résultat${filtered.length > 1 ? 's' : ''}`}
+                {isLoading
+                  ? 'Chargement…'
+                  : `${displayed.length} résultat${displayed.length > 1 ? 's' : ''}${datesSelected ? ' disponibles' : ''}`}
               </p>
               <div className={styles.sortWrap}>
                 {([
@@ -73,16 +105,22 @@ export function CataloguePage() {
               </div>
             </div>
 
-            {loading ? (
+            {isLoading ? (
               <div className={styles.empty}><p>Chargement des produits…</p></div>
-            ) : filtered.length === 0 ? (
+            ) : displayed.length === 0 ? (
               <div className={styles.empty}>
-                <p>Aucun produit ne correspond à tes filtres.</p>
+                <p>
+                  {datesSelected
+                    ? 'Aucun produit disponible pour ces dates.'
+                    : 'Aucun produit ne correspond à tes filtres.'}
+                </p>
                 <button onClick={() => setFilters(DEFAULT_FILTERS)}>Réinitialiser</button>
               </div>
             ) : (
               <div className={styles.grid}>
-                {filtered.map((p) => <ProductCard key={p.id} product={p} />)}
+                {displayed.map((p) => (
+                  <ProductCard key={p.id} product={p} showAvailable={datesSelected} />
+                ))}
               </div>
             )}
           </div>

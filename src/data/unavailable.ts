@@ -1,17 +1,14 @@
-// Map productId -> liste de dates ISO indisponibles (mock).
-// Les dates sont relatives à "aujourd'hui" pour rester pertinentes.
-import { addDays, format } from 'date-fns';
+import { eachDayOfInterval, format, startOfDay } from 'date-fns';
 
-const today = new Date();
 const iso = (d: Date) => format(d, 'yyyy-MM-dd');
 
-export const UNAVAILABLE_DATES: Record<string, string[]> = {
-  '1': [iso(addDays(today, 3)), iso(addDays(today, 4)), iso(addDays(today, 10))],
-  '2': [iso(addDays(today, 5)), iso(addDays(today, 12))],
-  '3': [iso(addDays(today, 7))],
-};
+const today = startOfDay(new Date());
+const until = new Date('2026-06-22');
 
-export function isDateUnavailable(productId: string, date: Date): boolean {
-  const list = UNAVAILABLE_DATES[productId] ?? [];
-  return list.includes(iso(date));
+export const UNAVAILABLE_UNTIL_JUNE_22 = eachDayOfInterval({ start: today, end: until }).map(iso);
+
+export const UNAVAILABLE_DATES: Record<string, string[]> = {};
+
+export function isDateUnavailable(_productId: string, date: Date): boolean {
+  return UNAVAILABLE_UNTIL_JUNE_22.includes(iso(date));
 }

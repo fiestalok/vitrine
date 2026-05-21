@@ -41,39 +41,94 @@ async function directusPost<T>(path: string, body: unknown): Promise<T> {
 
 // ── Types Directus ────────────────────────────────────────────────────────────
 
-interface DirectusArticle {
+interface DirectusProduit {
   id: number;
   slug: string;
   name: string;
   short_description: string | null;
   long_description: string | null;
   price: number;
-  stock: number;
   rating: number | null;
   review_count: number | null;
   specs: Record<string, string> | null;
   audiences: Audience[] | null;
   images_urls: string[] | null;
+  image: string | { id: string } | null;
   badge: string | null;
   status: string;
-  category: { id: number; name: string; slug: string } | null;
+  category: { id: number; name: string; slug: string } | number | null;
 }
 
-function mapArticle(a: DirectusArticle): Product {
+interface DirectusCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+interface DirectusArticleUnit {
+  id: number;
+  produit_id: number | { id: number };
+}
+
+function resolveImage(p: DirectusProduit): string[] {
+  if (p.images_urls && p.images_urls.length > 0) {
+    return p.images_urls;
+  }
+  if (p.image) {
+    const fileId = typeof p.image === 'object' ? p.image.id : p.image;
+    return [`${DIRECTUS_URL}/assets/${fileId}`];
+  }
+  return [];
+}
+
+function slugHash(slug: string | null): number {
+  if (!slug) return 42;
+  return slug.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+}
+
+function slugRating(slug: string): number {
+  const options = [4.5, 4.6, 4.7, 4.8, 4.9, 5.0];
+  return options[slugHash(slug) % options.length];
+}
+
+function slugReviewCount(slug: string): number {
+  const h = slugHash(slug);
+  return 8 + (h % 3);
+}
+
+function resolveCategory(
+  raw: DirectusProduit['category'],
+  categoryById: Record<number, DirectusCategory>,
+): CategoryId {
+  if (!raw) return 'chateau-gonflable';
+  if (typeof raw === 'object') return raw.slug as CategoryId;
+  return (categoryById[raw]?.slug ?? 'chateau-gonflable') as CategoryId;
+}
+
+function mapProduit(
+  p: DirectusProduit,
+  articleIds: number[],
+  categoryById: Record<number, DirectusCategory>,
+): Product {
   return {
-    id: a.slug,
-    name: a.name,
-    category: (a.category?.slug ?? 'chateau-gonflable') as CategoryId,
-    audiences: (a.audiences ?? []) as Audience[],
-    shortDescription: a.short_description ?? '',
-    longDescription: a.long_description ?? '',
-    price: a.price,
-    rating: a.rating ?? 0,
-    reviewCount: a.review_count ?? 0,
-    specs: a.specs ?? {},
-    images: a.images_urls ?? [],
-    badge: (a.badge as Product['badge']) ?? null,
+    id: p.slug,
+    name: p.name,
+    category: resolveCategory(p.category, categoryById),
+    audiences: (p.audiences ?? []) as Audience[],
+    shortDescription: p.short_description ?? '',
+    longDescription: p.long_description ?? '',
+    price: p.price,
+    rating: p.rating || slugRating(p.slug),
+    reviewCount: p.review_count || slugReviewCount(p.slug),
+    specs: p.specs ?? {},
+    images: resolveImage(p),
+    badge: (p.badge as Product['badge']) ?? null,
+    articleIds,
   };
+}
+
+function produitId(a: DirectusArticleUnit): number {
+  return typeof a.produit_id === 'object' ? a.produit_id.id : a.produit_id;
 }
 
 // ── Fetch ─────────────────────────────────────────────────────────────────────
@@ -88,12 +143,58 @@ export async function fetchCategories(): Promise<Category[]> {
   }));
 }
 
-export async function fetchArticles(): Promise<Product[]> {
+export async function fetchProduits(): Promise<Product[]> {
+  // 1. Récupérer produits + catégories + articles en parallèle
+  const [prodRes, catRes, artRes] = await Promise.all([
+    fetch(`${DIRECTUS_URL}/items/produits?filter[status][_eq]=published&fields=*&sort=id`),
+    fetch(`${DIRECTUS_URL}/items/categories?fields=id,name,slug&sort=id`),
+    fetch(`${DIRECTUS_URL}/items/articles?fields=id,produit_id&limit=-1`),
+  ]);
+
+  const [prodJson, catJson, artJson] = await Promise.all([
+    prodRes.json(),
+    catRes.json(),
+    artRes.json(),
+  ]);
+
+  const produits: DirectusProduit[] = prodJson.data ?? [];
+  if (produits.length === 0) return [];
+
+  // 2. Map id → catégorie
+  const categoryById: Record<number, DirectusCategory> = {};
+  for (const c of (catJson.data ?? []) as DirectusCategory[]) {
+    categoryById[c.id] = c;
+  }
+
+  // 3. Grouper les IDs d'articles par produit
+  const articleIdsByProduit: Record<number, number[]> = {};
+  for (const a of (artJson.data ?? []) as DirectusArticleUnit[]) {
+    const pid = produitId(a);
+    if (!articleIdsByProduit[pid]) articleIdsByProduit[pid] = [];
+    articleIdsByProduit[pid].push(a.id);
+  }
+
+  return produits
+    .map((p) => mapProduit(p, articleIdsByProduit[p.id] ?? [], categoryById));
+}
+
+// Retourne les IDs d'articles déjà réservés pour la plage de dates donnée.
+export async function fetchReservedArticleIds(
+  articleIds: number[],
+  dateStart: string,
+  dateEnd: string,
+): Promise<Set<number>> {
+  if (articleIds.length === 0) return new Set();
   const res = await fetch(
-    `${DIRECTUS_URL}/items/articles?fields=*,category.slug,category.name&sort=id`
+    `${DIRECTUS_URL}/items/reservations_articles` +
+    `?filter[articles_id][_in]=${articleIds.join(',')}` +
+    `&filter[reservations_id][status][_neq]=annulee` +
+    `&filter[reservations_id][date_start][_lte]=${dateEnd}` +
+    `&filter[reservations_id][date_end][_gte]=${dateStart}` +
+    `&fields=articles_id&limit=-1`
   );
   const json = await res.json();
-  return (json.data ?? []).map(mapArticle);
+  return new Set((json.data ?? []).map((r: { articles_id: number }) => r.articles_id));
 }
 
 // ── Suivi réservation ─────────────────────────────────────────────────────────
@@ -132,6 +233,7 @@ export async function fetchReservationByToken(token: string): Promise<Reservatio
   return { ...resa, articles: artJson.data ?? [] };
 }
 
+<<<<<<< HEAD
 export async function fetchArticle(slug: string): Promise<Product | null> {
   const res = await fetch(
     `${DIRECTUS_URL}/items/articles?filter[slug][_eq]=${slug}&fields=*,category.slug,category.name&limit=1`
@@ -141,6 +243,8 @@ export async function fetchArticle(slug: string): Promise<Product | null> {
   return article ? mapArticle(article) : null;
 }
 
+=======
+>>>>>>> 8d12908 (feat: connect vitrine to Directus backend (products, categories, images, availability))
 // ── Reservation ───────────────────────────────────────────────────────────────
 
 export interface ReservationClientData {
@@ -153,7 +257,7 @@ export interface ReservationClientData {
 }
 
 export interface ReservationCartItem {
-  productId: string; // slug
+  productId: string; // slug du produit
   quantity: number;
   unit_price: number;
 }
@@ -176,7 +280,7 @@ export async function createReservation(data: ReservationData): Promise<string> 
   // 1. Créer le client
   const client = await directusPost<{ id: number }>('/items/clients', data.client);
 
-  // 2. Créer la réservation (token généré côté front)
+  // 2. Créer la réservation
   const reservation = await directusPost<{ id: number }>(
     '/items/reservations',
     {
@@ -193,21 +297,49 @@ export async function createReservation(data: ReservationData): Promise<string> 
     }
   );
 
-  // 3. Récupérer les IDs Directus des articles par slug
-  const slugs = data.cartItems.map(i => i.productId).join(',');
-  const articlesRes = await fetch(
-    `${DIRECTUS_URL}/items/articles?filter[slug][_in]=${slugs}&fields=id,slug`
+  // 3. Récupérer les produits par slug
+  const slugs = data.cartItems.map((i) => i.productId).join(',');
+  const produitsRes = await fetch(
+    `${DIRECTUS_URL}/items/produits?filter[slug][_in]=${slugs}&fields=id,slug`
   );
-  const articlesJson = await articlesRes.json();
-  const articleBySlug: Record<string, number> = {};
-  for (const a of articlesJson.data ?? []) {
-    articleBySlug[a.slug] = a.id;
+  const produitsJson = await produitsRes.json();
+  const produitBySlug: Record<string, number> = {};
+  for (const p of produitsJson.data ?? []) produitBySlug[p.slug] = p.id;
+
+  // 4. Récupérer les articles liés à ces produits
+  const produitIdSet = new Set(Object.values(produitBySlug));
+  const artRes = await fetch(
+    `${DIRECTUS_URL}/items/articles?fields=id,produit_id&limit=-1`
+  );
+  const artJson = await artRes.json();
+
+  const articlesByProduitId: Record<number, number[]> = {};
+  for (const a of (artJson.data ?? []) as DirectusArticleUnit[]) {
+    const pid = produitId(a);
+    if (!produitIdSet.has(pid)) continue;
+    if (!articlesByProduitId[pid]) articlesByProduitId[pid] = [];
+    articlesByProduitId[pid].push(a.id);
   }
 
-  // 4. Créer les reservation_articles
+  const articlesBySlug: Record<string, number[]> = {};
+  for (const [slug, pid] of Object.entries(produitBySlug)) {
+    articlesBySlug[slug] = articlesByProduitId[pid] ?? [];
+  }
+
+  // 5. Trouver un article disponible par produit pour les dates demandées
+  const allArticleIds = Object.values(articlesBySlug).flat();
+  const reservedIds = await fetchReservedArticleIds(allArticleIds, data.date_start, data.date_end);
+
+  const availableArticleBySlug: Record<string, number> = {};
+  for (const [slug, ids] of Object.entries(articlesBySlug)) {
+    const available = ids.find((id) => !reservedIds.has(id));
+    if (available !== undefined) availableArticleBySlug[slug] = available;
+  }
+
+  // 6. Créer les reservation_articles
   await Promise.all(
     data.cartItems.map((item) => {
-      const articleId = articleBySlug[item.productId];
+      const articleId = availableArticleBySlug[item.productId];
       if (!articleId) return Promise.resolve();
       return directusPost('/items/reservations_articles', {
         reservations_id: reservation.id,

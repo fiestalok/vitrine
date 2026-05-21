@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
+import { eachDayOfInterval, format, startOfDay } from 'date-fns';
 import { useProducts } from '../context/ProductsContext';
 import { useCategories } from '../context/CategoriesContext';
-import { UNAVAILABLE_DATES } from '../data/unavailable';
 import { useCart } from '../context/CartContext';
 import { useReviews } from '../context/ReviewsContext';
+import { UNAVAILABLE_DATES } from '../data/unavailable';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { AvailabilityCalendar } from '../components/product/AvailabilityCalendar';
 import { ReviewList } from '../components/product/ReviewList';
@@ -12,8 +13,12 @@ import { ReviewForm } from '../components/product/ReviewForm';
 import { StarRating } from '../components/ui/StarRating';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { format } from 'date-fns';
 import styles from './ProductPage.module.css';
+
+const BLOCKED_UNTIL_JUNE_22 = eachDayOfInterval({
+  start: startOfDay(new Date()),
+  end: new Date(2026, 5, 22),
+}).map((d) => format(d, 'yyyy-MM-dd'));
 
 export function ProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -79,7 +84,7 @@ export function ProductPage() {
         <header><h2>Disponibilités</h2><p>Choisis ta date pour vérifier la dispo.</p></header>
         <AvailabilityCalendar
           productId={product.id}
-          unavailableDates={UNAVAILABLE_DATES[product.id] ?? []}
+          unavailableDates={UNAVAILABLE_DATES[product.id] ?? BLOCKED_UNTIL_JUNE_22}
           value={date}
           onChange={setDate}
         />

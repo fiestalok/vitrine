@@ -45,13 +45,13 @@
   color: #fff;
   font-weight: 800;
 }
-.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xl); }
 .empty { padding: var(--space-2xl); text-align: center; background: var(--color-bg-alt); border-radius: var(--radius-lg); border: 1px dashed var(--color-border); }
 .empty button { margin-top: var(--space-sm); padding: 0.5rem 1rem; background: var(--color-ink); color: var(--color-bg); border-radius: var(--radius-pill); font-weight: 800; }
 
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
-  .grid { grid-template-columns: 1fr 1fr 1fr; }
+  .grid { grid-template-columns: 1fr 1fr; }
   .tabsBar { grid-template-columns: 1fr; }
   .tabsBar > div:first-child { display: none; }
 }

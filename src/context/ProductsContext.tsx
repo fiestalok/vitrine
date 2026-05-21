@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { Product } from '../data/types';
-import { fetchArticles } from '../lib/directus';
+import { fetchProduits } from '../lib/directus';
 
 interface ProductsContextValue {
   products: Product[];
@@ -14,9 +14,9 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchArticles()
+    fetchProduits()
       .then(setProducts)
-      .catch(() => setProducts([]))
+      .catch((err) => { console.error('fetchProduits error:', err); setProducts([]); })
       .finally(() => setLoading(false));
   }, []);
 
