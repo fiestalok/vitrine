@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
+import { useState, useEffect } from 'react';
+import { useStore } from '@nanostores/react';
+import { cartStore, openCart } from '../../stores/cart';
 import styles from './Navbar.module.css';
 
 const LINKS = [
@@ -11,28 +11,33 @@ const LINKS = [
 ];
 
 export function Navbar() {
-  const { totalItems, open } = useCart();
+  const { items } = useStore(cartStore);
+  const totalItems = items.reduce((s, i) => s + i.quantity, 0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pathname, setPathname] = useState('');
+
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
 
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <Link to="/" className={styles.logo} onClick={() => setMobileOpen(false)}>Fiestalo'<span>K</span></Link>
+        <a href="/" className={styles.logo} onClick={() => setMobileOpen(false)}>Fiestalo'<span>K</span></a>
         <nav className={`${styles.nav} ${mobileOpen ? styles.navOpen : ''}`} aria-label="Navigation principale">
           {LINKS.map((l) => (
-            <NavLink
+            <a
               key={l.to}
-              to={l.to}
-              end={l.to === '/'}
+              href={l.to}
               onClick={() => setMobileOpen(false)}
-              className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+              className={`${styles.link} ${pathname === l.to || (l.to !== '/' && pathname.startsWith(l.to)) ? styles.active : ''}`}
             >
               {l.label}
-            </NavLink>
+            </a>
           ))}
         </nav>
         <div className={styles.actions}>
-          <button className={styles.cart} onClick={open} aria-label={`Panier, ${totalItems} articles`}>
+          <button className={styles.cart} onClick={openCart} aria-label={`Panier, ${totalItems} articles`}>
             🛒 <span className={styles.cartLabel}>Panier</span> {totalItems > 0 && <span className={styles.badge}>{totalItems}</span>}
           </button>
           <button className={styles.burger} onClick={() => setMobileOpen((v) => !v)} aria-label="Menu" aria-expanded={mobileOpen}>
