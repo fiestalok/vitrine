@@ -4,6 +4,7 @@ import { ReviewsProvider } from './context/ReviewsContext';
 import { ProductsProvider } from './context/ProductsContext';
 import { CategoriesProvider } from './context/CategoriesContext';
 import { Navbar } from './components/layout/Navbar';
+import { ScrollToTop } from './components/layout/ScrollToTop';
 import { Footer } from './components/layout/Footer';
 import { CartDrawer } from './components/layout/CartDrawer';
 import { HomePage } from './pages/HomePage';
@@ -20,6 +21,7 @@ export default function App() {
       <CategoriesProvider>
         <CartProvider>
           <ReviewsProvider>
+            <ScrollToTop />
             <Navbar />
             <main>
               <Routes>
