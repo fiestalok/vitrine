@@ -1,7 +1,25 @@
 .wrap { display: flex; flex-direction: column; gap: var(--space-sm); }
 .main { aspect-ratio: 4/3; border-radius: var(--radius-lg); overflow: hidden; background: #eee; box-shadow: var(--shadow-md); }
 .main img { width: 100%; height: 100%; object-fit: cover; }
-.thumbs { display: flex; gap: var(--space-sm); }
-.thumb { width: 80px; height: 80px; border-radius: var(--radius-md); overflow: hidden; border: 2px solid transparent; }
+.thumbs {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.thumbs::-webkit-scrollbar { display: none; }
+.thumb {
+  flex: 0 0 calc((100% - 3 * var(--space-sm)) / 4);
+  aspect-ratio: 1;
+  scroll-snap-align: start;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  background: #eee;
+}
 .thumb img { width: 100%; height: 100%; object-fit: cover; }
 .active { border-color: var(--color-primary); }
