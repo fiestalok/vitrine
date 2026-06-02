@@ -4,7 +4,7 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useCart } from '../context/CartContext';
 import { useProducts } from '../context/ProductsContext';
 import { createReservation, type ReservationCartItem } from '../lib/directus';
-import { formatPrice } from '../lib/format';
+import { formatPrice, lineTotal } from '../lib/format';
 import styles from './DevisPage.module.css';
 
 const SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
@@ -28,8 +28,10 @@ export function DevisPage() {
   const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [dateStart, setDateStart] = useState(items.find(i => i.startDate)?.startDate ?? '');
-  const [dateEnd, setDateEnd] = useState(items.find(i => i.endDate)?.endDate ?? '');
+  const starts = items.map(i => i.startDate).filter((d): d is string => Boolean(d));
+  const ends = items.map(i => i.endDate).filter((d): d is string => Boolean(d));
+  const [dateStart, setDateStart] = useState(starts.length ? starts.reduce((a, b) => (a < b ? a : b)) : '');
+  const [dateEnd, setDateEnd] = useState(ends.length ? ends.reduce((a, b) => (a > b ? a : b)) : '');
   const [delivery, setDelivery] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState('');
 
@@ -37,7 +39,7 @@ export function DevisPage() {
 
   const total = items.reduce((sum, i) => {
     const p = findProduct(i.productId);
-    return sum + (p ? p.price * i.quantity : 0);
+    return sum + (p ? lineTotal(p.price, i.startDate, i.endDate, i.quantity) : 0);
   }, 0);
 
   const notes = items
