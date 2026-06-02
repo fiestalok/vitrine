@@ -117,7 +117,7 @@ export function ProductPage() {
         )}
         {rangeComplete && (
           <p className={styles.selected}>
-            Période sélectionnée : <strong>{formatRange(startISO!, endISO!)}</strong> ({days} jour{days > 1 ? 's' : ''})
+            Période sélectionnée : <strong>{formatRange(startISO!, endISO!)}</strong> ({days} jour{days > 1 ? 's' : ''}) — <strong>{totalPrice}€</strong>
           </p>
         )}
         <Button variant="primary" size="lg" onClick={handleAdd} disabled={!rangeComplete}>
