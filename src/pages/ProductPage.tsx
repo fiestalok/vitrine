@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { eachDayOfInterval, format, startOfDay } from 'date-fns';
 import { useProducts } from '../context/ProductsContext';
@@ -30,6 +30,7 @@ export function ProductPage() {
   const { add, open } = useCart();
   const { forProduct, add: addReview } = useReviews();
   const [range, setRange] = useState<DateRange>({ start: null, end: null });
+  const planningRef = useRef<HTMLElement>(null);
 
   if (loading) {
     return <div className={`container ${styles.page}`}><p>Chargement…</p></div>;
@@ -54,6 +55,14 @@ export function ProductPage() {
       quantity: 1,
     });
     open();
+  }
+
+  function handleAddOrScroll() {
+    if (!rangeComplete) {
+      planningRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    handleAdd();
   }
 
   return (
@@ -89,13 +98,13 @@ export function ProductPage() {
             </p>
           )}
 
-          <Button variant="primary" size="lg" onClick={handleAdd} disabled={!rangeComplete}>
+          <Button variant="primary" size="lg" onClick={handleAddOrScroll}>
             + Ajouter au panier
           </Button>
         </div>
       </div>
 
-      <section className={styles.block}>
+      <section className={styles.block} ref={planningRef}>
         <header><h2>Disponibilités</h2><p>Choisis ta date pour vérifier la dispo.</p></header>
         <AvailabilityCalendar
           productId={product.id}
@@ -111,6 +120,9 @@ export function ProductPage() {
             Période sélectionnée : <strong>{formatRange(startISO!, endISO!)}</strong> ({days} jour{days > 1 ? 's' : ''})
           </p>
         )}
+        <Button variant="primary" size="lg" onClick={handleAdd} disabled={!rangeComplete}>
+          + Ajouter au panier
+        </Button>
       </section>
 
       <section className={styles.block}>
