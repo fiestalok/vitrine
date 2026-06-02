@@ -13,3 +13,6 @@
 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
 .unavailDot { background: rgba(255,107,107,0.4); }
 .selectedDot { background: var(--color-ink); }
+.rangeStart, .rangeEnd { background: var(--color-ink); color: var(--color-bg); }
+.inRange { background: var(--color-accent); }
+.error { padding: var(--space-sm) var(--space-md); margin: 0; color: var(--color-danger); font-size: 0.85rem; font-weight: 700; }
