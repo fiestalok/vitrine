@@ -8,7 +8,6 @@
 .day:disabled { opacity: 0.35; cursor: not-allowed; }
 .day:not(:disabled):hover { background: var(--color-accent); }
 .unavail { background: rgba(255,107,107,0.18); color: var(--color-danger); }
-.selected { background: var(--color-ink); color: var(--color-bg); }
 .legend { display: flex; gap: var(--space-md); padding: var(--space-sm) var(--space-md); font-size: 0.8rem; color: var(--color-ink-soft); border-top: 1px solid var(--color-border); }
 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
 .unavailDot { background: rgba(255,107,107,0.4); }
