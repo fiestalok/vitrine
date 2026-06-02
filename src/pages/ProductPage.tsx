@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { eachDayOfInterval, format, startOfDay } from 'date-fns';
 import { useProducts } from '../context/ProductsContext';
@@ -6,8 +6,9 @@ import { useCategories } from '../context/CategoriesContext';
 import { useCart } from '../context/CartContext';
 import { useReviews } from '../context/ReviewsContext';
 import { UNAVAILABLE_DATES } from '../data/unavailable';
+import { formatRange, rentalDays } from '../lib/format';
 import { ProductGallery } from '../components/product/ProductGallery';
-import { AvailabilityCalendar } from '../components/product/AvailabilityCalendar';
+import { AvailabilityCalendar, type DateRange } from '../components/product/AvailabilityCalendar';
 import { ReviewList } from '../components/product/ReviewList';
 import { ReviewForm } from '../components/product/ReviewForm';
 import { StarRating } from '../components/ui/StarRating';
@@ -28,7 +29,8 @@ export function ProductPage() {
   const cat = product ? categories.find((c) => c.id === product.category) : undefined;
   const { add, open } = useCart();
   const { forProduct, add: addReview } = useReviews();
-  const [date, setDate] = useState<Date | null>(null);
+  const [range, setRange] = useState<DateRange>({ start: null, end: null });
+  const planningRef = useRef<HTMLElement>(null);
 
   if (loading) {
     return <div className={`container ${styles.page}`}><p>Chargement…</p></div>;
@@ -38,15 +40,29 @@ export function ProductPage() {
 
   const reviews = forProduct(product.id);
 
+  const rangeComplete = Boolean(range.start && range.end);
+  const startISO = range.start ? format(range.start, 'yyyy-MM-dd') : null;
+  const endISO = range.end ? format(range.end, 'yyyy-MM-dd') : null;
+  const days = rentalDays(startISO, endISO);
+  const totalPrice = product.price * days;
+
   function handleAdd() {
-    if (!product) return;
+    if (!product || !range.start || !range.end) return;
     add({
       productId: product.id,
-      startDate: date ? format(date, 'yyyy-MM-dd') : null,
-      endDate: date ? format(date, 'yyyy-MM-dd') : null,
+      startDate: format(range.start, 'yyyy-MM-dd'),
+      endDate: format(range.end, 'yyyy-MM-dd'),
       quantity: 1,
     });
     open();
+  }
+
+  function handleAddOrScroll() {
+    if (!rangeComplete) {
+      planningRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    handleAdd();
   }
 
   return (
@@ -75,20 +91,38 @@ export function ProductPage() {
             <span className={styles.price}>{product.price}€</span>
             <span className={styles.unit}>/jour</span>
           </div>
+          {rangeComplete && (
+            <p className={styles.selected}>
+              {formatRange(startISO!, endISO!)} — {days} jour{days > 1 ? 's' : ''} ·{' '}
+              <strong>{totalPrice}€</strong>
+            </p>
+          )}
 
-          <Button variant="primary" size="lg" onClick={handleAdd}>+ Ajouter au panier</Button>
+          <Button variant="primary" size="lg" onClick={handleAddOrScroll}>
+            + Ajouter au panier
+          </Button>
         </div>
       </div>
 
-      <section className={styles.block}>
+      <section className={styles.block} ref={planningRef}>
         <header><h2>Disponibilités</h2><p>Choisis ta date pour vérifier la dispo.</p></header>
         <AvailabilityCalendar
           productId={product.id}
           unavailableDates={UNAVAILABLE_DATES[product.id] ?? BLOCKED_UNTIL_JUNE_22}
-          value={date}
-          onChange={setDate}
+          range={range}
+          onChange={setRange}
         />
-        {date && <p className={styles.selected}>Date sélectionnée : <strong>{format(date, 'dd/MM/yyyy')}</strong></p>}
+        {!rangeComplete && range.start && (
+          <p className={styles.selected}>Sélectionnez la date de fin.</p>
+        )}
+        {rangeComplete && (
+          <p className={styles.selected}>
+            Période sélectionnée : <strong>{formatRange(startISO!, endISO!)}</strong> ({days} jour{days > 1 ? 's' : ''}) — <strong>{totalPrice}€</strong>
+          </p>
+        )}
+        <Button variant="primary" size="lg" onClick={handleAdd} disabled={!rangeComplete}>
+          + Ajouter au panier
+        </Button>
       </section>
 
       <section className={styles.block}>
