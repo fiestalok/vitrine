@@ -30,16 +30,7 @@ export function CatalogueClient({ products, categories, initialCategory = 'all' 
   const filtered = useMemo(() => filterProducts(products, filters), [products, filters]);
 
   return (
-    <div className={styles.page}>
-      <section className={styles.heroBand}>
-        <div className={`container ${styles.heroBandInner}`}>
-          <p className={styles.eyebrow}>Fiestalo'K</p>
-          <h1 className={styles.title}>Notre <span>catalogue</span></h1>
-          <p className={styles.lead}>Tout le matériel pour une fête réussie.</p>
-        </div>
-      </section>
-
-      <div className={styles.contentArea}>
+    <div>
         <div className={`container ${styles.tabsBar}`}>
           <div />
           <CategoryTabs
@@ -51,7 +42,6 @@ export function CatalogueClient({ products, categories, initialCategory = 'all' 
 
         <div className={`container ${styles.layout}`}>
           <CatalogueFilters value={filters} onChange={setFilters} />
-
           <div className={styles.results}>
             <div className={styles.resultsHeader}>
               <p className={styles.count}>
@@ -87,7 +77,6 @@ export function CatalogueClient({ products, categories, initialCategory = 'all' 
             )}
           </div>
         </div>
-      </div>
     </div>
   );
 }

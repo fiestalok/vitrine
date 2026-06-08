@@ -15,7 +15,14 @@ const initialCategory = Astro.url.searchParams.get('cat') ?? 'all';
   description="Parcourez notre catalogue : châteaux gonflables, enceintes, photobooths, machines à popcorn. Location en Alsace, livraison incluse."
 >
   <Navbar client:load />
-  <main>
+  <main class="catalogue-page">
+    <section class="hero-band">
+      <div class="container hero-band-inner">
+        <p class="eyebrow">Fiestalo'K</p>
+        <h1 class="hero-title">Notre <span>catalogue</span></h1>
+        <p class="hero-lead">Tout le matériel pour une fête réussie.</p>
+      </div>
+    </section>
     <CatalogueClient
       products={products}
       categories={categories}
@@ -26,3 +33,17 @@ const initialCategory = Astro.url.searchParams.get('cat') ?? 'all';
   <Footer />
   <CartDrawer products={products} client:only="react" />
 </Layout>
+
+<style>
+  .catalogue-page { background: #F8F9FA; min-height: 100vh; }
+  .hero-band {
+    background: linear-gradient(110deg, #FFF1A8 0%, #C8EDA0 60%, #A6E08A 100%);
+    color: var(--color-ink);
+    padding: var(--space-2xl) 0;
+  }
+  .hero-band-inner { text-align: center; }
+  .eyebrow { color: var(--color-danger); font-family: var(--font-display); letter-spacing: 0.15em; font-size: 0.9rem; }
+  .hero-title { color: var(--color-ink); margin: 0; }
+  .hero-title span { color: var(--color-danger); }
+  .hero-lead { color: var(--color-ink-soft); margin-bottom: var(--space-sm); }
+</style>
