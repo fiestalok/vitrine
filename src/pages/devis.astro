@@ -18,5 +18,5 @@ const products = await fetchArticles();
     <DevisForm products={products} client:load />
   </main>
   <Footer />
-  <CartDrawer products={products} client:load />
+  <CartDrawer products={products} client:only="react" />
 </Layout>

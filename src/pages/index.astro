@@ -32,5 +32,5 @@ const featured = products.slice(0, 6);
     <ZoneSection />
   </main>
   <Footer />
-  <CartDrawer products={products} client:load />
+  <CartDrawer products={products} client:only="react" />
 </Layout>

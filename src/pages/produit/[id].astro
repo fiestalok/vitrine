@@ -75,7 +75,7 @@ const jsonLdProduct = {
     </section>
   </main>
   <Footer />
-  <CartDrawer products={allProducts} client:load />
+  <CartDrawer products={allProducts} client:only="react" />
 </Layout>
 
 <style>

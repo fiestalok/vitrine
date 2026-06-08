@@ -19,5 +19,5 @@ const reservation = token ? await fetchReservationByToken(token) : null;
     <SuiviPage reservation={reservation} token={token} client:load />
   </main>
   <Footer />
-  <CartDrawer products={[]} client:load />
+  <CartDrawer products={[]} client:only="react" />
 </Layout>

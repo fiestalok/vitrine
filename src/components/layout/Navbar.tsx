@@ -11,14 +11,19 @@ const LINKS = [
 ];
 
 export function Navbar() {
-  const { items } = useStore(cartStore);
-  const totalItems = items.reduce((s, i) => s + i.quantity, 0);
+  const store = useStore(cartStore);
+  const [mounted, setMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [pathname, setPathname] = useState('');
 
   useEffect(() => {
+    setMounted(true);
     setPathname(window.location.pathname);
   }, []);
+
+  const totalItems = mounted
+    ? store.items.reduce((s, i) => s + i.quantity, 0)
+    : 0;
 
   return (
     <header className={styles.header}>
