@@ -197,6 +197,24 @@ export async function fetchArticle(slug: string): Promise<Product | null> {
   return mapProduit(p, articleIds, categoryById);
 }
 
+export async function fetchReservedArticleIds(
+  articleIds: number[],
+  dateStart: string,
+  dateEnd: string,
+): Promise<Set<number>> {
+  if (articleIds.length === 0) return new Set();
+  const res = await fetch(
+    `${DIRECTUS_URL}/items/reservations_articles` +
+    `?filter[articles_id][_in]=${articleIds.join(',')}` +
+    `&filter[reservations_id][status][_neq]=annulee` +
+    `&filter[reservations_id][date_start][_lte]=${dateEnd}` +
+    `&filter[reservations_id][date_end][_gte]=${dateStart}` +
+    `&fields=articles_id&limit=-1`
+  );
+  const json = await res.json();
+  return new Set((json.data ?? []).map((r: { articles_id: number }) => r.articles_id));
+}
+
 // ── Suivi réservation ─────────────────────────────────────────────────────────
 
 export interface ReservationArticleItem {

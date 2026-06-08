@@ -10,8 +10,9 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:8055',
+        target: 'https://back.fiestalok.fr',
         changeOrigin: true,
+        secure: false,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
