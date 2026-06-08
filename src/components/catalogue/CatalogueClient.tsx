@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import type { CategoryId, Category } from '../../data/categories';
 import { filterProducts, DEFAULT_FILTERS, type FilterState } from '../../lib/filterProducts';
 import type { Product } from '../../data/types';
@@ -19,13 +19,6 @@ export function CatalogueClient({ products, categories, initialCategory = 'all' 
     category: (initialCategory as CategoryId) || 'all',
   };
   const [filters, setFilters] = useState<FilterState>(initial);
-
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    if (filters.category === 'all') url.searchParams.delete('cat');
-    else url.searchParams.set('cat', filters.category);
-    window.history.replaceState({}, '', url.toString());
-  }, [filters.category]);
 
   const filtered = useMemo(() => filterProducts(products, filters), [products, filters]);
 
