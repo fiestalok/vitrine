@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useStore } from '@nanostores/react';
 import { cartStore, clearCart } from '../stores/cart';
-import { formatPrice } from '../lib/format';
+import { formatPrice, lineTotal, formatRange } from '../lib/format';
 import type { Product } from '../data/types';
 import styles from './DevisPage.module.css';
 
@@ -38,7 +38,7 @@ export function DevisForm({ products }: DevisFormProps) {
 
   const total = items.reduce((sum, i) => {
     const p = findProduct(i.productId);
-    return sum + (p ? p.price * i.quantity : 0);
+    return sum + (p ? lineTotal(p.price, i.startDate, i.endDate, i.quantity) : 0);
   }, 0);
 
   const notes = items
@@ -178,7 +178,11 @@ export function DevisForm({ products }: DevisFormProps) {
                         <img src={p.images[0]} alt={p.name} />
                         <div>
                           <p>{p.name}</p>
-                          <p className={styles.summaryQty}>x{i.quantity} — {formatPrice(p.price * i.quantity)}</p>
+                          <p className={styles.summaryQty}>
+                          x{i.quantity}
+                          {i.startDate && ` — ${formatRange(i.startDate, i.endDate ?? i.startDate)}`}
+                          {' — '}<strong>{lineTotal(p.price, i.startDate, i.endDate, i.quantity)}€</strong>
+                        </p>
                         </div>
                       </li>
                     ) : null;

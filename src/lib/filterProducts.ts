@@ -6,6 +6,8 @@ export interface FilterState {
   audiences: Audience[];
   maxPrice: number;
   sort: 'default' | 'price-asc' | 'price-desc' | 'rating';
+  dateStart: string;
+  dateEnd: string;
 }
 
 export const DEFAULT_FILTERS: FilterState = {
@@ -13,6 +15,8 @@ export const DEFAULT_FILTERS: FilterState = {
   audiences: [],
   maxPrice: 400,
   sort: 'default',
+  dateStart: '',
+  dateEnd: '',
 };
 
 export function filterProducts(products: Product[], f: FilterState): Product[] {

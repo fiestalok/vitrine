@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import { cartStore, removeFromCart, setCartQuantity, clearCart, closeCart } from '../../stores/cart';
 import { Button } from '../ui/Button';
-import { formatPrice } from '../../lib/format';
+import { formatPrice, lineTotal, rentalDays } from '../../lib/format';
 import type { Product } from '../../data/types';
 import styles from './CartDrawer.module.css';
 
@@ -24,7 +24,7 @@ export function CartDrawer({ products }: CartDrawerProps) {
 
   const total = items.reduce((sum, i) => {
     const p = findProduct(i.productId);
-    return sum + (p ? p.price * i.quantity : 0);
+    return sum + (p ? lineTotal(p.price, i.startDate, i.endDate, i.quantity) : 0);
   }, 0);
 
   function handleDevis() {
@@ -66,7 +66,17 @@ export function CartDrawer({ products }: CartDrawerProps) {
                     <img src={p.images[0]} alt={p.name} />
                     <div className={styles.itemBody}>
                       <p className={styles.itemName}>{p.name}</p>
-                      <p className={styles.itemPrice}>{formatPrice(p.price)}</p>
+                      {(() => {
+                        const d = rentalDays(i.startDate, i.endDate);
+                        return (
+                          <p className={styles.itemPrice}>
+                            {formatPrice(p.price)}
+                            {d > 0 && (
+                              <> · {d} jour{d > 1 ? 's' : ''} · <strong>{lineTotal(p.price, i.startDate, i.endDate, i.quantity)}€</strong></>
+                            )}
+                          </p>
+                        );
+                      })()}
                       <div className={styles.qty}>
                         <button onClick={() => setCartQuantity(i.productId, i.quantity - 1)}>−</button>
                         <span>{i.quantity}</span>

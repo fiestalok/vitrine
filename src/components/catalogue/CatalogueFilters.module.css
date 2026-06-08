@@ -111,6 +111,44 @@
   margin-top: var(--space-2xs);
 }
 
+/* Date picker */
+.dateRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.dateLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dateInput {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.85rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.dateInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+.dateInput::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 /* Reset */
 .reset {
   font-size: 0.78rem;

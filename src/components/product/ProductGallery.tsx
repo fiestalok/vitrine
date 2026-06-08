@@ -15,9 +15,11 @@ export function ProductGallery({ images, alt }: Props) {
           {images.map((src, i) => (
             <button
               key={src}
+              type="button"
               className={`${styles.thumb} ${i === current ? styles.active : ''}`}
               onClick={() => setCurrent(i)}
-              aria-label={`Image ${i + 1}`}
+              aria-label={`Voir l'image ${i + 1}`}
+              aria-current={i === current}
             >
               <img src={src} alt="" />
             </button>

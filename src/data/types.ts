@@ -13,6 +13,7 @@ export interface Product {
   specs: Record<string, string>;
   images: string[];
   badge: 'PROMO' | 'TOP VENTE' | 'NOUVEAU' | null;
+  articleIds: number[];
 }
 
 export interface Review {
