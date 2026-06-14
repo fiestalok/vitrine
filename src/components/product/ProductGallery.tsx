@@ -1,31 +1,11 @@
-import { useState } from 'react';
 import styles from './ProductGallery.module.css';
 
 interface Props { images: string[]; alt: string; }
 
 export function ProductGallery({ images, alt }: Props) {
-  const [current, setCurrent] = useState(0);
   return (
-    <div className={styles.wrap}>
-      <div className={styles.main}>
-        <img src={images[current]} alt={alt} />
-      </div>
-      {images.length > 1 && (
-        <div className={styles.thumbs}>
-          {images.map((src, i) => (
-            <button
-              key={src}
-              type="button"
-              className={`${styles.thumb} ${i === current ? styles.active : ''}`}
-              onClick={() => setCurrent(i)}
-              aria-label={`Voir l'image ${i + 1}`}
-              aria-current={i === current}
-            >
-              <img src={src} alt="" />
-            </button>
-          ))}
-        </div>
-      )}
+    <div className={styles.main}>
+      <img src={images[0]} alt={alt} />
     </div>
   );
 }

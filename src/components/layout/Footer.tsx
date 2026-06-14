@@ -8,7 +8,7 @@ export function Footer() {
       <Bubbles variant="warm" />
       <div className={`container ${styles.grid}`}>
         <div>
-          <p className={styles.logo}>Fiestalo'<span>K</span></p>
+          <p className={styles.logo}>Hoplalo'<span>K</span></p>
           <p className={styles.tagline}>Location de matériel festif en Alsace.<br/>On gonfle, vous kiffez.</p>
           <div className={styles.socials}>
             <a href="#" aria-label="Instagram">📷</a>
@@ -29,13 +29,13 @@ export function Footer() {
           <ul>
             <li>📍 Strasbourg, Alsace</li>
             <li>📞 +33 6 00 00 00 00</li>
-            <li>✉️ contact@fiestalok.fr</li>
+            <li>✉️ contact@hoplalok.fr</li>
             <li>🕐 Lun–Sam, 9h–19h</li>
           </ul>
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>© 2026 Fiestalo'K — Tous droits réservés</p>
+        <p>© 2026 Hoplalo'K — Tous droits réservés</p>
         <p>Fait avec ❤️ en Alsace</p>
       </div>
     </footer>

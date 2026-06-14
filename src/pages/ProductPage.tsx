@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useRef, useState, useEffect } from 'react';
+import { useParams, Link, Navigate, useSearchParams } from 'react-router-dom';
 import { eachDayOfInterval, format, startOfDay } from 'date-fns';
 import { useProducts } from '../context/ProductsContext';
 import { useCategories } from '../context/CategoriesContext';
@@ -7,7 +7,9 @@ import { useCart } from '../context/CartContext';
 import { useReviews } from '../context/ReviewsContext';
 import { UNAVAILABLE_DATES } from '../data/unavailable';
 import { formatRange, rentalDays } from '../lib/format';
+import { fetchReservedArticleIds } from '../lib/directus';
 import { ProductGallery } from '../components/product/ProductGallery';
+import { PhotoGallery } from '../components/product/PhotoGallery';
 import { AvailabilityCalendar, type DateRange } from '../components/product/AvailabilityCalendar';
 import { ReviewList } from '../components/product/ReviewList';
 import { ReviewForm } from '../components/product/ReviewForm';
@@ -16,6 +18,27 @@ import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import styles from './ProductPage.module.css';
 
+const SPEC_ICONS: Record<string, string> = {
+  capacité: '👥', enfants: '👧', personnes: '👥', participants: '👥',
+  dimensions: '📐', taille: '📐', surface: '📐', longueur: '↔️', largeur: '↔️',
+  hauteur: '↕️', poids: '⚖️',
+  âge: '🎂', age: '🎂',
+  puissance: '⚡', électricité: '🔌', connexion: '🔌',
+  couleur: '🎨', thème: '🎨', theme: '🎨',
+  montage: '🔧', installation: '🔧',
+  son: '🔊', volume: '🔊',
+  matière: '🏗️', matériau: '🏗️',
+};
+
+function specIcon(key: string): string {
+  const k = key.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  for (const [word, icon] of Object.entries(SPEC_ICONS)) {
+    const w = word.normalize('NFD').replace(/[̀-ͯ]/g, '');
+    if (k.includes(w)) return icon;
+  }
+  return '📋';
+}
+
 const BLOCKED_UNTIL_JUNE_22 = eachDayOfInterval({
   start: startOfDay(new Date()),
   end: new Date(2026, 5, 22),
@@ -23,14 +46,31 @@ const BLOCKED_UNTIL_JUNE_22 = eachDayOfInterval({
 
 export function ProductPage() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const { products, loading } = useProducts();
   const { categories } = useCategories();
   const product = products.find((p) => p.id === id);
   const cat = product ? categories.find((c) => c.id === product.category) : undefined;
   const { add, open } = useCart();
   const { forProduct, add: addReview } = useReviews();
-  const [range, setRange] = useState<DateRange>({ start: null, end: null });
+
+  const fromParam = searchParams.get('from');
+  const toParam   = searchParams.get('to');
+  const [range, setRange] = useState<DateRange>(() => ({
+    start: fromParam ? new Date(fromParam) : null,
+    end:   toParam   ? new Date(toParam)   : null,
+  }));
+  const [availCount, setAvailCount] = useState<number | null>(null);
   const planningRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!product || !range.start || !range.end) { setAvailCount(null); return; }
+    const s = format(range.start, 'yyyy-MM-dd');
+    const e = format(range.end,   'yyyy-MM-dd');
+    fetchReservedArticleIds(product.articleIds, s, e)
+      .then((reserved) => setAvailCount(product.articleIds.filter((id) => !reserved.has(id)).length))
+      .catch(() => setAvailCount(null));
+  }, [product, range.start, range.end]);
 
   if (loading) {
     return <div className={`container ${styles.page}`}><p>Chargement…</p></div>;
@@ -41,6 +81,7 @@ export function ProductPage() {
   const reviews = forProduct(product.id);
 
   const rangeComplete = Boolean(range.start && range.end);
+
   const startISO = range.start ? format(range.start, 'yyyy-MM-dd') : null;
   const endISO = range.end ? format(range.end, 'yyyy-MM-dd') : null;
   const days = rentalDays(startISO, endISO);
@@ -81,28 +122,53 @@ export function ProductPage() {
           <StarRating value={product.rating} count={product.reviewCount + reviews.length} size="md" />
           <p className={styles.desc}>{product.longDescription}</p>
 
-          <ul className={styles.specs}>
-            {Object.entries(product.specs).map(([k, v]) => (
-              <li key={k}><span>{k}</span><strong>{v}</strong></li>
-            ))}
-          </ul>
-
           <div className={styles.priceRow}>
             <span className={styles.price}>{product.price}€</span>
             <span className={styles.unit}>/jour</span>
           </div>
           {rangeComplete && (
-            <p className={styles.selected}>
-              {formatRange(startISO!, endISO!)} — {days} jour{days > 1 ? 's' : ''} ·{' '}
-              <strong>{totalPrice}€</strong>
-            </p>
+            <div className={styles.selectedCard}>
+              <div className={styles.selectedRow}>
+                <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
+                <div className={styles.selectedActions}>
+                  <div className={styles.selectedPrice}>{totalPrice}€</div>
+                  <Button variant="primary" size="md" onClick={handleAdd}>+ Panier</Button>
+                </div>
+              </div>
+              {availCount === 1 && (
+                <div className={styles.lastDispo}>⚡ Plus qu'un article dispo pour ces dates</div>
+              )}
+            </div>
           )}
-
-          <Button variant="primary" size="lg" onClick={handleAddOrScroll}>
-            + Ajouter au panier
-          </Button>
+          {!rangeComplete && (
+            <Button variant="primary" size="lg" onClick={handleAddOrScroll}>
+              + Ajouter au panier
+            </Button>
+          )}
         </div>
       </div>
+
+      {Object.keys(product.specs).length > 0 && (
+        <section className={styles.block}>
+          <header><h2>Caractéristiques techniques</h2></header>
+          <ul className={styles.specs}>
+            {Object.entries(product.specs).map(([k, v]) => (
+              <li key={k}>
+                <span className={styles.specsIcon}>{specIcon(k)}</span>
+                <span>{k}</span>
+                <strong>{v}</strong>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {product.images.length > 0 && (
+        <section className={styles.block}>
+          <header><h2>Galerie photo</h2></header>
+          <PhotoGallery images={product.images} alt={product.name} />
+        </section>
+      )}
 
       <section className={styles.block} ref={planningRef}>
         <header><h2>Disponibilités</h2><p>Choisis ta date pour vérifier la dispo.</p></header>
@@ -116,22 +182,27 @@ export function ProductPage() {
           <p className={styles.selected}>Sélectionnez la date de fin.</p>
         )}
         {rangeComplete && (
-          <p className={styles.selected}>
-            Période sélectionnée : <strong>{formatRange(startISO!, endISO!)}</strong> ({days} jour{days > 1 ? 's' : ''}) — <strong>{totalPrice}€</strong>
-          </p>
+          <div className={styles.selectedCard}>
+            <div className={styles.selectedRow}>
+              <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
+              <div className={styles.selectedActions}>
+                <div className={styles.selectedPrice}>{totalPrice}€</div>
+                <Button variant="primary" size="md" onClick={handleAdd}>+ Panier</Button>
+              </div>
+            </div>
+            {availCount === 1 && (
+              <div className={styles.lastDispo}>⚡ Plus qu'un article dispo pour ces dates</div>
+            )}
+          </div>
         )}
-        <Button variant="primary" size="lg" onClick={handleAdd} disabled={!rangeComplete}>
-          + Ajouter au panier
-        </Button>
+        {!rangeComplete && (
+          <Button variant="primary" size="lg" onClick={handleAdd} disabled className={styles.calBtn}>
+            Saisissez vos dates
+          </Button>
+        )}
       </section>
 
-      <section className={styles.block}>
-        <header><h2>Avis clients</h2></header>
-        <ReviewList reviews={reviews} />
-        <ReviewForm onSubmit={(data) => addReview({ productId: product.id, ...data })} />
-      </section>
-
-      <Link to="/catalogue" className={styles.back}>← Retour au catalogue</Link>
+<Link to="/catalogue" className={styles.back}>← Retour au catalogue</Link>
     </div>
   );
 }

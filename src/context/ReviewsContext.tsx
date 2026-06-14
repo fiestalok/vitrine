@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import type { Review } from '../data/types';
 import { loadJSON, saveJSON } from '../lib/storage';
 
-const STORAGE_KEY = 'fiestalok.reviews.v1';
+const STORAGE_KEY = 'hoplalok.reviews.v1';
 
 interface ReviewsContextValue {
   reviews: Review[];

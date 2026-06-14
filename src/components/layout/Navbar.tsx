@@ -17,7 +17,7 @@ export function Navbar() {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <Link to="/" className={styles.logo} onClick={() => setMobileOpen(false)}>Fiestalo'<span>K</span></Link>
+        <Link to="/" className={styles.logo} onClick={() => setMobileOpen(false)}>Hoplalo'<span>K</span></Link>
         <nav className={`${styles.nav} ${mobileOpen ? styles.navOpen : ''}`} aria-label="Navigation principale">
           {LINKS.map((l) => (
             <NavLink

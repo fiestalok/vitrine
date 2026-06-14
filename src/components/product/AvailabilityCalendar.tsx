@@ -84,7 +84,7 @@ export function AvailabilityCalendar({ unavailableDates, range, onChange }: Prop
               disabled={past || unavail || !isSameMonth(d, view)}
               className={[
                 styles.day,
-                unavail ? styles.unavail : '',
+                (unavail || past) ? styles.unavail : '',
                 isStart ? styles.rangeStart : '',
                 isEnd ? styles.rangeEnd : '',
                 inRange ? styles.inRange : '',

@@ -53,7 +53,12 @@ export function CataloguePage() {
 
   const displayed = useMemo(() => {
     if (!datesSelected) return filtered;
-    return filtered.filter((p) => p.articleIds.some((id) => !reservedIds.has(id)));
+    return filtered
+      .map((p) => ({
+        ...p,
+        _availCount: p.articleIds.filter((id) => !reservedIds.has(id)).length,
+      }))
+      .filter((p) => p._availCount > 0);
   }, [filtered, datesSelected, reservedIds]);
 
   const isLoading = loading || availLoading;
@@ -63,7 +68,7 @@ export function CataloguePage() {
       <section className={styles.heroBand}>
         <Bubbles variant="warm" />
         <div className={`container ${styles.heroBandInner}`}>
-          <p className={styles.eyebrow}>Fiestalo'K</p>
+          <p className={styles.eyebrow}>Hoplalo'K</p>
           <h1 className={styles.title}>Notre <span>catalogue</span></h1>
           <p className={styles.lead}>Tout le matériel pour une fête réussie.</p>
         </div>
@@ -119,7 +124,14 @@ export function CataloguePage() {
             ) : (
               <div className={styles.grid}>
                 {displayed.map((p) => (
-                  <ProductCard key={p.id} product={p} showAvailable={datesSelected} />
+                  <ProductCard
+                    key={p.id}
+                    product={p}
+                    showAvailable={datesSelected}
+                    lastAvailable={datesSelected && (p as any)._availCount === 1}
+                    dateStart={filters.dateStart || undefined}
+                    dateEnd={filters.dateEnd || undefined}
+                  />
                 ))}
               </div>
             )}

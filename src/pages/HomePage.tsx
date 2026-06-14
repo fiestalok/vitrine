@@ -116,7 +116,7 @@ export function HomePage() {
 
       <Section eyebrow="Pourquoi nous" title="L'événementiel alsacien, avec le cœur.">
         <Castle size={260} rotation={30} className={styles.castleDark} />
-        <p className={styles.darkLead}>Fiestalo'K est née d'une passion simple : rendre chaque fête mémorable. Basée à Strasbourg, on intervient dans tout le Bas-Rhin et le Haut-Rhin.</p>
+        <p className={styles.darkLead}>Hoplalo'K est née d'une passion simple : rendre chaque fête mémorable. Basée à Strasbourg, on intervient dans tout le Bas-Rhin et le Haut-Rhin.</p>
         <div className={styles.values}>
           {[
             { icon: '🛡️', title: 'Matériel homologué CE', text: 'Norme EN 14960 sur tous nos gonflables.' },

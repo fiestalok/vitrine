@@ -54,6 +54,7 @@ interface DirectusProduit {
   audiences: Audience[] | null;
   images_urls: string[] | null;
   image: string | { id: string } | null;
+  galerie: Array<{ directus_files_id: string | { id: string } }> | null;
   badge: string | null;
   status: string;
   category: { id: number; name: string; slug: string } | number | null;
@@ -71,12 +72,12 @@ interface DirectusArticleUnit {
 }
 
 function resolveImage(p: DirectusProduit): string[] {
-  if (p.images_urls && p.images_urls.length > 0) {
-    return p.images_urls;
-  }
   if (p.image) {
     const fileId = typeof p.image === 'object' ? p.image.id : p.image;
     return [`${DIRECTUS_URL}/assets/${fileId}`];
+  }
+  if (p.images_urls && p.images_urls.length > 0) {
+    return p.images_urls;
   }
   return [];
 }
@@ -100,16 +101,18 @@ function resolveCategory(
   raw: DirectusProduit['category'],
   categoryById: Record<number, DirectusCategory>,
 ): CategoryId {
-  if (!raw) return 'chateau-gonflable';
+  if (!raw) return null as unknown as CategoryId;
   if (typeof raw === 'object') return raw.slug as CategoryId;
-  return (categoryById[raw]?.slug ?? 'chateau-gonflable') as CategoryId;
+  return (categoryById[raw]?.slug ?? null) as unknown as CategoryId;
 }
 
 function mapProduit(
   p: DirectusProduit,
   articleIds: number[],
   categoryById: Record<number, DirectusCategory>,
+  galerieImages: string[] = [],
 ): Product {
+  const mainImages = resolveImage(p);
   return {
     id: p.slug,
     name: p.name,
@@ -121,14 +124,14 @@ function mapProduit(
     rating: p.rating || slugRating(p.slug),
     reviewCount: p.review_count || slugReviewCount(p.slug),
     specs: p.specs ?? {},
-    images: resolveImage(p),
+    images: [...mainImages, ...galerieImages],
     badge: (p.badge as Product['badge']) ?? null,
     articleIds,
   };
 }
 
 function produitId(a: DirectusArticleUnit): number {
-  return typeof a.produit_id === 'object' ? a.produit_id.id : a.produit_id;
+  return a.produit_id !== null && typeof a.produit_id === 'object' ? a.produit_id.id : a.produit_id as number;
 }
 
 // ── Fetch ─────────────────────────────────────────────────────────────────────
@@ -144,17 +147,19 @@ export async function fetchCategories(): Promise<Category[]> {
 }
 
 export async function fetchProduits(): Promise<Product[]> {
-  // 1. Récupérer produits + catégories + articles en parallèle
-  const [prodRes, catRes, artRes] = await Promise.all([
-    fetch(`${DIRECTUS_URL}/items/produits?filter[status][_eq]=published&fields=*&sort=id`),
+  // 1. Récupérer produits + catégories + articles + galerie en parallèle
+  const [prodRes, catRes, artRes, galRes] = await Promise.all([
+    fetch(`${DIRECTUS_URL}/items/produits?filter[status][_eq]=published&fields=id,slug,name,short_description,long_description,price,specs,images_urls,image,badge,status,category,jours_avant,jours_apres&sort=id`),
     fetch(`${DIRECTUS_URL}/items/categories?fields=id,name,slug&sort=id`),
     fetch(`${DIRECTUS_URL}/items/articles?fields=id,produit_id&limit=-1`),
+    fetch(`${DIRECTUS_URL}/items/produits_galerie?fields=produits_id,directus_files_id&sort=sort,directus_files_id&limit=-1`),
   ]);
 
-  const [prodJson, catJson, artJson] = await Promise.all([
+  const [prodJson, catJson, artJson, galJson] = await Promise.all([
     prodRes.json(),
     catRes.json(),
     artRes.json(),
+    galRes.json(),
   ]);
 
   const produits: DirectusProduit[] = prodJson.data ?? [];
@@ -169,13 +174,21 @@ export async function fetchProduits(): Promise<Product[]> {
   // 3. Grouper les IDs d'articles par produit
   const articleIdsByProduit: Record<number, number[]> = {};
   for (const a of (artJson.data ?? []) as DirectusArticleUnit[]) {
+    if (a.produit_id == null) continue;
     const pid = produitId(a);
     if (!articleIdsByProduit[pid]) articleIdsByProduit[pid] = [];
     articleIdsByProduit[pid].push(a.id);
   }
 
+  // 4. Grouper les images de galerie par produit
+  const galerieByProduit: Record<number, string[]> = {};
+  for (const g of (galJson.data ?? []) as { produits_id: number; directus_files_id: string }[]) {
+    if (!galerieByProduit[g.produits_id]) galerieByProduit[g.produits_id] = [];
+    galerieByProduit[g.produits_id].push(`${DIRECTUS_URL}/assets/${g.directus_files_id}`);
+  }
+
   return produits
-    .map((p) => mapProduit(p, articleIdsByProduit[p.id] ?? [], categoryById));
+    .map((p) => mapProduit(p, articleIdsByProduit[p.id] ?? [], categoryById, galerieByProduit[p.id] ?? []));
 }
 
 // Retourne les IDs d'articles déjà réservés pour la plage de dates donnée.

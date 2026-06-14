@@ -1,10 +1,10 @@
-.cal { background: var(--color-bg-alt); border-radius: var(--radius-lg); border: 1px solid var(--color-border); overflow: hidden; }
-.header { display: flex; justify-content: space-between; align-items: center; background: var(--color-ink); color: var(--color-bg); padding: var(--space-sm) var(--space-md); font-family: var(--font-display); font-size: 1.1rem; text-transform: capitalize; }
-.header button { color: var(--color-bg); font-size: 1.4rem; padding: 0 var(--space-sm); }
+.cal { background: var(--color-bg-alt); border-radius: var(--radius-lg); border: 1px solid var(--color-border); overflow: hidden; width: 100%; }
+.header { display: flex; justify-content: space-between; align-items: center; background: var(--color-ink); color: var(--color-bg); padding: 4px var(--space-sm); font-family: var(--font-display); font-size: 0.78rem; text-transform: capitalize; }
+.header button { color: var(--color-bg); font-size: 0.9rem; padding: 0 var(--space-xs); }
 .weekdays, .grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-.weekdays { padding: var(--space-sm); color: var(--color-primary); font-weight: 800; font-size: 0.8rem; text-align: center; text-transform: uppercase; }
-.grid { gap: 4px; padding: var(--space-sm); }
-.day { aspect-ratio: 1; display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--color-bg); font-weight: 700; font-size: 0.9rem; }
+.weekdays { padding: 3px 4px; color: var(--color-primary); font-weight: 800; font-size: 0.58rem; text-align: center; text-transform: uppercase; }
+.grid { gap: 1px; padding: 2px 4px 4px; }
+.day { height: 44px; display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--color-bg); font-weight: 700; font-size: 0.65rem; }
 .day:disabled { opacity: 0.35; cursor: not-allowed; }
 .day:not(:disabled):hover { background: var(--color-accent); }
 .unavail { background: rgba(255,107,107,0.18); color: var(--color-danger); }

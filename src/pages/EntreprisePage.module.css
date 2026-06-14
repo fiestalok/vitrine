@@ -1,6 +1,6 @@
-.hero { background: var(--color-bg); color: var(--color-ink); padding: var(--space-3xl) 0; text-align: center; }
+.hero { background: linear-gradient(110deg, #FFF1A8 0%, #C8EDA0 60%, #A6E08A 100%); color: var(--color-ink); padding: var(--space-3xl) 0; text-align: center; }
 .title { color: var(--color-ink); margin: var(--space-md) 0; }
-.title span { color: var(--color-primary); }
+.title span { color: var(--color-danger); }
 .lead { color: var(--color-ink-soft); max-width: 640px; margin: 0 auto var(--space-lg); }
 .ctas { display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap; }
 

@@ -4,7 +4,7 @@ import { Badge } from '../components/ui/Badge';
 import styles from './QuiSommesNousPage.module.css';
 
 const VALUES = [
-  { icon: '❤️', title: 'Passion',       text: 'Fiestalo\'K est née d\'une passion simple : rendre chaque fête unique et mémorable, qu\'il s\'agisse d\'un anniv d\'enfant ou d\'un séminaire d\'entreprise.' },
+  { icon: '❤️', title: 'Passion',       text: 'Hoplalo\'K est née d\'une passion simple : rendre chaque fête unique et mémorable, qu\'il s\'agisse d\'un anniv d\'enfant ou d\'un séminaire d\'entreprise.' },
   { icon: '🤝', title: 'Engagement',    text: 'On s\'engage sur chaque prestation : ponctualité, propreté, et une équipe disponible du montage jusqu\'au démontage.' },
   { icon: '📍', title: 'Ancrage local', text: 'Entreprise 100% alsacienne, on connaît le territoire. On livre dans tout le Bas-Rhin et le Haut-Rhin, souvent le jour même.' },
 ];
@@ -30,15 +30,15 @@ export function QuiSommesNousPage() {
       <Section background="gradientWarm">
         <div className={styles.story}>
           <div className={styles.photo}>
-            <img src="https://images.unsplash.com/photo-1543007631-283050bb3e8c?w=900" alt="L'équipe Fiestalo'K" />
-            <span className={styles.photoTag}>L'équipe Fiestalo'K · Strasbourg · Alsace</span>
+            <img src="https://images.unsplash.com/photo-1543007631-283050bb3e8c?w=900" alt="L'équipe Hoplalo'K" />
+            <span className={styles.photoTag}>L'équipe Hoplalo'K · Strasbourg · Alsace</span>
           </div>
           <div className={styles.text}>
             <p className={styles.eyebrow}>Notre histoire</p>
-            <h2>Tout a commencé par une envie de faire la fête.</h2>
-            <p>Tout a commencé par une décision audacieuse : <strong>6 mecs bien gaulés du cerveau</strong> ont décidé de se lancer dans une aventure magique. Pas de bureau, pas de costard — juste une envie folle de rendre chaque fête inoubliable.</p>
-            <p>De cette belle idée est née Fiestalo'K à Strasbourg. On équipe des événements à travers toute l'Alsace — des anniversaires d'enfants aux team buildings d'entreprise, en passant par les kermesses de quartier.</p>
-            <p>La magie, on ne l'a pas perdue. Notre équipe est là pour vous, du premier coup de fil jusqu'au démontage du dernier château gonflable.</p>
+            <h2>Tout a commencé par une décision audacieuse.</h2>
+            <p>Six passionnés ont décidé de se lancer dans l'aventure de l'événementiel festif. Sans prétention, mais avec une conviction forte : rendre chaque fête inoubliable, peu importe l'occasion.</p>
+            <p>De cette belle idée est née Hoplalo'K à Strasbourg. Nous équipons des événements à travers toute l'Alsace — des anniversaires d'enfants aux team buildings d'entreprise, en passant par les kermesses de quartier.</p>
+            <p>Cette passion, nous ne l'avons pas perdue. Notre équipe reste à vos côtés du premier échange jusqu'au démontage du dernier équipement.</p>
             <div className={styles.ctas}>
               <Button to="/catalogue" variant="primary" size="md">Voir nos produits →</Button>
               <Button to="/entreprise" variant="secondary" size="md">Offres entreprise</Button>

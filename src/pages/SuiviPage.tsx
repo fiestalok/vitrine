@@ -161,7 +161,7 @@ export function SuiviPage() {
           <p>✅ Votre réservation est confirmée ! Nous vous contacterons pour les détails logistiques.</p>
         )}
         {reservation.status === 'terminee' && (
-          <p>🎉 Merci d'avoir fait confiance à Fiestalo'K ! À bientôt pour votre prochaine fête.</p>
+          <p>🎉 Merci d'avoir fait confiance à Hoplalo'K ! À bientôt pour votre prochaine fête.</p>
         )}
         {reservation.status === 'annulee' && (
           <p>❌ Cette réservation a été annulée. Contactez-nous si vous avez des questions.</p>
@@ -170,7 +170,7 @@ export function SuiviPage() {
 
       <div className={styles.footer}>
         <Link to="/" className={styles.backLink}>← Retour à l'accueil</Link>
-        <a href="mailto:contact@fiestalok.fr" className={styles.contactLink}>Nous contacter</a>
+        <a href="mailto:contact@hoplalok.fr" className={styles.contactLink}>Nous contacter</a>
       </div>
 
     </div>

@@ -26,20 +26,21 @@ const FORMULES = [
   },
 ];
 
+const BASE = import.meta.env.BASE_URL;
 const EVENTS = [
-  'https://picsum.photos/seed/fiestalok-corp-1/600/450',
-  'https://picsum.photos/seed/fiestalok-corp-2/600/450',
-  'https://picsum.photos/seed/fiestalok-corp-3/600/450',
-  'https://picsum.photos/seed/fiestalok-corp-4/600/450',
-  'https://picsum.photos/seed/fiestalok-corp-5/600/450',
-  'https://picsum.photos/seed/fiestalok-corp-6/600/450',
+  `${BASE}event1.jpg`,
+  `${BASE}event2.jpg`,
+  `${BASE}event3.jpg`,
+  `${BASE}event4.jpg`,
+  `${BASE}event5.jpg`,
+  `${BASE}event6.jpg`,
 ];
 
 const COMPLIANCE = [
   { icon: '🛡️', title: 'Norme EN 14960', text: 'Tous nos équipements gonflables sont certifiés CE et conformes à la norme européenne EN 14960. Contrôle technique annuel obligatoire.' },
   { icon: '📋', title: 'RC Pro & Assurance', text: 'Couverture Responsabilité Civile Professionnelle complète pour tous nos événements. Documentation fournie sur demande pour vos services RH et juridiques.' },
   { icon: '⚡', title: 'Conformité électrique', text: 'Tout le matériel électrique (sono, éclairage, machines) est vérifié et conforme aux normes NF C 15-100. Câblage adapté à vos installations.' },
-  { icon: '🧯', title: 'Protocole sécurité', text: 'Briefing sécurité avant chaque installation. Présence d\'un responsable Fiestalo\'K durant le montage et le démontage. Vérification des zones d\'installation.' },
+  { icon: '🧯', title: 'Protocole sécurité', text: 'Briefing sécurité avant chaque installation. Présence d\'un responsable Hoplalo\'K durant le montage et le démontage. Vérification des zones d\'installation.' },
 ];
 
 export function EntreprisePage() {
@@ -57,29 +58,7 @@ export function EntreprisePage() {
         </div>
       </section>
 
-      <Section background="gradientWarm" eyebrow="Références" title="Ils nous ont fait confiance">
-        <div className={styles.refs}>
-          {REFS.map((r) => (
-            <div key={r} className={styles.ref}>
-              <span>{r}</span>
-            </div>
-          ))}
-        </div>
-        <div className={styles.statsRow}>
-          {[
-            { v: 'Pro', l: 'Équipe certifiée' },
-            { v: 'RC Pro', l: 'Assurance incluse' },
-            { v: '100%', l: 'Alsacien' },
-          ].map((s) => (
-            <div key={s.v} className={styles.stat}>
-              <strong>{s.v}</strong>
-              <span>{s.l}</span>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section eyebrow="Ce qu'on propose" title="Nos formules entreprise">
+<Section eyebrow="Ce qu'on propose" title="Nos formules entreprise">
         <div className={styles.formules}>
           {FORMULES.map((f) => (
             <article key={f.title} className={styles.formule}>

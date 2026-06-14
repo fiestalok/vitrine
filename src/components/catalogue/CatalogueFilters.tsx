@@ -42,7 +42,7 @@ export function CatalogueFilters({ value, onChange }: Props) {
                 onChange({
                   ...value,
                   dateStart: newStart,
-                  dateEnd: value.dateEnd && value.dateEnd < newStart ? '' : value.dateEnd,
+                  dateEnd: value.dateEnd && value.dateEnd >= newStart ? value.dateEnd : newStart,
                 });
               }}
               className={styles.dateInput}

@@ -1,0 +1,84 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.item {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-bg-alt);
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+.item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+.item:hover img { transform: scale(1.06); }
+
+.overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0);
+  color: #fff; font-size: 1.4rem;
+  display: grid; place-items: center;
+  transition: background 0.2s;
+  pointer-events: none;
+  opacity: 0;
+}
+.item:hover .overlay { background: rgba(0,0,0,0.3); opacity: 1; }
+
+/* Lightbox */
+.lb {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.95);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: var(--space-md);
+}
+.lbImg {
+  max-width: 88vw; max-height: 72vh;
+  object-fit: contain; border-radius: var(--radius-md);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
+}
+.close {
+  position: absolute; top: 1rem; right: 1.25rem;
+  color: #fff; font-size: 1.1rem;
+  background: rgba(255,255,255,0.15); border: none;
+  border-radius: 50%; width: 34px; height: 34px;
+  cursor: pointer; display: grid; place-items: center;
+}
+.close:hover { background: rgba(255,255,255,0.28); }
+.nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  color: #fff; font-size: 2rem;
+  background: rgba(255,255,255,0.12); border: none;
+  border-radius: 50%; width: 44px; height: 44px;
+  cursor: pointer; display: grid; place-items: center;
+}
+.nav:hover { background: rgba(255,255,255,0.25); }
+.navPrev { left: 1rem; }
+.navNext { right: 1rem; }
+
+.lbThumbs {
+  display: flex; gap: 6px;
+  max-width: 88vw; overflow-x: auto;
+  scrollbar-width: none;
+}
+.lbThumbs::-webkit-scrollbar { display: none; }
+.lbThumb {
+  flex: 0 0 48px; height: 48px;
+  border-radius: 5px; overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.2);
+  cursor: pointer; padding: 0; background: #333;
+  transition: border-color 0.15s;
+}
+.lbThumb img { width: 100%; height: 100%; object-fit: cover; }
+.lbActive { border-color: #fff; }
+
+@media (max-width: 560px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .featured { grid-column: span 2; }
+}

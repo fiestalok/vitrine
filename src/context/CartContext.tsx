@@ -1,8 +1,22 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { CartItem } from '../data/types';
-import { loadJSON, saveJSON } from '../lib/storage';
 
-const STORAGE_KEY = 'fiestalok.cart.v1';
+const STORAGE_KEY = 'hoplalok.cart.v2';
+const TTL_MS = 24 * 60 * 60 * 1000;
+
+function loadCart(): CartItem[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const { items, savedAt } = JSON.parse(raw);
+    if (Date.now() - savedAt > TTL_MS) { localStorage.removeItem(STORAGE_KEY); return []; }
+    return items ?? [];
+  } catch { return []; }
+}
+
+function saveCart(items: CartItem[]): void {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ items, savedAt: Date.now() })); } catch {}
+}
 
 interface CartContextValue {
   items: CartItem[];
@@ -19,10 +33,10 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => loadJSON<CartItem[]>(STORAGE_KEY, []));
+  const [items, setItems] = useState<CartItem[]>(loadCart);
   const [isOpen, setOpen] = useState(false);
 
-  useEffect(() => { saveJSON(STORAGE_KEY, items); }, [items]);
+  useEffect(() => { saveCart(items); }, [items]);
 
   const value = useMemo<CartContextValue>(() => ({
     items,
