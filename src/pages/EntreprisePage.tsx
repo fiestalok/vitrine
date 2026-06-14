@@ -3,8 +3,6 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import styles from './EntreprisePage.module.css';
 
-const REFS = ['Crédit Mutuel', 'Eurocorps', 'Groupe Eilor', 'EDF Alsace', 'Hôtel Régent'];
-
 const FORMULES = [
   {
     icon: '🏆',

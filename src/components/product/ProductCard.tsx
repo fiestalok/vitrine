@@ -14,7 +14,7 @@ interface ProductCardProps {
   dateEnd?: string;
 }
 
-export function ProductCard({ product, showAvailable, lastAvailable, dateStart, dateEnd }: ProductCardProps) {
+export function ProductCard({ product, showAvailable, dateStart, dateEnd }: ProductCardProps) {
   const { categories } = useCategories();
   const { add, open } = useCart();
   const cat = categories.find((c) => c.id === product.category);
