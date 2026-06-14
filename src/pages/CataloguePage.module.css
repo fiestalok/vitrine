@@ -1,5 +1,5 @@
 .page { background: #F8F9FA; min-height: 100vh; }
-.contentArea { position: relative; background: #F8F9FA; padding-bottom: var(--space-3xl); }
+.contentArea { position: relative; background: #F8F9FA; padding-bottom: var(--space-3xl); --container-max: 1440px; }
 .heroBand {
   background: linear-gradient(110deg, #FFF1A8 0%, #C8EDA0 60%, #A6E08A 100%);
   color: var(--color-ink);

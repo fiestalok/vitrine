@@ -149,7 +149,7 @@ export async function fetchCategories(): Promise<Category[]> {
 export async function fetchProduits(): Promise<Product[]> {
   // 1. Récupérer produits + catégories + articles + galerie en parallèle
   const [prodRes, catRes, artRes, galRes] = await Promise.all([
-    fetch(`${DIRECTUS_URL}/items/produits?filter[status][_eq]=published&fields=id,slug,name,short_description,long_description,price,specs,images_urls,image,badge,status,category,jours_avant,jours_apres&sort=id`),
+    fetch(`${DIRECTUS_URL}/items/produits?filter[status][_eq]=published&fields=id,slug,name,short_description,long_description,price,specs,audiences,images_urls,image,badge,status,category,jours_avant,jours_apres&sort=id`),
     fetch(`${DIRECTUS_URL}/items/categories?fields=id,name,slug&sort=id`),
     fetch(`${DIRECTUS_URL}/items/articles?fields=id,produit_id&limit=-1`),
     fetch(`${DIRECTUS_URL}/items/produits_galerie?fields=produits_id,directus_files_id&sort=sort,directus_files_id&limit=-1`),

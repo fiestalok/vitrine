@@ -11,8 +11,6 @@ import { fetchReservedArticleIds } from '../lib/directus';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { PhotoGallery } from '../components/product/PhotoGallery';
 import { AvailabilityCalendar, type DateRange } from '../components/product/AvailabilityCalendar';
-import { ReviewList } from '../components/product/ReviewList';
-import { ReviewForm } from '../components/product/ReviewForm';
 import { StarRating } from '../components/ui/StarRating';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
@@ -52,7 +50,7 @@ export function ProductPage() {
   const product = products.find((p) => p.id === id);
   const cat = product ? categories.find((c) => c.id === product.category) : undefined;
   const { add, open } = useCart();
-  const { forProduct, add: addReview } = useReviews();
+  const { forProduct } = useReviews();
 
   const fromParam = searchParams.get('from');
   const toParam   = searchParams.get('to');
@@ -79,7 +77,6 @@ export function ProductPage() {
   if (!product) return <Navigate to="/catalogue" replace />;
 
   const reviews = forProduct(product.id);
-
   const rangeComplete = Boolean(range.start && range.end);
 
   const startISO = range.start ? format(range.start, 'yyyy-MM-dd') : null;

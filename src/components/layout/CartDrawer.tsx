@@ -1,15 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useProducts } from '../../context/ProductsContext';
 import { Button } from '../ui/Button';
-import { formatPrice, lineTotal, rentalDays } from '../../lib/format';
+import { formatPrice, formatRange, lineTotal, rentalDays } from '../../lib/format';
+import { fetchReservedArticleIds } from '../../lib/directus';
 import styles from './CartDrawer.module.css';
 
 export function CartDrawer() {
   const { isOpen, close, items, remove, setQuantity, clear } = useCart();
   const { products } = useProducts();
   const navigate = useNavigate();
+  const [availMap, setAvailMap] = useState<Record<string, number>>({});
 
   const findProduct = (id: string) => products.find((p) => p.id === id);
 
@@ -19,6 +21,20 @@ export function CartDrawer() {
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [isOpen, close]);
+
+  useEffect(() => {
+    if (!isOpen || items.length === 0) return;
+    items.forEach((i) => {
+      const p = findProduct(i.productId);
+      if (!p || !i.startDate || !i.endDate) return;
+      fetchReservedArticleIds(p.articleIds, i.startDate, i.endDate)
+        .then((reserved) => {
+          const avail = p.articleIds.filter((id) => !reserved.has(id)).length;
+          setAvailMap((prev) => ({ ...prev, [i.productId]: avail }));
+        })
+        .catch(() => {});
+    });
+  }, [isOpen, items]);
 
   const total = items.reduce((sum, i) => {
     const p = findProduct(i.productId);
@@ -59,27 +75,36 @@ export function CartDrawer() {
               {items.map((i) => {
                 const p = findProduct(i.productId);
                 if (!p) return null;
+                const d = rentalDays(i.startDate, i.endDate);
+                const avail = availMap[i.productId] ?? Infinity;
+                const canAdd = i.quantity < avail;
                 return (
                   <li key={i.productId} className={styles.item}>
-                    <img src={p.images[0]} alt={p.name} />
+                    <button
+                      className={styles.itemLink}
+                      onClick={() => { close(); navigate(`/produit/${p.id}?from=${i.startDate}&to=${i.endDate}`); }}
+                      aria-label={`Voir ${p.name}`}
+                    >
+                      <img src={p.images[0]} alt={p.name} />
+                    </button>
                     <div className={styles.itemBody}>
-                      <p className={styles.itemName}>{p.name}</p>
-                      {(() => {
-                        const d = rentalDays(i.startDate, i.endDate);
-                        return (
-                          <p className={styles.itemPrice}>
-                            {formatPrice(p.price)}
-                            {d > 0 && (
-                              <> · {d} jour{d > 1 ? 's' : ''} · <strong>{lineTotal(p.price, i.startDate, i.endDate, i.quantity)}€</strong></>
-                            )}
-                          </p>
-                        );
-                      })()}
+                      <button
+                        className={styles.itemName}
+                        onClick={() => { close(); navigate(`/produit/${p.id}?from=${i.startDate}&to=${i.endDate}`); }}
+                      >{p.name}</button>
+                      {i.startDate && i.endDate && (
+                        <p className={styles.itemDates}>📅 {formatRange(i.startDate, i.endDate)}{d > 0 && ` · ${d} jour${d > 1 ? 's' : ''}`}</p>
+                      )}
+                      <p className={styles.itemPrice}>
+                        {formatPrice(p.price)}
+                        {d > 0 && <> · <strong>{lineTotal(p.price, i.startDate, i.endDate, i.quantity)}€</strong></>}
+                      </p>
                       <div className={styles.qty}>
                         <button onClick={() => setQuantity(i.productId, i.quantity - 1)}>−</button>
                         <span>{i.quantity}</span>
-                        <button onClick={() => setQuantity(i.productId, i.quantity + 1)}>+</button>
+                        <button onClick={() => canAdd && setQuantity(i.productId, i.quantity + 1)} disabled={!canAdd} aria-disabled={!canAdd}>+</button>
                       </div>
+                      {!canAdd && <p className={styles.maxReached}>Maximum disponible atteint</p>}
                     </div>
                     <button className={styles.removeBtn} onClick={() => remove(i.productId)} aria-label="Retirer">🗑</button>
                   </li>
