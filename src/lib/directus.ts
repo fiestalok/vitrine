@@ -262,6 +262,7 @@ export interface ReservationCartItem {
   productId: string; // slug du produit
   quantity: number;
   unit_price: number;
+  articleIds: number[];
 }
 
 export interface ReservationData {
@@ -299,43 +300,14 @@ export async function createReservation(data: ReservationData): Promise<string> 
     }
   );
 
-  // 3. Récupérer les produits par slug
-  const slugs = data.cartItems.map((i) => i.productId).join(',');
-  const produitsRes = await fetch(
-    `${DIRECTUS_URL}/items/produits?filter[slug][_in]=${slugs}&fields=id,slug`
-  );
-  const produitsJson = await produitsRes.json();
-  const produitBySlug: Record<string, number> = {};
-  for (const p of produitsJson.data ?? []) produitBySlug[p.slug] = p.id;
-
-  // 4. Récupérer les articles liés à ces produits
-  const produitIdSet = new Set(Object.values(produitBySlug));
-  const artRes = await fetch(
-    `${DIRECTUS_URL}/items/articles?fields=id,produit_id&limit=-1`
-  );
-  const artJson = await artRes.json();
-
-  const articlesByProduitId: Record<number, number[]> = {};
-  for (const a of (artJson.data ?? []) as DirectusArticleUnit[]) {
-    const pid = produitId(a);
-    if (!produitIdSet.has(pid)) continue;
-    if (!articlesByProduitId[pid]) articlesByProduitId[pid] = [];
-    articlesByProduitId[pid].push(a.id);
-  }
-
-  const articlesBySlug: Record<string, number[]> = {};
-  for (const [slug, pid] of Object.entries(produitBySlug)) {
-    articlesBySlug[slug] = articlesByProduitId[pid] ?? [];
-  }
-
-  // 5. Trouver un article disponible par produit pour les dates demandées
-  const allArticleIds = Object.values(articlesBySlug).flat();
+  // 3. Trouver un article disponible par produit pour les dates demandées
+  const allArticleIds = data.cartItems.flatMap((i) => i.articleIds);
   const reservedIds = await fetchReservedArticleIds(allArticleIds, data.date_start, data.date_end);
 
   const availableArticleBySlug: Record<string, number> = {};
-  for (const [slug, ids] of Object.entries(articlesBySlug)) {
-    const available = ids.find((id) => !reservedIds.has(id));
-    if (available !== undefined) availableArticleBySlug[slug] = available;
+  for (const item of data.cartItems) {
+    const available = item.articleIds.find((id) => !reservedIds.has(id));
+    if (available !== undefined) availableArticleBySlug[item.productId] = available;
   }
 
   // 6. Créer les reservation_articles
