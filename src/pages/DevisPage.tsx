@@ -58,7 +58,7 @@ export function DevisPage() {
     try {
       const cartItemsMapped: ReservationCartItem[] = items.map(i => {
         const p = findProduct(i.productId);
-        return { productId: i.productId, quantity: i.quantity, unit_price: p?.price ?? 0, articleIds: p?.articleIds ?? [] };
+        return { numericId: p?.numericId ?? 0, quantity: i.quantity, unit_price: p?.price ?? 0 };
       });
 
       const token = await createReservation({

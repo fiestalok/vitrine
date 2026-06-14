@@ -3,9 +3,9 @@ import { filterProducts, DEFAULT_FILTERS } from '../lib/filterProducts';
 import type { Product } from '../data/types';
 
 const SAMPLE: Product[] = [
-  { id: '1', name: 'Château', category: 'chateau-gonflable', audiences: ['enfants'], shortDescription: '', longDescription: '', price: 120, rating: 4.5, reviewCount: 2, specs: {}, images: [], badge: null, articleIds: [] },
-  { id: '2', name: 'Sono',    category: 'enceintes',         audiences: ['adultes', 'entreprises'], shortDescription: '', longDescription: '', price: 60,  rating: 4.8, reviewCount: 5, specs: {}, images: [], badge: null, articleIds: [] },
-  { id: '3', name: 'BBQ',     category: 'restauration',      audiences: ['adultes'], shortDescription: '', longDescription: '', price: 90, rating: 4.2, reviewCount: 1, specs: {}, images: [], badge: null, articleIds: [] },
+  { id: '1', numericId: 1, name: 'Château', category: 'chateau-gonflable', audiences: ['enfants'], shortDescription: '', longDescription: '', price: 120, rating: 4.5, reviewCount: 2, specs: {}, images: [], badge: null, articleIds: [] },
+  { id: '2', numericId: 2, name: 'Sono',    category: 'enceintes',         audiences: ['adultes', 'entreprises'], shortDescription: '', longDescription: '', price: 60,  rating: 4.8, reviewCount: 5, specs: {}, images: [], badge: null, articleIds: [] },
+  { id: '3', numericId: 3, name: 'BBQ',     category: 'restauration',      audiences: ['adultes'], shortDescription: '', longDescription: '', price: 90, rating: 4.2, reviewCount: 1, specs: {}, images: [], badge: null, articleIds: [] },
 ];
 
 describe('filterProducts', () => {

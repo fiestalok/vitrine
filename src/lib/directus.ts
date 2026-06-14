@@ -115,6 +115,7 @@ function mapProduit(
   const mainImages = resolveImage(p);
   return {
     id: p.slug,
+    numericId: p.id,
     name: p.name,
     category: resolveCategory(p.category, categoryById),
     audiences: (p.audiences ?? []) as Audience[],
@@ -259,10 +260,9 @@ export interface ReservationClientData {
 }
 
 export interface ReservationCartItem {
-  productId: string; // slug du produit
+  numericId: number; // ID numérique Directus du produit
   quantity: number;
   unit_price: number;
-  articleIds: number[];
 }
 
 export interface ReservationData {
@@ -300,28 +300,16 @@ export async function createReservation(data: ReservationData): Promise<string> 
     }
   );
 
-  // 3. Trouver un article disponible par produit pour les dates demandées
-  const allArticleIds = data.cartItems.flatMap((i) => i.articleIds);
-  const reservedIds = await fetchReservedArticleIds(allArticleIds, data.date_start, data.date_end);
-
-  const availableArticleBySlug: Record<string, number> = {};
-  for (const item of data.cartItems) {
-    const available = item.articleIds.find((id) => !reservedIds.has(id));
-    if (available !== undefined) availableArticleBySlug[item.productId] = available;
-  }
-
-  // 6. Créer les reservation_articles
+  // 3. Créer les reservations_produits
   await Promise.all(
-    data.cartItems.map((item) => {
-      const articleId = availableArticleBySlug[item.productId];
-      if (!articleId) return Promise.resolve();
-      return directusPost('/items/reservations_articles', {
+    data.cartItems.map((item) =>
+      directusPost('/items/reservations_produits', {
         reservations_id: reservation.id,
-        articles_id: articleId,
+        produits_id: item.numericId,
         quantity: item.quantity,
         unit_price: item.unit_price,
-      });
-    })
+      })
+    )
   );
 
   return trackingToken;

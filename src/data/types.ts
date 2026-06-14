@@ -2,6 +2,7 @@ import type { CategoryId, Audience } from './categories';
 
 export interface Product {
   id: string;
+  numericId: number;
   name: string;
   category: CategoryId;
   audiences: Audience[];
