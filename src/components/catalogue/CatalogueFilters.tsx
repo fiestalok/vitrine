@@ -5,6 +5,7 @@ import styles from './CatalogueFilters.module.css';
 interface Props {
   value: FilterState;
   onChange: (f: FilterState) => void;
+  maxAvailable?: number;
 }
 
 const AUDIENCE_LABELS: Record<Audience, string> = {
@@ -15,7 +16,7 @@ const AUDIENCE_LABELS: Record<Audience, string> = {
 
 const today = new Date().toISOString().split('T')[0];
 
-export function CatalogueFilters({ value, onChange }: Props) {
+export function CatalogueFilters({ value, onChange, maxAvailable = 400 }: Props) {
   const toggleAudience = (a: Audience) => {
     const has = value.audiences.includes(a);
     onChange({ ...value, audiences: has ? value.audiences.filter((x) => x !== a) : [...value.audiences, a] });
@@ -82,18 +83,18 @@ export function CatalogueFilters({ value, onChange }: Props) {
         <input
           type="range"
           min={30}
-          max={400}
+          max={maxAvailable}
           step={10}
           value={value.maxPrice}
           onChange={(e) => onChange({ ...value, maxPrice: Number(e.target.value) })}
         />
-        <div className={styles.priceRange}><span>30€</span><span>400€</span></div>
+        <div className={styles.priceRange}><span>30€</span><span>{maxAvailable}€</span></div>
       </div>
 
       {hasActiveFilters && (
         <button
           className={styles.reset}
-          onClick={() => onChange({ ...value, audiences: [], maxPrice: 400, dateStart: '', dateEnd: '' })}
+          onClick={() => onChange({ ...value, audiences: [], maxPrice: maxAvailable, dateStart: '', dateEnd: '' })}
         >
           Réinitialiser
         </button>

@@ -14,11 +14,22 @@ import styles from './CataloguePage.module.css';
 export function CataloguePage() {
   const { products, loading } = useProducts();
   const [params, setParams] = useSearchParams();
+
+  const maxProductPrice = useMemo(
+    () => products.length > 0 ? Math.ceil(Math.max(...products.map((p) => p.price)) / 10) * 10 : 400,
+    [products],
+  );
+
   const initial: FilterState = {
     ...DEFAULT_FILTERS,
     category: (params.get('cat') as CategoryId) || 'all',
   };
   const [filters, setFilters] = useState<FilterState>(initial);
+
+  useEffect(() => {
+    if (products.length > 0)
+      setFilters((f) => f.maxPrice === DEFAULT_FILTERS.maxPrice ? { ...f, maxPrice: maxProductPrice } : f);
+  }, [maxProductPrice]);
 
   const [reservedIds, setReservedIds] = useState<Set<number>>(new Set());
   const [availLoading, setAvailLoading] = useState(false);
@@ -83,7 +94,7 @@ export function CataloguePage() {
         </div>
 
         <div className={`container ${styles.layout}`}>
-          <CatalogueFilters value={filters} onChange={setFilters} />
+          <CatalogueFilters value={filters} onChange={setFilters} maxAvailable={maxProductPrice} />
 
           <div className={styles.results}>
             <div className={styles.resultsHeader}>
