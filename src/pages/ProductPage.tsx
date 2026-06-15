@@ -49,7 +49,7 @@ export function ProductPage() {
   const { categories } = useCategories();
   const product = products.find((p) => p.id === id);
   const cat = product ? categories.find((c) => c.id === product.category) : undefined;
-  const { add, open } = useCart();
+  const { add, open, items } = useCart();
   const { forProduct } = useReviews();
 
   const fromParam = searchParams.get('from');
@@ -78,6 +78,9 @@ export function ProductPage() {
 
   const reviews = forProduct(product.id);
   const rangeComplete = Boolean(range.start && range.end);
+  const cartQty = items.find((i) => i.productId === product.id)?.quantity ?? 0;
+  const availLoading = rangeComplete && availCount === null;
+  const maxReached = availCount !== null && cartQty >= availCount;
 
   const startISO = range.start ? format(range.start, 'yyyy-MM-dd') : null;
   const endISO = range.end ? format(range.end, 'yyyy-MM-dd') : null;
@@ -86,6 +89,7 @@ export function ProductPage() {
 
   function handleAdd() {
     if (!product || !range.start || !range.end) return;
+    if (availCount !== null && cartQty >= availCount) return;
     add({
       productId: product.id,
       startDate: format(range.start, 'yyyy-MM-dd'),
@@ -129,7 +133,7 @@ export function ProductPage() {
                 <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
                 <div className={styles.selectedActions}>
                   <div className={styles.selectedPrice}>{totalPrice}€</div>
-                  <Button variant="primary" size="md" onClick={handleAdd}>+ Panier</Button>
+                  <Button variant="primary" size="md" onClick={handleAdd} disabled={maxReached || availLoading}>{maxReached ? 'Stock épuisé' : '+ Panier'}</Button>
                 </div>
               </div>
               {availCount === 1 && (

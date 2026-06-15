@@ -30,8 +30,8 @@ export function DevisPage() {
   const [phone, setPhone] = useState('');
   const starts = items.map(i => i.startDate).filter((d): d is string => Boolean(d));
   const ends = items.map(i => i.endDate).filter((d): d is string => Boolean(d));
-  const [dateStart, setDateStart] = useState(starts.length ? starts.reduce((a, b) => (a < b ? a : b)) : '');
-  const [dateEnd, setDateEnd] = useState(ends.length ? ends.reduce((a, b) => (a > b ? a : b)) : '');
+  const dateStart = starts.length ? starts.reduce((a, b) => (a < b ? a : b)) : '';
+  const dateEnd = ends.length ? ends.reduce((a, b) => (a > b ? a : b)) : '';
   const [delivery, setDelivery] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState('');
 
@@ -129,9 +129,10 @@ export function DevisPage() {
                 <section>
                   <h2>Détails de la location</h2>
                   <div className={styles.row}>
-                    <label>Date de début *<input required type="date" value={dateStart} onChange={e => setDateStart(e.target.value)} /></label>
-                    <label>Date de fin *<input required type="date" value={dateEnd} onChange={e => setDateEnd(e.target.value)} min={dateStart} /></label>
+                    <label>Date de début *<input required type="date" value={dateStart} readOnly className={styles.readonlyDate} /></label>
+                    <label>Date de fin *<input required type="date" value={dateEnd} readOnly className={styles.readonlyDate} /></label>
                   </div>
+                  <p className={styles.dateHint}>Pour modifier les dates, retournez dans votre panier.</p>
                   <div className={styles.typeToggle}>
                     <button type="button" className={!delivery ? styles.active : ''} onClick={() => setDelivery(false)}>Retrait sur place</button>
                     <button type="button" className={delivery ? styles.active : ''} onClick={() => setDelivery(true)}>Livraison (+frais)</button>

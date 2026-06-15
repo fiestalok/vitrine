@@ -9,4 +9,4 @@
   background: var(--color-bg);
   font-family: var(--font-body);
 }
-.form input:focus, .form textarea:focus { outline: none; border-color: var(--color-primary); }
+.form input:focus, .form textarea:focus { outline: none; border-color: rgba(45, 52, 54, 0.35); }

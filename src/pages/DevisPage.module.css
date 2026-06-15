@@ -87,7 +87,20 @@
 
 .form input:focus {
   outline: none;
-  border-color: var(--color-primary, #6c63ff);
+  border-color: rgba(45, 52, 54, 0.35);
+}
+
+.readonlyDate {
+  background: var(--color-bg, #f8f9fa) !important;
+  color: var(--color-ink-soft);
+  cursor: default;
+  pointer-events: none;
+}
+
+.dateHint {
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  margin-top: -0.25rem;
 }
 
 .row {
