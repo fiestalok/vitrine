@@ -1,8 +1,14 @@
+import { PageSEO } from '../components/seo/PageSEO';
 import styles from './MentionsLegalesPage.module.css';
 
 export function MentionsLegalesPage() {
   return (
     <div className={styles.wrapper}>
+      <PageSEO
+        title="Mentions légales"
+        description="Mentions légales du site Hoplalo'K — éditeur, hébergement, données personnelles et RGPD."
+        path="/mentions-legales"
+      />
       <div className={`container ${styles.content}`}>
         <h1 className={styles.title}>Mentions légales</h1>
         <p className={styles.updated}>Dernière mise à jour : juin 2026</p>

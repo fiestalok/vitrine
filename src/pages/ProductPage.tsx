@@ -14,6 +14,7 @@ import { AvailabilityCalendar, type DateRange } from '../components/product/Avai
 import { StarRating } from '../components/ui/StarRating';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
+import { PageSEO } from '../components/seo/PageSEO';
 import styles from './ProductPage.module.css';
 
 const SPEC_ICONS: Record<string, string> = {
@@ -154,6 +155,12 @@ export function ProductPage() {
 
   return (
     <div className={`container ${styles.page}`}>
+      <PageSEO
+        title={`Location ${product.name} en Alsace`}
+        description={`Louez ${product.name} pour votre événement en Alsace. Livraison dans tout le Bas-Rhin et le Haut-Rhin.`}
+        path={`/produit/${product.id}`}
+        image={product.images[0] ?? undefined}
+      />
       <nav className={styles.crumbs}>
         <Link to="/catalogue">Catalogue</Link> / <span>{product.name}</span>
       </nav>
