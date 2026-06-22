@@ -30,13 +30,15 @@ export function Footer() {
             <li>📍 Strasbourg, Alsace</li>
             <li>📞 +33 6 79 51 59 25</li>
             <li>✉️ contact@fiestalok.fr</li>
-            <li>🕐 Lun–Sam, 9h–19h</li>
           </ul>
         </div>
       </div>
       <div className={styles.bottom}>
         <p>© 2026 Hoplalo'K — Tous droits réservés</p>
-        <p>Fait avec ❤️ en Alsace</p>
+        <p>
+          <Link to="/mentions-legales">Mentions légales</Link>
+          {' · '}Fait avec ❤️ en Alsace
+        </p>
       </div>
     </footer>
   );

@@ -36,6 +36,8 @@
   position: relative;
   z-index: 1;
 }
+.bottom a { color: var(--color-ink-soft); text-decoration: underline; }
+.bottom a:hover { color: var(--color-danger); }
 @media (max-width: 768px) {
   .grid { grid-template-columns: 1fr; gap: var(--space-xl); }
   .bottom { flex-direction: column; gap: var(--space-xs); text-align: center; }
