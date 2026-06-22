@@ -157,7 +157,7 @@ export function ProductPage() {
     <div className={`container ${styles.page}`}>
       <PageSEO
         title={`Location ${product.name} en Alsace`}
-        description={`Louez ${product.name} pour votre événement en Alsace. Livraison dans tout le Bas-Rhin et le Haut-Rhin.`}
+        description={`Louez ${product.name} pour votre événement en Alsace. ${product.longDescription.slice(0, 120)}…`}
         path={`/produit/${product.id}`}
         image={product.images[0] ?? undefined}
       />
