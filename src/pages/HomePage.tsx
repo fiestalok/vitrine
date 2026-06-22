@@ -114,8 +114,8 @@ export function HomePage() {
             <ProductCard
               key={p.id}
               product={p}
-              dateStart={cartDatedItem?.startDate}
-              dateEnd={cartDatedItem?.endDate}
+              dateStart={cartDatedItem?.startDate ?? undefined}
+              dateEnd={cartDatedItem?.endDate ?? undefined}
             />
           ))}
         </div>
