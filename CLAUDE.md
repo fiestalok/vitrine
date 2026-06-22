@@ -68,7 +68,7 @@ plage, 5. crée les `reservations_articles`. Retourne le `tracking_token`.
 
 - `src/App.tsx` — providers imbriqués (Products → Categories → Cart → Reviews) autour des
   `<Routes>`. Layout commun : `Navbar`, `Footer`, `CartDrawer`, `ScrollToTop`.
-- `src/main.tsx` — **HashRouter** (URLs en `/#/…`), nécessaire pour GitHub Pages. `base: '/vitrine/'`.
+- `src/main.tsx` — **HashRouter** (URLs en `/#/…`), nécessaire pour GitHub Pages. `base: '/'`.
 - **Contexts** (`src/context/`) :
   - `ProductsContext` / `CategoriesContext` — fetch Directus au montage, exposent `{ data, loading }`.
     Sur erreur réseau → liste vide (le site reste affichable). Quasi tous les composants lisent
