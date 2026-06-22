@@ -1,21 +1,21 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { CartItem } from '../data/types';
+import { loadJSON, saveJSON } from '../lib/storage';
 
 const STORAGE_KEY = 'hoplalok.cart.v2';
 const TTL_MS = 24 * 60 * 60 * 1000;
 
+interface StoredCart { items: CartItem[]; savedAt: number; }
+
 function loadCart(): CartItem[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const { items, savedAt } = JSON.parse(raw);
-    if (Date.now() - savedAt > TTL_MS) { localStorage.removeItem(STORAGE_KEY); return []; }
-    return items ?? [];
-  } catch { return []; }
+  const stored = loadJSON<StoredCart | null>(STORAGE_KEY, null);
+  if (!stored) return [];
+  if (Date.now() - stored.savedAt > TTL_MS) { localStorage.removeItem(STORAGE_KEY); return []; }
+  return stored.items ?? [];
 }
 
 function saveCart(items: CartItem[]): void {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ items, savedAt: Date.now() })); } catch {}
+  saveJSON<StoredCart>(STORAGE_KEY, { items, savedAt: Date.now() });
 }
 
 interface CartContextValue {
@@ -26,7 +26,9 @@ interface CartContextValue {
   close: () => void;
   add: (item: CartItem) => void;
   remove: (productId: string) => void;
+  removeItems: (productIds: string[]) => void;
   setQuantity: (productId: string, quantity: number) => void;
+  updateDates: (startDate: string, endDate: string) => void;
   clear: () => void;
 }
 
@@ -56,7 +58,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [...prev, incoming];
     }),
     remove: (id) => setItems((prev) => prev.filter((i) => i.productId !== id)),
+    removeItems: (ids) => setItems((prev) => prev.filter((i) => !ids.includes(i.productId))),
     setQuantity: (id, qty) => setItems((prev) => prev.map((i) => i.productId === id ? { ...i, quantity: Math.max(1, qty) } : i)),
+    updateDates: (startDate, endDate) => setItems((prev) => prev.map((i) => ({ ...i, startDate, endDate }))),
     clear: () => setItems([]),
   }), [items, isOpen]);
 

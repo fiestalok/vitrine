@@ -3,7 +3,7 @@ import styles from './Badge.module.css';
 
 interface BadgeProps {
   children: ReactNode;
-  tone?: 'accent' | 'primary' | 'danger' | 'success';
+  tone?: 'accent' | 'primary' | 'danger' | 'success' | 'warning';
   rotation?: number; // degrés
   className?: string;
 }

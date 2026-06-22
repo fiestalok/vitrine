@@ -20,3 +20,6 @@
 .lastDispo { display: block; font-size: 0.65rem; color: #e05252; font-weight: 600; margin-top: 0.25rem; }
 .addBtn { flex-shrink: 0; display: grid; place-items: center; width: 26px; height: 26px; border-radius: var(--radius-sm); background: var(--color-primary); color: #fff; border: none; cursor: pointer; transition: opacity 0.15s, transform 0.15s; }
 .addBtn:hover { opacity: 0.88; transform: scale(1.08); }
+.unavailCard { opacity: 0.6; }
+.unavailCard img { filter: grayscale(40%); }
+.unavailCard:hover { transform: none; box-shadow: var(--shadow-sm); }

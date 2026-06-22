@@ -1,13 +1,13 @@
 import { useRef, useState, useEffect } from 'react';
 import { useParams, Link, Navigate, useSearchParams } from 'react-router-dom';
-import { eachDayOfInterval, format, startOfDay } from 'date-fns';
+import { format } from 'date-fns';
 import { useProducts } from '../context/ProductsContext';
 import { useCategories } from '../context/CategoriesContext';
 import { useCart } from '../context/CartContext';
 import { useReviews } from '../context/ReviewsContext';
-import { UNAVAILABLE_DATES } from '../data/unavailable';
 import { formatRange, rentalDays } from '../lib/format';
 import { fetchReservedArticleIds } from '../lib/directus';
+import { DateChangeModal } from '../components/ui/DateChangeModal';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { PhotoGallery } from '../components/product/PhotoGallery';
 import { AvailabilityCalendar, type DateRange } from '../components/product/AvailabilityCalendar';
@@ -37,11 +37,6 @@ function specIcon(key: string): string {
   return '📋';
 }
 
-const BLOCKED_UNTIL_JUNE_22 = eachDayOfInterval({
-  start: startOfDay(new Date()),
-  end: new Date(2026, 5, 22),
-}).map((d) => format(d, 'yyyy-MM-dd'));
-
 export function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
@@ -49,7 +44,7 @@ export function ProductPage() {
   const { categories } = useCategories();
   const product = products.find((p) => p.id === id);
   const cat = product ? categories.find((c) => c.id === product.category) : undefined;
-  const { add, open, items } = useCart();
+  const { add, open, items, updateDates, removeItems } = useCart();
   const { forProduct } = useReviews();
 
   const fromParam = searchParams.get('from');
@@ -60,6 +55,8 @@ export function ProductPage() {
   }));
   const [availCount, setAvailCount] = useState<number | null>(null);
   const planningRef = useRef<HTMLElement>(null);
+  type PendingAdd = { unavailableIds: string[]; unavailableNames: string[]; newStart: string; newEnd: string };
+  const [pendingAdd, setPendingAdd] = useState<PendingAdd | null>(null);
 
   useEffect(() => {
     if (!product || !range.start || !range.end) { setAvailCount(null); return; }
@@ -87,15 +84,42 @@ export function ProductPage() {
   const days = rentalDays(startISO, endISO);
   const totalPrice = product.price * days;
 
-  function handleAdd() {
+  async function handleAdd() {
     if (!product || !range.start || !range.end) return;
     if (availCount !== null && cartQty >= availCount) return;
-    add({
-      productId: product.id,
-      startDate: format(range.start, 'yyyy-MM-dd'),
-      endDate: format(range.end, 'yyyy-MM-dd'),
-      quantity: 1,
-    });
+    const newStart = format(range.start, 'yyyy-MM-dd');
+    const newEnd   = format(range.end,   'yyyy-MM-dd');
+
+    // Vérifier si les dates diffèrent des articles déjà dans le panier
+    const datedItems = items.filter((i) => i.productId !== product.id && i.startDate && i.endDate);
+    if (datedItems.length > 0) {
+      const cartStart = datedItems[0].startDate!;
+      const cartEnd   = datedItems[0].endDate!;
+      if (newStart !== cartStart || newEnd !== cartEnd) {
+        const allArticleIds = datedItems.flatMap((i) => products.find((p) => p.id === i.productId)?.articleIds ?? []);
+        if (allArticleIds.length > 0) {
+          const reserved = await fetchReservedArticleIds(allArticleIds, newStart, newEnd);
+          const unavailable = datedItems.filter((i) => {
+            const p = products.find((pr) => pr.id === i.productId);
+            if (!p) return true;
+            return p.articleIds.filter((id) => !reserved.has(id)).length < i.quantity;
+          });
+          if (unavailable.length > 0) {
+            setPendingAdd({
+              unavailableIds: unavailable.map((i) => i.productId),
+              unavailableNames: unavailable.map((i) => products.find((p) => p.id === i.productId)?.name ?? i.productId),
+              newStart,
+              newEnd,
+            });
+            return;
+          }
+        }
+        // Tous dispo pour les nouvelles dates → mettre à jour silencieusement
+        updateDates(newStart, newEnd);
+      }
+    }
+
+    add({ productId: product.id, startDate: newStart, endDate: newEnd, quantity: 1 });
     open();
   }
 
@@ -106,6 +130,27 @@ export function ProductPage() {
     }
     handleAdd();
   }
+
+  const selectedCard = rangeComplete ? (
+    <div className={styles.selectedCard}>
+      <div className={styles.selectedRow}>
+        <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
+        <div className={styles.selectedActions}>
+          <div className={styles.selectedPrice}>{totalPrice}€</div>
+          <Button variant="primary" size="md" onClick={handleAdd} disabled={maxReached || availLoading}>{maxReached ? 'Stock épuisé' : '+ Panier'}</Button>
+        </div>
+      </div>
+      {cartQty > 0 && (
+        <div className={styles.cartInfo}>
+          🛒 {cartQty} sélectionné{cartQty > 1 ? 's' : ''} dans votre panier
+          {maxReached && <span className={styles.stockEpuise}> · Pas de stock supplémentaire</span>}
+        </div>
+      )}
+      {availCount === 1 && !maxReached && (
+        <div className={styles.lastDispo}>⚡ Plus qu'un article dispo pour ces dates</div>
+      )}
+    </div>
+  ) : null;
 
   return (
     <div className={`container ${styles.page}`}>
@@ -127,24 +172,16 @@ export function ProductPage() {
             <span className={styles.price}>{product.price}€</span>
             <span className={styles.unit}>/jour</span>
           </div>
-          {rangeComplete && (
-            <div className={styles.selectedCard}>
-              <div className={styles.selectedRow}>
-                <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
-                <div className={styles.selectedActions}>
-                  <div className={styles.selectedPrice}>{totalPrice}€</div>
-                  <Button variant="primary" size="md" onClick={handleAdd} disabled={maxReached || availLoading}>{maxReached ? 'Stock épuisé' : '+ Panier'}</Button>
-                </div>
-              </div>
-              {availCount === 1 && (
-                <div className={styles.lastDispo}>⚡ Plus qu'un article dispo pour ces dates</div>
-              )}
-            </div>
-          )}
+          {selectedCard}
           {!rangeComplete && (
-            <Button variant="primary" size="lg" onClick={handleAddOrScroll}>
-              + Ajouter au panier
-            </Button>
+            <>
+              {cartQty > 0 && (
+                <div className={styles.cartInfo}>🛒 {cartQty} déjà dans votre panier</div>
+              )}
+              <Button variant="primary" size="lg" onClick={handleAddOrScroll}>
+                + Ajouter au panier
+              </Button>
+            </>
           )}
         </div>
       </div>
@@ -175,27 +212,15 @@ export function ProductPage() {
         <header><h2>Disponibilités</h2><p>Choisis ta date pour vérifier la dispo.</p></header>
         <AvailabilityCalendar
           productId={product.id}
-          unavailableDates={UNAVAILABLE_DATES[product.id] ?? BLOCKED_UNTIL_JUNE_22}
+          articleIds={product.articleIds}
+          totalArticles={product.articleIds.length}
           range={range}
           onChange={setRange}
         />
         {!rangeComplete && range.start && (
           <p className={styles.selected}>Sélectionnez la date de fin.</p>
         )}
-        {rangeComplete && (
-          <div className={styles.selectedCard}>
-            <div className={styles.selectedRow}>
-              <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
-              <div className={styles.selectedActions}>
-                <div className={styles.selectedPrice}>{totalPrice}€</div>
-                <Button variant="primary" size="md" onClick={handleAdd}>+ Panier</Button>
-              </div>
-            </div>
-            {availCount === 1 && (
-              <div className={styles.lastDispo}>⚡ Plus qu'un article dispo pour ces dates</div>
-            )}
-          </div>
-        )}
+        {selectedCard}
         {!rangeComplete && (
           <Button variant="primary" size="lg" onClick={handleAdd} disabled className={styles.calBtn}>
             Saisissez vos dates
@@ -204,6 +229,20 @@ export function ProductPage() {
       </section>
 
 <Link to="/catalogue" className={styles.back}>← Retour au catalogue</Link>
+
+      {pendingAdd && (
+        <DateChangeModal
+          unavailableNames={pendingAdd.unavailableNames}
+          onCancel={() => setPendingAdd(null)}
+          onConfirm={() => {
+            removeItems(pendingAdd.unavailableIds);
+            updateDates(pendingAdd.newStart, pendingAdd.newEnd);
+            add({ productId: product.id, startDate: pendingAdd.newStart, endDate: pendingAdd.newEnd, quantity: 1 });
+            open();
+            setPendingAdd(null);
+          }}
+        />
+      )}
     </div>
   );
 }

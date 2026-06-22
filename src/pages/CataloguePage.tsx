@@ -1,18 +1,21 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { CategoryId } from '../data/categories';
 import { filterProducts, DEFAULT_FILTERS, type FilterState } from '../lib/filterProducts';
 import { fetchReservedArticleIds } from '../lib/directus';
 import { useProducts } from '../context/ProductsContext';
+import { useCart } from '../context/CartContext';
 import { ProductCard } from '../components/product/ProductCard';
 import { CategoryTabs } from '../components/catalogue/CategoryTabs';
 import { CatalogueFilters } from '../components/catalogue/CatalogueFilters';
+import { DateChangeModal } from '../components/ui/DateChangeModal';
 import { Bubbles } from '../components/ui/Bubbles';
 import { Castle } from '../components/ui/Castle';
 import styles from './CataloguePage.module.css';
 
 export function CataloguePage() {
   const { products, loading } = useProducts();
+  const { items: cartItems, updateDates, removeItems } = useCart();
   const [params, setParams] = useSearchParams();
 
   const maxProductPrice = useMemo(
@@ -20,11 +23,15 @@ export function CataloguePage() {
     [products],
   );
 
-  const initial: FilterState = {
-    ...DEFAULT_FILTERS,
-    category: (params.get('cat') as CategoryId) || 'all',
-  };
-  const [filters, setFilters] = useState<FilterState>(initial);
+  const [filters, setFilters] = useState<FilterState>(() => {
+    const cartDatedItem = cartItems.find((i) => i.startDate && i.endDate);
+    return {
+      ...DEFAULT_FILTERS,
+      category: (params.get('cat') as CategoryId) || 'all',
+      dateStart: cartDatedItem?.startDate ?? '',
+      dateEnd:   cartDatedItem?.endDate   ?? '',
+    };
+  });
 
   useEffect(() => {
     if (products.length > 0)
@@ -64,17 +71,62 @@ export function CataloguePage() {
 
   const displayed = useMemo(() => {
     if (!datesSelected) return filtered;
-    return filtered
-      .map((p) => ({
-        ...p,
-        _availCount: p.articleIds.filter((id) => !reservedIds.has(id)).length,
-      }))
-      .filter((p) => p._availCount > 0);
+    const withAvail = filtered.map((p) => ({
+      ...p,
+      _availCount: p.articleIds.filter((id) => !reservedIds.has(id)).length,
+    }));
+    // Disponibles en premier, indisponibles en dernier
+    return [...withAvail].sort((a, b) => {
+      if (a._availCount > 0 && b._availCount <= 0) return -1;
+      if (a._availCount <= 0 && b._availCount > 0) return 1;
+      return 0;
+    });
   }, [filtered, datesSelected, reservedIds]);
 
   const isLoading = loading || availLoading;
 
+  type PendingDateChange = {
+    newFilter: FilterState;
+    unavailableIds: string[];
+    unavailableNames: string[];
+  };
+  const [pendingDateChange, setPendingDateChange] = useState<PendingDateChange | null>(null);
+
+  const handleDateChange = useCallback(async (newFilter: FilterState) => {
+    const datedItems = cartItems.filter((i) => i.startDate && i.endDate);
+    // No cart items with dates → apply directly
+    if (datedItems.length === 0) { setFilters(newFilter); return; }
+    // Dates unchanged from first cart item → apply directly
+    const cartStart = datedItems[0].startDate!;
+    const cartEnd   = datedItems[0].endDate!;
+    if (newFilter.dateStart === cartStart && newFilter.dateEnd === cartEnd) { setFilters(newFilter); return; }
+    // Check availability of cart items at new dates
+    const cartArticleIds = datedItems.flatMap((i) => products.find((p) => p.id === i.productId)?.articleIds ?? []);
+    if (cartArticleIds.length === 0) {
+      updateDates(newFilter.dateStart, newFilter.dateEnd);
+      setFilters(newFilter);
+      return;
+    }
+    const reserved = await fetchReservedArticleIds(cartArticleIds, newFilter.dateStart, newFilter.dateEnd);
+    const unavailable = datedItems.filter((i) => {
+      const p = products.find((pr) => pr.id === i.productId);
+      if (!p) return true;
+      return p.articleIds.filter((id) => !reserved.has(id)).length < i.quantity;
+    });
+    if (unavailable.length === 0) {
+      updateDates(newFilter.dateStart, newFilter.dateEnd);
+      setFilters(newFilter);
+      return;
+    }
+    setPendingDateChange({
+      newFilter,
+      unavailableIds: unavailable.map((i) => i.productId),
+      unavailableNames: unavailable.map((i) => products.find((p) => p.id === i.productId)?.name ?? i.productId),
+    });
+  }, [cartItems, products, updateDates]);
+
   return (
+    <>
     <div className={styles.page}>
       <section className={styles.heroBand}>
         <Bubbles variant="warm" />
@@ -94,14 +146,18 @@ export function CataloguePage() {
         </div>
 
         <div className={`container ${styles.layout}`}>
-          <CatalogueFilters value={filters} onChange={setFilters} maxAvailable={maxProductPrice} />
+          <CatalogueFilters value={filters} onChange={setFilters} onDateChange={handleDateChange} maxAvailable={maxProductPrice} />
 
           <div className={styles.results}>
             <div className={styles.resultsHeader}>
               <p className={styles.count}>
                 {isLoading
                   ? 'Chargement…'
-                  : `${displayed.length} résultat${displayed.length > 1 ? 's' : ''}${datesSelected ? ' disponibles' : ''}`}
+                  : (() => {
+                      if (!datesSelected || availLoading) return `${displayed.length} résultat${displayed.length > 1 ? 's' : ''}`;
+                      const availableCount = displayed.filter((p: any) => (p._availCount ?? 0) > 0).length;
+                      return `${availableCount} disponible${availableCount > 1 ? 's' : ''} sur ${displayed.length}`;
+                    })()}
               </p>
               <div className={styles.sortWrap}>
                 {([
@@ -138,8 +194,7 @@ export function CataloguePage() {
                   <ProductCard
                     key={p.id}
                     product={p}
-                    showAvailable={datesSelected}
-                    lastAvailable={datesSelected && (p as any)._availCount === 1}
+                    availCount={!datesSelected ? undefined : availLoading ? null : (p as any)._availCount}
                     dateStart={filters.dateStart || undefined}
                     dateEnd={filters.dateEnd || undefined}
                   />
@@ -150,5 +205,19 @@ export function CataloguePage() {
         </div>
       </div>
     </div>
+
+    {pendingDateChange && (
+      <DateChangeModal
+        unavailableNames={pendingDateChange.unavailableNames}
+        onCancel={() => setPendingDateChange(null)}
+        onConfirm={() => {
+          removeItems(pendingDateChange.unavailableIds);
+          updateDates(pendingDateChange.newFilter.dateStart, pendingDateChange.newFilter.dateEnd);
+          setFilters(pendingDateChange.newFilter);
+          setPendingDateChange(null);
+        }}
+      />
+    )}
+    </>
   );
 }

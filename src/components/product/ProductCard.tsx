@@ -1,41 +1,52 @@
 import { Link } from 'react-router-dom';
 import type { Product } from '../../data/types';
 import { Badge } from '../ui/Badge';
-import { StarRating } from '../ui/StarRating';
 import { useCategories } from '../../context/CategoriesContext';
 import { useCart } from '../../context/CartContext';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
   product: Product;
-  showAvailable?: boolean;
-  lastAvailable?: boolean;
+  // undefined = pas de dates, null = vérification en cours, number = nombre d'articles dispos
+  availCount?: number | null;
   dateStart?: string;
   dateEnd?: string;
 }
 
-export function ProductCard({ product, showAvailable, dateStart, dateEnd }: ProductCardProps) {
+export function ProductCard({ product, availCount, dateStart, dateEnd }: ProductCardProps) {
   const { categories } = useCategories();
-  const { add, open } = useCart();
+  const { add, open, items } = useCart();
   const cat = categories.find((c) => c.id === product.category);
+  const cartQty = items.find((i) => i.productId === product.id)?.quantity ?? 0;
+  const inCart = cartQty > 0;
+
   const datesReady = !!(dateStart && dateEnd);
   const href = datesReady
     ? `/produit/${product.id}?from=${dateStart}&to=${dateEnd}`
     : `/produit/${product.id}`;
 
+  const isUnavailable = availCount !== undefined && availCount !== null && availCount <= 0;
+  const isLastDispo   = availCount === 1;
+  const isAvailable   = availCount !== undefined && availCount !== null && availCount > 0;
+
+  // Produit en panier : ne pas afficher comme indisponible visuellement
+  const showAsUnavail = isUnavailable && !inCart;
+  const maxReached = availCount !== undefined && availCount !== null && cartQty >= availCount;
+
   function handleAdd(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    add({ productId: product.id, startDate: dateStart!, endDate: dateEnd!, quantity: 1 });
+    if (isUnavailable || maxReached || !dateStart || !dateEnd) return;
+    add({ productId: product.id, startDate: dateStart, endDate: dateEnd, quantity: 1 });
     open();
   }
 
   return (
-    <Link to={href} className={styles.card}>
+    <Link to={href} className={`${styles.card} ${showAsUnavail ? styles.unavailCard : ''}`}>
       <div className={styles.imgWrap}>
         <img src={product.images[0]} alt={product.name} loading="lazy" />
         {cat && <span className={styles.cat}>{cat.emoji}</span>}
-        {product.badge && (
+        {product.badge && !showAsUnavail && !inCart && (
           <Badge
             tone={product.badge === 'PROMO' ? 'danger' : product.badge === 'NOUVEAU' ? 'primary' : 'accent'}
             className={styles.badge}
@@ -43,16 +54,29 @@ export function ProductCard({ product, showAvailable, dateStart, dateEnd }: Prod
             {product.badge}
           </Badge>
         )}
+        {inCart && (
+          <Badge tone="primary" rotation={0} className={styles.badge}>
+            🛒 {cartQty}
+          </Badge>
+        )}
+        {showAsUnavail && (
+          <Badge tone="danger" rotation={0} className={styles.badge}>Indisponible</Badge>
+        )}
         <span className={styles.price}>À partir de {product.price}€/jour</span>
       </div>
       <div className={styles.body}>
         <h3 className={styles.name}>{product.name}</h3>
         <div className={styles.footer}>
-          <StarRating value={product.rating} count={product.reviewCount} />
-          {showAvailable && !datesReady && (
+          {inCart ? (
+            <Badge tone="primary" rotation={0} className={styles.availBadge}>
+              {cartQty} sélectionné{cartQty > 1 ? 's' : ''}
+            </Badge>
+          ) : isLastDispo ? (
+            <Badge tone="warning" rotation={0} className={styles.availBadge}>⚡ Dernière dispo</Badge>
+          ) : isAvailable ? (
             <Badge tone="success" rotation={0} className={styles.availBadge}>✓ Disponible</Badge>
-          )}
-          {datesReady && (
+          ) : null}
+          {datesReady && !isUnavailable && !maxReached && (
             <button className={styles.addBtn} onClick={handleAdd} title="Ajouter au panier">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>

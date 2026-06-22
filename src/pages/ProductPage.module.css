@@ -56,3 +56,5 @@
   .name { font-size: clamp(1.6rem, 6vw, 2.2rem); }
 }
 .lastDispo { color: #e05252; font-weight: 600; font-size: 0.78rem; width: 100%; }
+.cartInfo { font-size: 0.82rem; font-weight: 600; color: var(--color-primary); width: 100%; }
+.stockEpuise { color: #e05252; }
