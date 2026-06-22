@@ -25,19 +25,20 @@
 .title { font-family: var(--font-display); color: var(--color-danger); margin-bottom: var(--space-sm); letter-spacing: 0.08em; font-size: 1.1rem; }
 .footer ul { display: flex; flex-direction: column; gap: var(--space-xs); color: var(--color-ink); font-weight: 600; }
 .footer ul a:hover { color: var(--color-danger); }
-.bottom {
-  border-top: 1.5px dashed rgba(45,52,54,0.4);
-  margin-top: var(--space-2xl);
-  padding-top: var(--space-md);
-  display: flex;
-  justify-content: space-between;
+.madeWith {
+  margin-top: var(--space-md);
   color: var(--color-ink-soft);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+}
+.bottom {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-sm);
+  color: var(--color-ink-soft);
+  font-size: 0.8rem;
+  text-align: center;
   position: relative;
   z-index: 1;
 }
-.bottom a { color: var(--color-ink-soft); text-decoration: underline; }
-.bottom a:hover { color: var(--color-danger); }
 @media (max-width: 768px) {
   .grid { grid-template-columns: 1fr; gap: var(--space-xl); }
   .bottom { flex-direction: column; gap: var(--space-xs); text-align: center; }
