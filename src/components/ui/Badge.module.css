@@ -14,3 +14,4 @@
 .danger  { background: var(--color-danger);  color: white; }
 .success { background: var(--color-success); color: var(--color-ink); }
 .warning { background: #ffa94d; color: var(--color-ink); }
+.cart    { background: linear-gradient(135deg, #7c3aed, #c026d3); color: #fff; border-color: #7c3aed; }

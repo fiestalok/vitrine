@@ -56,5 +56,12 @@
   .name { font-size: clamp(1.6rem, 6vw, 2.2rem); }
 }
 .lastDispo { color: #e05252; font-weight: 600; font-size: 0.78rem; width: 100%; }
+
+.qtySelector { display: flex; align-items: center; gap: 4px; }
+.qtyBtn { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; background: #ffa94d; color: var(--color-ink); border: none; border-radius: 50%; cursor: pointer; transition: background 0.12s; flex-shrink: 0; }
+.qtyBtn:hover:not(:disabled) { background: #ff971f; }
+.qtyBtn:disabled { background: var(--color-border); color: var(--color-ink-soft); cursor: not-allowed; }
+.qtyValue { min-width: 18px; text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 1rem; }
+.stockBadge { font-size: 0.65rem; font-weight: 800; color: var(--color-ink-soft); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; text-align: center; white-space: nowrap; }
 .cartInfo { font-size: 0.82rem; font-weight: 600; color: var(--color-primary); width: 100%; }
 .stockEpuise { color: #e05252; }

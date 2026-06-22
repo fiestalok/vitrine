@@ -268,6 +268,15 @@ export async function fetchUnavailableDates(
   return computeUnavailable(ranges, monthStart, monthEnd, totalArticles);
 }
 
+export async function fetchArticleDetails(
+  articleIds: number[],
+): Promise<{ id: number; name: string | null }[]> {
+  if (articleIds.length === 0) return [];
+  return directusGet<{ id: number; name: string | null }[]>(
+    `${DIRECTUS_URL}/items/articles?filter[id][_in]=${articleIds.join(',')}&fields=id,name&limit=-1`,
+  ).catch(() => articleIds.map((id) => ({ id, name: null })));
+}
+
 export async function fetchReservedArticleIds(
   articleIds: number[],
   dateStart: string,

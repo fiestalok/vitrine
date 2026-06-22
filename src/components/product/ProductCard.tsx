@@ -26,7 +26,7 @@ export function ProductCard({ product, availCount, dateStart, dateEnd }: Product
     : `/produit/${product.id}`;
 
   const isUnavailable = availCount !== undefined && availCount !== null && availCount <= 0;
-  const isLastDispo   = availCount === 1;
+  const isLastDispo   = availCount === 1 && product.articleIds.length >= 2;
   const isAvailable   = availCount !== undefined && availCount !== null && availCount > 0;
 
   // Produit en panier : ne pas afficher comme indisponible visuellement
@@ -55,7 +55,7 @@ export function ProductCard({ product, availCount, dateStart, dateEnd }: Product
           </Badge>
         )}
         {inCart && (
-          <Badge tone="primary" rotation={0} className={styles.badge}>
+          <Badge tone="warning" rotation={0} className={styles.badge}>
             🛒 {cartQty}
           </Badge>
         )}
@@ -68,8 +68,8 @@ export function ProductCard({ product, availCount, dateStart, dateEnd }: Product
         <h3 className={styles.name}>{product.name}</h3>
         <div className={styles.footer}>
           {inCart ? (
-            <Badge tone="primary" rotation={0} className={styles.availBadge}>
-              {cartQty} sélectionné{cartQty > 1 ? 's' : ''}
+            <Badge tone="warning" rotation={0} className={styles.availBadge}>
+              🎉 {cartQty} sélectionné{cartQty > 1 ? 's' : ''}
             </Badge>
           ) : isLastDispo ? (
             <Badge tone="warning" rotation={0} className={styles.availBadge}>⚡ Dernière dispo</Badge>

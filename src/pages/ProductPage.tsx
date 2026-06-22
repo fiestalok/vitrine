@@ -44,7 +44,7 @@ export function ProductPage() {
   const { categories } = useCategories();
   const product = products.find((p) => p.id === id);
   const cat = product ? categories.find((c) => c.id === product.category) : undefined;
-  const { add, open, items, updateDates, removeItems } = useCart();
+  const { add, open, remove, setQuantity, items, updateDates, removeItems } = useCart();
   const { forProduct } = useReviews();
 
   const fromParam = searchParams.get('from');
@@ -131,13 +131,24 @@ export function ProductPage() {
     handleAdd();
   }
 
+  function handleDecrease() {
+    if (!product) return;
+    if (cartQty <= 1) remove(product.id);
+    else setQuantity(product.id, cartQty - 1);
+  }
+
   const selectedCard = rangeComplete ? (
     <div className={styles.selectedCard}>
       <div className={styles.selectedRow}>
         <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
         <div className={styles.selectedActions}>
           <div className={styles.selectedPrice}>{totalPrice}€</div>
-          <Button variant="primary" size="md" onClick={handleAdd} disabled={maxReached || availLoading}>{maxReached ? 'Stock épuisé' : '+ Panier'}</Button>
+          <div className={styles.qtySelector}>
+            <button className={styles.qtyBtn} onClick={handleDecrease} disabled={cartQty === 0} aria-label="Retirer un">−</button>
+            <span className={styles.qtyValue}>{cartQty}</span>
+            <button className={styles.qtyBtn} onClick={handleAdd} disabled={maxReached || availLoading} aria-label="Ajouter un">+</button>
+          </div>
+          {maxReached && <span className={styles.stockBadge}>STOCK<br/>ÉPUISÉ</span>}
         </div>
       </div>
       {cartQty > 0 && (
@@ -228,7 +239,7 @@ export function ProductPage() {
         )}
       </section>
 
-<Link to="/catalogue" className={styles.back}>← Retour au catalogue</Link>
+      <Link to="/catalogue" className={styles.back}>← Retour au catalogue</Link>
 
       {pendingAdd && (
         <DateChangeModal
