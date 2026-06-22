@@ -1,0 +1,78 @@
+.wrapper {
+  padding: 4rem 0 6rem;
+  min-height: 60vh;
+}
+
+.content {
+  max-width: 780px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--color-coral);
+  margin-bottom: 0.25rem;
+}
+
+.updated {
+  color: var(--color-text-muted, #888);
+  font-size: 0.875rem;
+  margin-bottom: 3rem;
+}
+
+.section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--color-border, #e8e8e8);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.section h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--color-coral);
+  margin-bottom: 1rem;
+}
+
+.section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 1.25rem 0 0.5rem;
+  color: var(--color-text);
+}
+
+.section p {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.section ul {
+  margin: 0.5rem 0 0.75rem 1.25rem;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.section a {
+  color: var(--color-coral);
+  text-decoration: underline;
+}
+
+.section a:hover {
+  opacity: 0.8;
+}
+
+.section code {
+  background: var(--color-bg-alt, #f4f4f4);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+.section em {
+  color: var(--color-text-muted, #888);
+  font-style: italic;
+}

@@ -1,6 +1,7 @@
 import { Section } from '../components/ui/Section';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
+import { PageSEO } from '../components/seo/PageSEO';
 import styles from './QuiSommesNousPage.module.css';
 
 const VALUES = [
@@ -19,6 +20,11 @@ const STATS = [
 export function QuiSommesNousPage() {
   return (
     <>
+      <PageSEO
+        title="Qui sommes-nous — Équipe festive alsacienne"
+        description="Découvrez l'équipe Hoplalo'K : une association alsacienne passionnée par les fêtes et l'événementiel. Certifiés CE, assurés RC Pro, basés à Strasbourg."
+        path="/qui-sommes-nous"
+      />
       <section className={styles.hero}>
         <div className="container">
           <Badge tone="danger">NOTRE HISTOIRE</Badge>

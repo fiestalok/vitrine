@@ -1,6 +1,7 @@
 import { Section } from '../components/ui/Section';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
+import { PageSEO } from '../components/seo/PageSEO';
 import styles from './EntreprisePage.module.css';
 
 const FORMULES = [
@@ -44,6 +45,11 @@ const COMPLIANCE = [
 export function EntreprisePage() {
   return (
     <>
+      <PageSEO
+        title="Location matériel événementiel entreprise"
+        description="Hoplalo'K équipe vos événements d'entreprise en Alsace : team building, séminaires, kermesses. Matériel festif professionnel, livraison et installation incluses."
+        path="/entreprise"
+      />
       <section className={styles.hero}>
         <div className="container">
           <Badge tone="danger">SOLUTIONS CORPORATE · ALSACE</Badge>

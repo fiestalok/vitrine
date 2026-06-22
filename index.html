@@ -5,13 +5,68 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4" />
     <link rel="apple-touch-icon" href="/icone.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Hoplalo'K | Location de matériel festif pour vos événements : chapiteaux, mobilier, éclairage, sono et bien plus." />
+    <!-- GitHub Pages SPA: restaure l'URL encodée par 404.html -->
+    <script>
+      (function (l) {
+        if (l.search[1] === 'p') {
+          var parts = l.search.slice(1).split('&').map(function (s) {
+            return s.replace(/~and~/g, '&');
+          });
+          window.history.replaceState(
+            null, null,
+            parts[0].slice(2) +
+            (parts[1] ? '?' + parts[1] : '') +
+            l.hash
+          );
+        }
+      }(window.location));
+    </script>
+    <title>Hoplalo'K | Location de matériel festif en Alsace</title>
+    <meta name="description" content="Hoplalo'K loue du matériel festif en Alsace : châteaux gonflables, enceintes, machines à pop-corn, plancha et plus. Livraison dans tout le Bas-Rhin et le Haut-Rhin." />
     <meta name="theme-color" content="#FFE66D" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Hoplalo'K | Location de matériel festif" />
-    <meta property="og:description" content="Hoplalo'K | Location de matériel festif pour vos événements : chapiteaux, mobilier, éclairage, sono et bien plus." />
+    <meta property="og:url" content="https://www.hoplalok.fr/" />
+    <meta property="og:title" content="Hoplalo'K | Location de matériel festif en Alsace" />
+    <meta property="og:description" content="Hoplalo'K loue du matériel festif en Alsace : châteaux gonflables, enceintes, machines à pop-corn, plancha et plus. Livraison dans tout le Bas-Rhin et le Haut-Rhin." />
+    <meta property="og:image" content="https://www.hoplalok.fr/logo.png" />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hoplalo'K | Location de matériel festif en Alsace" />
+    <meta name="twitter:description" content="Hoplalo'K loue du matériel festif en Alsace : châteaux gonflables, enceintes, machines à pop-corn, plancha et plus." />
+    <meta name="twitter:image" content="https://www.hoplalok.fr/logo.png" />
+
+    <!-- JSON-LD LocalBusiness -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://www.hoplalok.fr/#organization",
+      "name": "Hoplalo'K",
+      "description": "Location de matériel festif en Alsace : châteaux gonflables, enceintes, machines à pop-corn, plancha tarte flambée.",
+      "url": "https://www.hoplalok.fr/",
+      "telephone": "+33679515925",
+      "email": "contact@fiestalok.fr",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Strasbourg",
+        "addressRegion": "Alsace",
+        "addressCountry": "FR"
+      },
+      "areaServed": ["Bas-Rhin", "Haut-Rhin", "Alsace"],
+      "image": "https://www.hoplalok.fr/logo.png",
+      "priceRange": "€€",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "08:00",
+        "closes": "20:00"
+      }
+    }
+    </script>
 
     <!-- Google Fonts: Bangers + Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,7 +76,6 @@
       rel="stylesheet"
     />
 
-    <title>Hoplalo'K | Location de matériel festif</title>
   </head>
   <body>
     <div id="root"></div>

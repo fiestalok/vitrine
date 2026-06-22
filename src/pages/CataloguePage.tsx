@@ -11,6 +11,7 @@ import { CatalogueFilters } from '../components/catalogue/CatalogueFilters';
 import { DateChangeModal } from '../components/ui/DateChangeModal';
 import { Bubbles } from '../components/ui/Bubbles';
 import { Castle } from '../components/ui/Castle';
+import { PageSEO } from '../components/seo/PageSEO';
 import styles from './CataloguePage.module.css';
 
 export function CataloguePage() {
@@ -127,6 +128,11 @@ export function CataloguePage() {
 
   return (
     <>
+    <PageSEO
+      title="Catalogue — Location de matériel festif"
+      description="Découvrez notre catalogue de location : châteaux gonflables, enceintes sono, machines à pop-corn et barbe à papa, plancha tarte flambée. Disponible en Alsace."
+      path="/catalogue"
+    />
     <div className={styles.page}>
       <section className={styles.heroBand}>
         <Bubbles variant="warm" />

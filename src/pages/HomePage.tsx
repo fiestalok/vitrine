@@ -8,6 +8,7 @@ import { ProductCard } from '../components/product/ProductCard';
 import { useProducts } from '../context/ProductsContext';
 import { useCategories } from '../context/CategoriesContext';
 import { useCart } from '../context/CartContext';
+import { PageSEO } from '../components/seo/PageSEO';
 import styles from './HomePage.module.css';
 
 const CAT_COLORS: Record<string, { bg: string; circle: string }> = {
@@ -40,6 +41,11 @@ export function HomePage() {
 
   return (
     <>
+      <PageSEO
+        title="Location de matériel festif en Alsace"
+        description="Hoplalo'K loue du matériel festif en Alsace : châteaux gonflables, enceintes, machines à pop-corn, plancha. Livraison dans tout le Bas-Rhin et le Haut-Rhin."
+        path="/"
+      />
       <section className={styles.hero}>
         <Bubbles variant="hero" />
         <Castle size={144} rotation={-4} className={styles.castleHero} />

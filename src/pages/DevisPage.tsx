@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useProducts } from '../context/ProductsContext';
 import { createReservation, type ReservationCartItem } from '../lib/directus';
 import { formatPrice, lineTotal } from '../lib/format';
+import { PageSEO } from '../components/seo/PageSEO';
 import styles from './DevisPage.module.css';
 
 const SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
@@ -98,6 +99,11 @@ export function DevisPage() {
 
   return (
     <div className={styles.page}>
+      <PageSEO
+        title="Demande de devis — Location matériel festif"
+        description="Envoyez votre demande de devis pour louer du matériel festif en Alsace. Réponse rapide, livraison dans tout le Bas-Rhin et le Haut-Rhin."
+        path="/devis"
+      />
       <div className={styles.container}>
 
         {step === 'form' && (

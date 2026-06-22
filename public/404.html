@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <title>Hoplalo'K</title>
+    <script>
+      // GitHub Pages SPA workaround
+      // Encode the path + search into ?p=… then redirect to root
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.host + '/' +
+        '?p=/' + l.pathname.slice(1).replace(/&/g, '~and~') +
+        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
