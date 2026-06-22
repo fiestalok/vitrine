@@ -28,8 +28,8 @@ export function Footer() {
           <h4 className={styles.title}>Contact</h4>
           <ul>
             <li>📍 Strasbourg, Alsace</li>
-            <li>📞 +33 6 00 00 00 00</li>
-            <li>✉️ contact@hoplalok.fr</li>
+            <li>📞 +33 6 79 51 59 25</li>
+            <li>✉️ contact@fiestalok.fr</li>
             <li>🕐 Lun–Sam, 9h–19h</li>
           </ul>
         </div>
