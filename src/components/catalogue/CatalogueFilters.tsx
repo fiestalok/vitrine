@@ -5,6 +5,7 @@ import styles from './CatalogueFilters.module.css';
 interface Props {
   value: FilterState;
   onChange: (f: FilterState) => void;
+  onDateChange?: (newFilter: FilterState) => void;
   maxAvailable?: number;
 }
 
@@ -14,9 +15,15 @@ const AUDIENCE_LABELS: Record<Audience, string> = {
   entreprises:'💼 Entreprises',
 };
 
-const today = new Date().toISOString().split('T')[0];
-
-export function CatalogueFilters({ value, onChange, maxAvailable = 400 }: Props) {
+export function CatalogueFilters({ value, onChange, onDateChange, maxAvailable = 400 }: Props) {
+  const today = new Date().toISOString().split('T')[0];
+  const emitDate = (newFilter: FilterState) => {
+    if (onDateChange && (newFilter.dateStart !== value.dateStart || newFilter.dateEnd !== value.dateEnd)) {
+      onDateChange(newFilter);
+    } else {
+      onChange(newFilter);
+    }
+  };
   const toggleAudience = (a: Audience) => {
     const has = value.audiences.includes(a);
     onChange({ ...value, audiences: has ? value.audiences.filter((x) => x !== a) : [...value.audiences, a] });
@@ -40,10 +47,10 @@ export function CatalogueFilters({ value, onChange, maxAvailable = 400 }: Props)
               value={value.dateStart}
               onChange={(e) => {
                 const newStart = e.target.value;
-                onChange({
+                emitDate({
                   ...value,
                   dateStart: newStart,
-                  dateEnd: value.dateEnd && value.dateEnd >= newStart ? value.dateEnd : newStart,
+                  dateEnd: newStart,
                 });
               }}
               className={styles.dateInput}
@@ -55,7 +62,7 @@ export function CatalogueFilters({ value, onChange, maxAvailable = 400 }: Props)
               type="date"
               min={value.dateStart || today}
               value={value.dateEnd}
-              onChange={(e) => onChange({ ...value, dateEnd: e.target.value })}
+              onChange={(e) => emitDate({ ...value, dateEnd: e.target.value })}
               className={styles.dateInput}
             />
           </label>

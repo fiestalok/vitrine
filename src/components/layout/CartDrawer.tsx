@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useProducts } from '../../context/ProductsContext';
@@ -13,7 +13,7 @@ export function CartDrawer() {
   const navigate = useNavigate();
   const [availMap, setAvailMap] = useState<Record<string, number>>({});
 
-  const findProduct = (id: string) => products.find((p) => p.id === id);
+  const productById = useMemo(() => new Map(products.map((p) => [p.id, p])), [products]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -24,26 +24,35 @@ export function CartDrawer() {
 
   useEffect(() => {
     if (!isOpen || items.length === 0) return;
-    items.forEach((i) => {
-      const p = findProduct(i.productId);
-      if (!p || !i.startDate || !i.endDate) return;
-      fetchReservedArticleIds(p.articleIds, i.startDate, i.endDate)
-        .then((reserved) => {
-          const avail = p.articleIds.filter((id) => !reserved.has(id)).length;
-          setAvailMap((prev) => ({ ...prev, [i.productId]: avail }));
-        })
-        .catch(() => {});
-    });
-  }, [isOpen, items]);
+    const datedItems = items.filter((i) => i.startDate && i.endDate);
+    if (datedItems.length === 0) return;
+    Promise.all(
+      datedItems.map(async (i) => {
+        const p = productById.get(i.productId);
+        if (!p) return null;
+        const reserved = await fetchReservedArticleIds(p.articleIds, i.startDate!, i.endDate!);
+        return [i.productId, p.articleIds.filter((id) => !reserved.has(id)).length] as const;
+      })
+    ).then((results) => {
+      const map: Record<string, number> = {};
+      for (const r of results) { if (r) map[r[0]] = r[1]; }
+      setAvailMap(map);
+    }).catch(() => {});
+  }, [isOpen, items, productById]);
 
   const total = items.reduce((sum, i) => {
-    const p = findProduct(i.productId);
+    const p = productById.get(i.productId);
     return sum + (p ? lineTotal(p.price, i.startDate, i.endDate, i.quantity) : 0);
   }, 0);
 
   function handleDevis() {
     close();
     navigate('/devis');
+  }
+
+  function handleNavigateToProduct(productId: string, startDate?: string | null, endDate?: string | null) {
+    close();
+    navigate(`/produit/${productId}?from=${startDate}&to=${endDate}`);
   }
 
   return (
@@ -73,7 +82,7 @@ export function CartDrawer() {
           <>
             <ul className={styles.list}>
               {items.map((i) => {
-                const p = findProduct(i.productId);
+                const p = productById.get(i.productId);
                 if (!p) return null;
                 const d = rentalDays(i.startDate, i.endDate);
                 const avail = availMap[i.productId] ?? Infinity;
@@ -82,7 +91,7 @@ export function CartDrawer() {
                   <li key={i.productId} className={styles.item}>
                     <button
                       className={styles.itemLink}
-                      onClick={() => { close(); navigate(`/produit/${p.id}?from=${i.startDate}&to=${i.endDate}`); }}
+                      onClick={() => handleNavigateToProduct(p.id, i.startDate, i.endDate)}
                       aria-label={`Voir ${p.name}`}
                     >
                       <img src={p.images[0]} alt={p.name} />
@@ -90,7 +99,7 @@ export function CartDrawer() {
                     <div className={styles.itemBody}>
                       <button
                         className={styles.itemName}
-                        onClick={() => { close(); navigate(`/produit/${p.id}?from=${i.startDate}&to=${i.endDate}`); }}
+                        onClick={() => handleNavigateToProduct(p.id, i.startDate, i.endDate)}
                       >{p.name}</button>
                       {i.startDate && i.endDate && (
                         <p className={styles.itemDates}>📅 {formatRange(i.startDate, i.endDate)}{d > 0 && ` · ${d} jour${d > 1 ? 's' : ''}`}</p>

@@ -28,10 +28,9 @@ export function DevisPage() {
   const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const starts = items.map(i => i.startDate).filter((d): d is string => Boolean(d));
-  const ends = items.map(i => i.endDate).filter((d): d is string => Boolean(d));
-  const dateStart = starts.length ? starts.reduce((a, b) => (a < b ? a : b)) : '';
-  const dateEnd = ends.length ? ends.reduce((a, b) => (a > b ? a : b)) : '';
+  const datedItem = items.find((i) => i.startDate && i.endDate);
+  const dateStart = datedItem?.startDate ?? '';
+  const dateEnd = datedItem?.endDate ?? '';
   const [delivery, setDelivery] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState('');
 

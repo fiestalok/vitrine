@@ -7,6 +7,7 @@ import { Castle } from '../components/ui/Castle';
 import { ProductCard } from '../components/product/ProductCard';
 import { useProducts } from '../context/ProductsContext';
 import { useCategories } from '../context/CategoriesContext';
+import { useCart } from '../context/CartContext';
 import styles from './HomePage.module.css';
 
 const CAT_COLORS: Record<string, { bg: string; circle: string }> = {
@@ -33,7 +34,9 @@ const TRUST = [
 export function HomePage() {
   const { products } = useProducts();
   const { categories } = useCategories();
+  const { items: cartItems } = useCart();
   const featured = products.slice(0, 6);
+  const cartDatedItem = cartItems.find((i) => i.startDate && i.endDate);
 
   return (
     <>
@@ -107,7 +110,14 @@ export function HomePage() {
       <Section background="gradientCool" eyebrow="Produits stars" title="On dirait qu'ils kiffent.">
         <Castle size={200} rotation={-7} className={styles.castleCool} />
         <div className={styles.productGrid}>
-          {featured.map((p) => <ProductCard key={p.id} product={p} />)}
+          {featured.map((p) => (
+            <ProductCard
+              key={p.id}
+              product={p}
+              dateStart={cartDatedItem?.startDate}
+              dateEnd={cartDatedItem?.endDate}
+            />
+          ))}
         </div>
         <div className={styles.center}>
           <Button to="/catalogue" variant="primary" size="md">Voir tout le catalogue →</Button>
