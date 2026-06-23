@@ -79,7 +79,7 @@ export function QuiSommesNousPage() {
       <Section title="On se rencontre ?">
         <p className={styles.center}>Venez visiter notre dépôt à Strasbourg ou contactez-nous pour un premier échange sans engagement.</p>
         <div className={styles.center}>
-          <Button variant="primary" size="lg">Nous contacter →</Button>
+          <Button href="mailto:contact@fiestalok.fr" variant="primary" size="lg">Nous contacter →</Button>
         </div>
       </Section>
     </>
