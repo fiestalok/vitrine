@@ -1,8 +1,8 @@
 /* ===== HERO ===== */
 .hero {
   min-height: 100vh;
-  margin-top: calc(-1 * var(--navbar-height));
-  padding-top: var(--navbar-height);
+  margin-top: -80px; /* full unscrolled header height: 12px padding + 56px pill + 12px padding */
+  padding-top: 80px;
   background: linear-gradient(135deg, #FF6B6B 0%, #ff8e53 55%, #FFE66D 100%);
   position: relative;
   overflow: hidden;
@@ -221,7 +221,7 @@
 @media (max-width: 560px) {
   .steps, .categories, .values, .productGrid { grid-template-columns: 1fr; }
   /* Hero */
-  .hero { padding-top: calc(var(--navbar-height) + var(--space-md)); }
+  .hero { padding-top: calc(80px + var(--space-md)); }
   .title { font-size: clamp(2.8rem, 13vw, 4rem); }
   .lead  { font-size: 1.05rem; }
   .title br, .lead br { display: none; }
