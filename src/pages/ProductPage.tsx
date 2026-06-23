@@ -153,7 +153,7 @@ export function ProductPage() {
             <span className={styles.qtyValue}>{pendingQty}</span>
             <button className={styles.qtyBtn} onClick={() => setPendingQty(q => Math.min(availCount ?? 99, q + 1))} disabled={availCount !== null && pendingQty >= availCount} aria-label="Ajouter un">+</button>
           </div>
-          <Button variant="primary" size="lg" onClick={handleAdd} disabled={maxReached || availLoading}>
+          <Button variant="primary" size="md" onClick={handleAdd} disabled={maxReached || availLoading}>
             + Ajouter au panier
           </Button>
         </div>
