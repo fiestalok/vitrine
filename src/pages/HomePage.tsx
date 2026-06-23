@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
 import { Button } from '../components/ui/Button';
-import { Badge } from '../components/ui/Badge';
 import { Section } from '../components/ui/Section';
 import { Bubbles } from '../components/ui/Bubbles';
 import { Castle } from '../components/ui/Castle';
@@ -39,6 +39,18 @@ export function HomePage() {
   const featured = products.slice(0, 6);
   const cartDatedItem = cartItems.find((i) => i.startDate && i.endDate);
 
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollIndicatorRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      if (window.scrollY > 40) el.classList.add(styles.scrollIndicatorHidden);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <>
       <PageSEO
@@ -48,30 +60,44 @@ export function HomePage() {
       />
       <section className={styles.hero}>
         <Bubbles variant="hero" />
-        <Castle size={144} rotation={-4} className={styles.castleHero} />
+        <div className={styles.castleBg}>
+          <Castle size={380} rotation={-6} noInflate />
+        </div>
         <div className={`container ${styles.heroInner}`}>
-          <div className={styles.heroText}>
-            <Badge tone="danger" rotation={-3}>LES KINGS DU GONFLABLE 👑</Badge>
-            <h1 className={styles.title}>
-              Ta fête va<br/>
-              <span className={styles.titleAccent}>décoller.</span>
-            </h1>
-            <p className={styles.lead}>
-              Châteaux gonflables, photobooths, sono et bien plus —<br/>
-              on s'occupe de tout, vous kiffez.
-            </p>
+          <h1 className={`${styles.title} ${styles.animTitle}`}>
+            Ta fête va<br/>
+            <span className={styles.titleAccent}>décoller.</span>
+          </h1>
+          <p className={`${styles.lead} ${styles.animLead}`}>
+            Châteaux gonflables, photobooths, sono et bien plus —<br/>
+            on s'occupe de tout, vous profitez.
+          </p>
+          <div className={`${styles.ctas} ${styles.animCtas}`}>
+            <Button href="mailto:contact@fiestalok.fr" variant="secondary" size="lg" className={styles.ctaDevis}>
+              Demander un devis →
+            </Button>
+            <Button to="/catalogue" variant="secondary" size="lg">
+              Voir le catalogue
+            </Button>
           </div>
-          <div className={styles.ctas}>
-            <Button to="/catalogue" variant="primary" size="lg">Voir le catalogue →</Button>
-            <Button to="/entreprise" variant="secondary" size="lg">Offres entreprise</Button>
-          </div>
-          <ul className={styles.trust}>
-            {TRUST.map((t) => (
-              <li key={t.kicker}><strong>{t.kicker}</strong><span>{t.label}</span></li>
-            ))}
-          </ul>
+        </div>
+        <div
+          ref={scrollIndicatorRef}
+          className={styles.scrollIndicator}
+          aria-hidden="true"
+        >
+          ↓
         </div>
       </section>
+
+      <ul className={styles.trustBand}>
+        {TRUST.map((t) => (
+          <li key={t.kicker} className={styles.trustItem}>
+            <strong>{t.kicker}</strong>
+            <span>{t.label}</span>
+          </li>
+        ))}
+      </ul>
 
       <Section id="how-it-works" background="gradientWarm" eyebrow="Simple & rapide" title="Comment ça marche ?">
         <Castle size={220} rotation={6} className={styles.castleWarm} />
@@ -131,8 +157,7 @@ export function HomePage() {
       </Section>
 
       <Section eyebrow="Pourquoi nous" title="L'événementiel alsacien, avec le cœur.">
-        <Castle size={260} rotation={30} className={styles.castleDark} />
-        <p className={styles.darkLead}>Hoplalo'K est née d'une passion simple : rendre chaque fête mémorable. Basée à Strasbourg, on intervient dans tout le Bas-Rhin et le Haut-Rhin.</p>
+<p className={styles.darkLead}>Hoplalo'K est née d'une passion simple : rendre chaque fête mémorable. Basée à Strasbourg, on intervient dans tout le Bas-Rhin et le Haut-Rhin.</p>
         <div className={styles.values}>
           {[
             { icon: '🛡️', title: 'Matériel homologué CE', text: 'Norme EN 14960 sur tous nos gonflables.' },
