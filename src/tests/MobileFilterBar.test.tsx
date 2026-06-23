@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MobileFilterBar } from '../components/catalogue/MobileFilterBar';
 import { DEFAULT_FILTERS } from '../lib/filterProducts';
@@ -21,6 +21,10 @@ const baseProps = {
 };
 
 describe('MobileFilterBar', () => {
+  beforeEach(() => {
+    baseProps.onCategoryChange.mockClear();
+    baseProps.onFiltersOpen.mockClear();
+  });
   it('affiche le chip Tout et les chips des catégories', () => {
     render(<MobileFilterBar {...baseProps} />);
     expect(screen.getByRole('button', { name: /Tout/i })).toBeInTheDocument();
