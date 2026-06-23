@@ -242,22 +242,27 @@ export function ProductPage() {
 
       <section className={styles.block} ref={planningRef}>
         <header><h2>Disponibilités</h2><p>Choisis ta date pour vérifier la dispo.</p></header>
-        <AvailabilityCalendar
-          productId={product.id}
-          articleIds={product.articleIds}
-          totalArticles={product.articleIds.length}
-          range={range}
-          onChange={setRange}
-        />
-        {!rangeComplete && range.start && (
-          <p className={styles.selected}>Sélectionnez la date de fin.</p>
-        )}
-        {selectedCard}
-        {!rangeComplete && (
-          <Button variant="primary" size="lg" onClick={handleAdd} disabled className={styles.calBtn}>
-            Saisissez vos dates
-          </Button>
-        )}
+        <div className={styles.calLayout}>
+          <AvailabilityCalendar
+            productId={product.id}
+            articleIds={product.articleIds}
+            totalArticles={product.articleIds.length}
+            range={range}
+            onChange={setRange}
+          />
+          <div className={styles.sidePanel}>
+            {rangeComplete ? selectedCard : (
+              <div className={styles.emptyPanel}>
+                <p className={styles.emptyPanelTitle}>Sélectionnez vos dates</p>
+                <p className={styles.emptyPanelText}>
+                  {range.start
+                    ? 'Cliquez sur une date de fin dans le calendrier pour voir le prix total.'
+                    : 'Cliquez sur une date de début dans le calendrier, puis sur une date de fin pour voir la disponibilité et le prix de votre location.'}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       </section>
 
       <Link to="/catalogue" className={styles.back}>← Retour au catalogue</Link>
