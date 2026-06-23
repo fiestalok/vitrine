@@ -15,8 +15,7 @@ export function Navbar() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const HERO_PATHS = ['/', '/catalogue', '/entreprise'];
-  const isHero = HERO_PATHS.includes(location.pathname) && !scrolled;
+  const isHero = location.pathname === '/' && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
