@@ -1,0 +1,177 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+}
+
+.sheet {
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  padding: var(--space-md) var(--space-lg) var(--space-xl);
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.handle {
+  width: 32px;
+  height: 4px;
+  background: var(--color-border);
+  border-radius: 2px;
+  margin: 0 auto var(--space-md);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-danger);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-sm);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.groupLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-xs);
+}
+.groupLabel::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.priceVal {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  padding: 0.2rem 0;
+}
+.checkItem input[type=checkbox] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color 0.15s, background 0.15s;
+}
+.checkItem input[type=checkbox]:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.checkItem input[type=checkbox]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 8px;
+  border: 1.5px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.group input[type=range] {
+  width: 100%;
+  accent-color: var(--color-primary);
+  margin-top: var(--space-2xs);
+  height: 4px;
+}
+
+.priceRange {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-ink-soft);
+}
+
+.dateRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.dateLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dateInput {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.85rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.dateInput:focus {
+  outline: none;
+  border-color: rgba(45, 52, 54, 0.35);
+}
+.dateInput::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.reset {
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  text-decoration: underline;
+  cursor: pointer;
+  text-align: left;
+  padding-top: var(--space-xs);
+  background: none;
+  border: none;
+}
+.reset:hover { color: var(--color-primary); }

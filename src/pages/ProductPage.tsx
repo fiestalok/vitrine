@@ -4,14 +4,12 @@ import { format } from 'date-fns';
 import { useProducts } from '../context/ProductsContext';
 import { useCategories } from '../context/CategoriesContext';
 import { useCart } from '../context/CartContext';
-import { useReviews } from '../context/ReviewsContext';
 import { formatRange, rentalDays } from '../lib/format';
 import { fetchReservedArticleIds } from '../lib/directus';
 import { DateChangeModal } from '../components/ui/DateChangeModal';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { PhotoGallery } from '../components/product/PhotoGallery';
 import { AvailabilityCalendar, type DateRange } from '../components/product/AvailabilityCalendar';
-import { StarRating } from '../components/ui/StarRating';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { PageSEO } from '../components/seo/PageSEO';
@@ -46,7 +44,6 @@ export function ProductPage() {
   const product = products.find((p) => p.id === id);
   const cat = product ? categories.find((c) => c.id === product.category) : undefined;
   const { add, open, remove, setQuantity, items, updateDates, removeItems } = useCart();
-  const { forProduct } = useReviews();
 
   const fromParam = searchParams.get('from');
   const toParam   = searchParams.get('to');
@@ -74,7 +71,6 @@ export function ProductPage() {
 
   if (!product) return <Navigate to="/catalogue" replace />;
 
-  const reviews = forProduct(product.id);
   const rangeComplete = Boolean(range.start && range.end);
   const cartQty = items.find((i) => i.productId === product.id)?.quantity ?? 0;
   const availLoading = rangeComplete && availCount === null;
@@ -183,7 +179,6 @@ export function ProductPage() {
           {cat && <p className={styles.cat}>{cat.emoji} {cat.label}</p>}
           {product.badge && <Badge tone={product.badge === 'PROMO' ? 'danger' : 'accent'}>{product.badge}</Badge>}
           <h1 className={styles.name}>{product.name}</h1>
-          <StarRating value={product.rating} count={product.reviewCount + reviews.length} size="md" />
           <p className={styles.desc}>{product.longDescription}</p>
 
           <div className={styles.priceRow}>
