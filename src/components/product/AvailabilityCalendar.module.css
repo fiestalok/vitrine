@@ -1,16 +1,137 @@
-.cal { background: var(--color-bg-alt); border-radius: var(--radius-lg); border: 1px solid var(--color-border); overflow: hidden; width: 100%; }
-.header { display: flex; justify-content: space-between; align-items: center; background: var(--color-ink); color: var(--color-bg); padding: 4px var(--space-sm); font-family: var(--font-display); font-size: 0.78rem; text-transform: capitalize; }
-.header button { color: var(--color-bg); font-size: 0.9rem; padding: 0 var(--space-xs); }
-.weekdays, .grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-.weekdays { padding: 3px 4px; color: var(--color-primary); font-weight: 800; font-size: 0.58rem; text-align: center; text-transform: uppercase; }
-.grid { gap: 1px; padding: 2px 4px 4px; }
-.day { height: 44px; display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--color-bg); font-weight: 700; font-size: 0.65rem; }
-.day:disabled { opacity: 0.35; cursor: not-allowed; }
-.day:not(:disabled):hover { background: var(--color-accent); }
-.unavail { background: rgba(255,107,107,0.18); color: var(--color-danger); }
-.legend { display: flex; gap: var(--space-md); padding: var(--space-sm) var(--space-md); font-size: 0.8rem; color: var(--color-ink-soft); border-top: 1px solid var(--color-border); }
-.dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
-.unavailDot { background: rgba(255,107,107,0.4); }
-.selectedDot { background: var(--color-ink); }
-.rangeStart, .rangeEnd, .inRange { background: var(--color-ink); color: var(--color-bg); }
-.error { padding: var(--space-sm) var(--space-md); margin: 0; color: var(--color-danger); font-size: 0.85rem; font-weight: 700; }
+/* Calendar container */
+.cal {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Header: white bg, coral arrows */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+.header button {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+}
+.header span {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-ink);
+}
+
+/* Weekday labels */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 14px 12px 6px;
+  gap: 4px;
+  text-align: center;
+}
+.weekdays span {
+  font-size: 0.7rem;
+  color: #bbb;
+  font-weight: 700;
+}
+
+/* Day grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 4px 12px 14px;
+  gap: 4px;
+  text-align: center;
+}
+
+/* Base day cell */
+.day {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 9px 4px;
+  border-radius: 10px;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.day:not(:disabled):not(.unavail):hover {
+  background: #f5f5f5;
+}
+
+/* Past days: grayed out, not clickable */
+.dayPast {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Reserved/unavailable days: coral with strikethrough */
+.unavail {
+  background: rgba(255, 107, 107, 0.15);
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* Range endpoints: indigo filled */
+.rangeStart,
+.rangeEnd {
+  background: var(--color-selection);
+  color: #fff;
+  font-weight: 800;
+}
+
+/* Days within the range: light indigo */
+.inRange {
+  background: var(--color-selection-light);
+  color: var(--color-selection);
+  font-weight: 700;
+}
+
+/* Error message */
+.error {
+  padding: var(--space-sm) var(--space-md);
+  margin: 0;
+  color: var(--color-danger);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: var(--space-md);
+  padding: 10px 20px 14px;
+  font-size: 0.7rem;
+  color: #aaa;
+  border-top: 1px solid #f5f5f5;
+}
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.unavailDot {
+  background: rgba(255, 107, 107, 0.35);
+}
+.selectedDot {
+  background: var(--color-selection);
+}
