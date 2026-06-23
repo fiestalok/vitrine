@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Section } from '../components/ui/Section';
@@ -39,6 +40,18 @@ export function HomePage() {
   const featured = products.slice(0, 6);
   const cartDatedItem = cartItems.find((i) => i.startDate && i.endDate);
 
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollIndicatorRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      if (window.scrollY > 40) el.classList.add(styles.scrollIndicatorHidden);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <>
       <PageSEO
@@ -48,30 +61,51 @@ export function HomePage() {
       />
       <section className={styles.hero}>
         <Bubbles variant="hero" />
-        <Castle size={144} rotation={-4} className={styles.castleHero} />
+        <div className={styles.castleBg}>
+          <Castle size={380} rotation={-6} noInflate />
+        </div>
         <div className={`container ${styles.heroInner}`}>
-          <div className={styles.heroText}>
-            <Badge tone="danger" rotation={-3}>LES KINGS DU GONFLABLE 👑</Badge>
-            <h1 className={styles.title}>
-              Ta fête va<br/>
-              <span className={styles.titleAccent}>décoller.</span>
-            </h1>
-            <p className={styles.lead}>
-              Châteaux gonflables, photobooths, sono et bien plus —<br/>
-              on s'occupe de tout, vous kiffez.
-            </p>
+          <Badge
+            tone="danger"
+            rotation={-3}
+            className={`${styles.heroBadge} ${styles.animBadge}`}
+          >
+            LES KINGS DU GONFLABLE 👑
+          </Badge>
+          <h1 className={`${styles.title} ${styles.animTitle}`}>
+            Ta fête va<br/>
+            <span className={styles.titleAccent}>décoller.</span>
+          </h1>
+          <p className={`${styles.lead} ${styles.animLead}`}>
+            Châteaux gonflables, photobooths, sono et bien plus —<br/>
+            on s'occupe de tout, vous kiffez.
+          </p>
+          <div className={`${styles.ctas} ${styles.animCtas}`}>
+            <Button to="/devis" variant="secondary" size="lg" className={styles.ctaDevis}>
+              Demander un devis →
+            </Button>
+            <Button to="/catalogue" variant="secondary" size="lg">
+              Voir le catalogue
+            </Button>
           </div>
-          <div className={styles.ctas}>
-            <Button to="/catalogue" variant="primary" size="lg">Voir le catalogue →</Button>
-            <Button to="/entreprise" variant="secondary" size="lg">Offres entreprise</Button>
-          </div>
-          <ul className={styles.trust}>
-            {TRUST.map((t) => (
-              <li key={t.kicker}><strong>{t.kicker}</strong><span>{t.label}</span></li>
-            ))}
-          </ul>
+        </div>
+        <div
+          ref={scrollIndicatorRef}
+          className={styles.scrollIndicator}
+          aria-hidden="true"
+        >
+          ↓
         </div>
       </section>
+
+      <div className={styles.trustBand}>
+        {TRUST.map((t) => (
+          <div key={t.kicker} className={styles.trustItem}>
+            <strong>{t.kicker}</strong>
+            <span>{t.label}</span>
+          </div>
+        ))}
+      </div>
 
       <Section id="how-it-works" background="gradientWarm" eyebrow="Simple & rapide" title="Comment ça marche ?">
         <Castle size={220} rotation={6} className={styles.castleWarm} />
