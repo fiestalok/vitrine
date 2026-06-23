@@ -62,10 +62,10 @@ export function ProductCard({ product, availCount, dateStart, dateEnd }: Product
         {showAsUnavail && (
           <Badge tone="danger" rotation={0} className={styles.badge}>Indisponible</Badge>
         )}
-        <span className={styles.price}>À partir de {product.price}€/jour</span>
       </div>
       <div className={styles.body}>
         <h3 className={styles.name}>{product.name}</h3>
+        <p className={styles.priceBody}>{product.price}€<span>/jour</span></p>
         <div className={styles.footer}>
           {inCart ? (
             <Badge tone="warning" rotation={0} className={styles.availBadge}>
