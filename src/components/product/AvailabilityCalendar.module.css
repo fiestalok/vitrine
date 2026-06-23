@@ -69,7 +69,7 @@
   cursor: pointer;
   transition: background 0.1s;
 }
-.day:not(:disabled):not(.unavail):hover {
+.day:not(:disabled):not(.unavail):not(.rangeStart):not(.rangeEnd):not(.inRange):hover {
   background: #f5f5f5;
 }
 
@@ -130,7 +130,7 @@
   margin-right: 5px;
 }
 .unavailDot {
-  background: rgba(255, 107, 107, 0.35);
+  background: rgba(255, 107, 107, 0.15);
 }
 .selectedDot {
   background: var(--color-selection);
