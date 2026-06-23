@@ -85,4 +85,11 @@ describe('MobileFiltersSheet', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onClose).toHaveBeenCalledOnce();
   });
+
+  it('verrouille le scroll du body quand open=true et le restaure à la fermeture', () => {
+    const { rerender } = render(<MobileFiltersSheet {...baseProps} open={true} />);
+    expect(document.body.style.overflow).toBe('hidden');
+    rerender(<MobileFiltersSheet {...baseProps} open={false} />);
+    expect(document.body.style.overflow).toBe('');
+  });
 });

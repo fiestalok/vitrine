@@ -71,4 +71,14 @@ describe('MobileFilterBar', () => {
     fireEvent.click(screen.getByRole('button', { name: /Filtres/ }));
     expect(onFiltersOpen).toHaveBeenCalledOnce();
   });
+
+  it('affiche "⚙ Filtres (1)" quand seulement dateEnd est défini', () => {
+    render(
+      <MobileFilterBar
+        {...baseProps}
+        filters={{ ...DEFAULT_FILTERS, dateEnd: '2026-07-10' }}
+      />
+    );
+    expect(screen.getByRole('button', { name: '⚙ Filtres (1)' })).toBeInTheDocument();
+  });
 });

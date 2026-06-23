@@ -14,7 +14,7 @@ function countActiveFilters(filters: FilterState, maxAvailable: number): number 
   let count = 0;
   if (filters.audiences.length > 0) count++;
   if (filters.maxPrice < maxAvailable) count++;
-  if (filters.dateStart) count++; // date range counts as 1 (dateEnd follows dateStart)
+  if (filters.dateStart || filters.dateEnd) count++; // date range counts as 1
   // sort is not counted: it lives in the results header, not in the filter sheet
   return count;
 }

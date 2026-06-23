@@ -26,6 +26,11 @@ export function MobileFiltersSheet({ open, value, maxAvailable, onChange, onDate
     return () => document.removeEventListener('keydown', handler);
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (open) document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
   const today = new Date().toISOString().split('T')[0];
 
   const emitDate = (newFilter: FilterState) => {
