@@ -95,10 +95,11 @@ export function AvailabilityCalendar({ articleIds, totalArticles, range, onChang
               disabled={past || unavail || !isSameMonth(d, view)}
               className={[
                 styles.day,
-                (unavail || past) ? styles.unavail : '',
-                isStart  ? styles.rangeStart : '',
-                isEnd    ? styles.rangeEnd   : '',
-                inRange  ? styles.inRange    : '',
+                past    ? styles.dayPast   : '',
+                unavail ? styles.unavail   : '',
+                isStart ? styles.rangeStart : '',
+                isEnd   ? styles.rangeEnd   : '',
+                inRange ? styles.inRange    : '',
               ].filter(Boolean).join(' ')}
               onClick={() => handleDayClick(d)}
             >
