@@ -156,12 +156,10 @@ export function CataloguePage() {
           <CategoryTabs active={filters.category} onChange={(c) => setFilters((f) => ({ ...f, category: c }))} />
         </div>
 
-        {/* Mobile: compact filter bar */}
+        {/* Mobile: compact category chips bar */}
         <MobileFilterBar
           filters={filters}
-          maxAvailable={maxProductPrice}
           onCategoryChange={(c) => setFilters((f) => ({ ...f, category: c }))}
-          onFiltersOpen={() => setFiltersOpen(true)}
         />
 
         <div className={`container ${styles.layout}`}>
@@ -186,7 +184,8 @@ export function CataloguePage() {
                       return `${availableCount} disponible${availableCount > 1 ? 's' : ''} sur ${displayed.length}`;
                     })()}
               </p>
-              <div className={styles.sortWrap}>
+              {/* Desktop: sort buttons */}
+              <div className={`${styles.sortWrap} ${styles.desktopOnly}`}>
                 {([
                   { value: 'default',    label: 'Défaut' },
                   { value: 'price-asc',  label: 'Prix ↑' },
@@ -202,6 +201,21 @@ export function CataloguePage() {
                   </button>
                 ))}
               </div>
+              {/* Mobile: filters button */}
+              {(() => {
+                let activeCount = 0;
+                if (filters.audiences.length > 0) activeCount++;
+                if (filters.maxPrice < maxProductPrice) activeCount++;
+                if (filters.dateStart || filters.dateEnd) activeCount++;
+                return (
+                  <button
+                    className={`${styles.mobileFiltersBtn} ${activeCount > 0 ? styles.mobileFiltersBtnActive : ''}`}
+                    onClick={() => setFiltersOpen(true)}
+                  >
+                    ⚙ Filtres{activeCount > 0 ? ` (${activeCount})` : ''}
+                  </button>
+                );
+              })()}
             </div>
 
             {isLoading ? (

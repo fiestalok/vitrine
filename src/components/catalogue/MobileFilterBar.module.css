@@ -1,12 +1,11 @@
 .bar {
-  display: none; /* caché sur desktop, affiché uniquement via media query */
+  display: none; /* hidden on desktop, shown only via media query */
 }
 
 @media (max-width: 900px) {
   .bar {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
     padding: var(--space-sm) var(--space-md);
     background: #fff;
     border-bottom: 1px solid var(--color-border);
@@ -41,24 +40,5 @@
 }
 .chipActive {
   background: var(--color-primary);
-  color: #fff;
-}
-
-.filtersBtn {
-  flex-shrink: 0;
-  background: #fff;
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  padding: 0.3rem 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--color-ink);
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-.filtersBtnActive {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
   color: #fff;
 }

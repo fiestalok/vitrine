@@ -60,8 +60,32 @@
   .lead { font-size: 0.95rem; }
   .heroBullets { gap: var(--space-2xs) var(--space-md); font-size: 0.85rem; }
   .layout { gap: var(--space-md); }
-  .resultsHeader { flex-wrap: wrap; gap: var(--space-xs); }
-  .sortBtn { padding: 0.3rem 0.65rem; font-size: 0.75rem; }
+}
+
+.mobileFiltersBtn {
+  display: none;
+}
+@media (max-width: 900px) {
+  .mobileFiltersBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #fff;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--color-ink);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .mobileFiltersBtnActive {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
 }
 
 .desktopOnly { display: block; }

@@ -5,23 +5,11 @@ import styles from './MobileFilterBar.module.css';
 
 interface Props {
   filters: FilterState;
-  maxAvailable: number;
   onCategoryChange: (c: CategoryId | 'all') => void;
-  onFiltersOpen: () => void;
 }
 
-function countActiveFilters(filters: FilterState, maxAvailable: number): number {
-  let count = 0;
-  if (filters.audiences.length > 0) count++;
-  if (filters.maxPrice < maxAvailable) count++;
-  if (filters.dateStart || filters.dateEnd) count++; // date range counts as 1
-  // sort is not counted: it lives in the results header, not in the filter sheet
-  return count;
-}
-
-export function MobileFilterBar({ filters, maxAvailable, onCategoryChange, onFiltersOpen }: Props) {
+export function MobileFilterBar({ filters, onCategoryChange }: Props) {
   const { categories } = useCategories();
-  const activeCount = countActiveFilters(filters, maxAvailable);
 
   return (
     <div className={styles.bar}>
@@ -42,12 +30,6 @@ export function MobileFilterBar({ filters, maxAvailable, onCategoryChange, onFil
           </button>
         ))}
       </div>
-      <button
-        className={`${styles.filtersBtn} ${activeCount > 0 ? styles.filtersBtnActive : ''}`}
-        onClick={onFiltersOpen}
-      >
-        ⚙ Filtres{activeCount > 0 ? ` (${activeCount})` : ''}
-      </button>
     </div>
   );
 }
