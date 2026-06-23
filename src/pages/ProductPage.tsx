@@ -138,22 +138,26 @@ export function ProductPage() {
     <div className={styles.selectedCard}>
       <div className={styles.selectedRow}>
         <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
+        <div className={styles.selectedPrice}>{totalPrice}€</div>
+      </div>
+      {cartQty === 0 ? (
+        <Button variant="primary" size="lg" onClick={handleAdd} disabled={maxReached || availLoading}>
+          + Ajouter au panier
+        </Button>
+      ) : (
         <div className={styles.selectedActions}>
-          <div className={styles.selectedPrice}>{totalPrice}€</div>
           <div className={styles.qtySelector}>
-            <button className={styles.qtyBtn} onClick={handleDecrease} disabled={cartQty === 0} aria-label="Retirer un">−</button>
+            <button className={styles.qtyBtn} onClick={handleDecrease} aria-label="Retirer un">−</button>
             <span className={styles.qtyValue}>{cartQty}</span>
             <button className={styles.qtyBtn} onClick={handleAdd} disabled={maxReached || availLoading} aria-label="Ajouter un">+</button>
           </div>
-          {maxReached && <span className={styles.stockBadge}>STOCK<br/>ÉPUISÉ</span>}
-        </div>
-      </div>
-      {cartQty > 0 && (
-        <div className={styles.cartInfo}>
-          🛒 {cartQty} sélectionné{cartQty > 1 ? 's' : ''} dans votre panier
-          {maxReached && <span className={styles.stockEpuise}> · Pas de stock supplémentaire</span>}
+          <div className={styles.cartInfo}>
+            🛒 {cartQty} sélectionné{cartQty > 1 ? 's' : ''} dans le panier
+            {maxReached && <span className={styles.stockEpuise}> · Stock épuisé</span>}
+          </div>
         </div>
       )}
+      {maxReached && cartQty === 0 && <span className={styles.stockBadge}>STOCK ÉPUISÉ</span>}
       {availCount === 1 && !maxReached && (
         <div className={styles.lastDispo}>⚡ Plus qu'un article dispo pour ces dates</div>
       )}
