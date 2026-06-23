@@ -150,13 +150,13 @@ export function CataloguePage() {
         <Bubbles variant="warm" />
         <Castle size={120} rotation={5} className={styles.castleRight} noInflate />
 
-        {/* Desktop : barre de catégories */}
+        {/* Desktop: category tabs bar */}
         <div className={`container ${styles.tabsBar} ${styles.desktopOnly}`}>
           <div />
           <CategoryTabs active={filters.category} onChange={(c) => setFilters((f) => ({ ...f, category: c }))} />
         </div>
 
-        {/* Mobile : barre compacte */}
+        {/* Mobile: compact filter bar */}
         <MobileFilterBar
           filters={filters}
           maxAvailable={maxProductPrice}
@@ -165,7 +165,7 @@ export function CataloguePage() {
         />
 
         <div className={`container ${styles.layout}`}>
-          {/* Desktop : sidebar filtres */}
+          {/* Desktop: filters sidebar */}
           <div className={styles.desktopOnly}>
             <CatalogueFilters
               value={filters}
@@ -231,7 +231,7 @@ export function CataloguePage() {
           </div>
         </div>
 
-        {/* Mobile : bottom sheet filtres */}
+        {/* Mobile: filters bottom sheet */}
         <MobileFiltersSheet
           open={filtersOpen}
           value={filters}

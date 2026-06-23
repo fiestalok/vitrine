@@ -52,8 +52,6 @@
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr 1fr; }
-  .tabsBar { grid-template-columns: 1fr; }
-  .tabsBar > div:first-child { display: none; }
 }
 @media (max-width: 560px) {
   .grid { grid-template-columns: 1fr; }
@@ -61,7 +59,6 @@
   .title { font-size: clamp(2rem, 8vw, 2.8rem); }
   .lead { font-size: 0.95rem; }
   .heroBullets { gap: var(--space-2xs) var(--space-md); font-size: 0.85rem; }
-  .tabsBar { padding: var(--space-md) 0 var(--space-lg); }
   .layout { gap: var(--space-md); }
   .resultsHeader { flex-wrap: wrap; gap: var(--space-xs); }
   .sortBtn { padding: 0.3rem 0.65rem; font-size: 0.75rem; }
