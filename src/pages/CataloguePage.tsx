@@ -12,6 +12,8 @@ import { DateChangeModal } from '../components/ui/DateChangeModal';
 import { Bubbles } from '../components/ui/Bubbles';
 import { Castle } from '../components/ui/Castle';
 import { PageSEO } from '../components/seo/PageSEO';
+import { MobileFilterBar } from '../components/catalogue/MobileFilterBar';
+import { MobileFiltersSheet } from '../components/catalogue/MobileFiltersSheet';
 import styles from './CataloguePage.module.css';
 
 export function CataloguePage() {
@@ -92,6 +94,7 @@ export function CataloguePage() {
     unavailableNames: string[];
   };
   const [pendingDateChange, setPendingDateChange] = useState<PendingDateChange | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const handleDateChange = useCallback(async (newFilter: FilterState) => {
     const datedItems = cartItems.filter((i) => i.startDate && i.endDate);
@@ -146,13 +149,31 @@ export function CataloguePage() {
       <div className={styles.contentArea}>
         <Bubbles variant="warm" />
         <Castle size={120} rotation={5} className={styles.castleRight} noInflate />
-        <div className={`container ${styles.tabsBar}`}>
+
+        {/* Desktop : barre de catégories */}
+        <div className={`container ${styles.tabsBar} ${styles.desktopOnly}`}>
           <div />
           <CategoryTabs active={filters.category} onChange={(c) => setFilters((f) => ({ ...f, category: c }))} />
         </div>
 
+        {/* Mobile : barre compacte */}
+        <MobileFilterBar
+          filters={filters}
+          maxAvailable={maxProductPrice}
+          onCategoryChange={(c) => setFilters((f) => ({ ...f, category: c }))}
+          onFiltersOpen={() => setFiltersOpen(true)}
+        />
+
         <div className={`container ${styles.layout}`}>
-          <CatalogueFilters value={filters} onChange={setFilters} onDateChange={handleDateChange} maxAvailable={maxProductPrice} />
+          {/* Desktop : sidebar filtres */}
+          <div className={styles.desktopOnly}>
+            <CatalogueFilters
+              value={filters}
+              onChange={setFilters}
+              onDateChange={handleDateChange}
+              maxAvailable={maxProductPrice}
+            />
+          </div>
 
           <div className={styles.results}>
             <div className={styles.resultsHeader}>
@@ -209,6 +230,16 @@ export function CataloguePage() {
             )}
           </div>
         </div>
+
+        {/* Mobile : bottom sheet filtres */}
+        <MobileFiltersSheet
+          open={filtersOpen}
+          value={filters}
+          maxAvailable={maxProductPrice}
+          onChange={setFilters}
+          onDateChange={handleDateChange}
+          onClose={() => setFiltersOpen(false)}
+        />
       </div>
     </div>
 

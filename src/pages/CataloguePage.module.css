@@ -66,3 +66,8 @@
   .resultsHeader { flex-wrap: wrap; gap: var(--space-xs); }
   .sortBtn { padding: 0.3rem 0.65rem; font-size: 0.75rem; }
 }
+
+.desktopOnly { display: block; }
+@media (max-width: 900px) {
+  .desktopOnly { display: none; }
+}
