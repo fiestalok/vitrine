@@ -190,7 +190,6 @@ export function CataloguePage() {
                   { value: 'default',    label: 'Défaut' },
                   { value: 'price-asc',  label: 'Prix ↑' },
                   { value: 'price-desc', label: 'Prix ↓' },
-                  { value: 'rating',     label: '★ Notes' },
                 ] as const).map((o) => (
                   <button
                     key={o.value}
