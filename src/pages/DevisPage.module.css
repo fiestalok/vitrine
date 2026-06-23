@@ -1,6 +1,6 @@
 .page {
   min-height: 100vh;
-  padding: var(--space-2xl) 0;
+  padding: var(--space-lg) 0;
   background: var(--color-bg);
 }
 
@@ -210,6 +210,15 @@
 .summaryQty {
   color: var(--color-ink-soft);
   font-size: 0.8rem !important;
+}
+
+.daysRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-xs) 0;
+  font-size: 0.9rem;
+  color: var(--color-ink-soft);
 }
 
 .totalRow {
