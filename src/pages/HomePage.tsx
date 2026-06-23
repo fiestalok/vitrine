@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { Button } from '../components/ui/Button';
-import { Badge } from '../components/ui/Badge';
 import { Section } from '../components/ui/Section';
 import { Bubbles } from '../components/ui/Bubbles';
 import { Castle } from '../components/ui/Castle';
@@ -65,13 +64,6 @@ export function HomePage() {
           <Castle size={380} rotation={-6} noInflate />
         </div>
         <div className={`container ${styles.heroInner}`}>
-          <Badge
-            tone="danger"
-            rotation={-3}
-            className={`${styles.heroBadge} ${styles.animBadge}`}
-          >
-            LES KINGS DU GONFLABLE 👑
-          </Badge>
           <h1 className={`${styles.title} ${styles.animTitle}`}>
             Ta fête va<br/>
             <span className={styles.titleAccent}>décoller.</span>
