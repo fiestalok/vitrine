@@ -78,7 +78,7 @@ export function HomePage() {
           </h1>
           <p className={`${styles.lead} ${styles.animLead}`}>
             Châteaux gonflables, photobooths, sono et bien plus —<br/>
-            on s'occupe de tout, vous kiffez.
+            on s'occupe de tout, vous profitez.
           </p>
           <div className={`${styles.ctas} ${styles.animCtas}`}>
             <Button to="/devis" variant="secondary" size="lg" className={styles.ctaDevis}>
