@@ -142,38 +142,40 @@ export function ProductPage() {
 
   const selectedCard = rangeComplete ? (
     <div className={styles.selectedCard}>
-      <div className={styles.selectedRow}>
-        <div className={styles.selectedDates}>{formatRange(startISO!, endISO!)} · {days} jour{days > 1 ? 's' : ''}</div>
-        <div className={styles.selectedPrice}>{totalPrice}€</div>
+      <div className={styles.selectedSummary}>
+        {formatRange(startISO!, endISO!)}
+        <span className={styles.summaryDot}>·</span>
+        {days} jour{days > 1 ? 's' : ''}
+        <span className={styles.summaryDot}>·</span>
+        <span className={styles.summaryPrice}>{totalPrice}€</span>
       </div>
-      {cartQty === 0 ? (
-        <div className={styles.selectedActions}>
-          <div className={styles.qtySelector}>
-            <button className={styles.qtyBtn} onClick={() => setPendingQty(q => Math.max(1, q - 1))} disabled={pendingQty <= 1} aria-label="Retirer un">−</button>
-            <span className={styles.qtyValue}>{pendingQty}</span>
-            <button className={styles.qtyBtn} onClick={() => setPendingQty(q => Math.min(availCount ?? 99, q + 1))} disabled={availCount !== null && pendingQty >= availCount} aria-label="Ajouter un">+</button>
-          </div>
-          <Button variant="primary" size="md" onClick={handleAdd} disabled={maxReached || availLoading}>
-            + Ajouter au panier
-          </Button>
-        </div>
-      ) : (
-        <div className={styles.selectedActions}>
-          <div className={styles.qtySelector}>
-            <button className={styles.qtyBtn} onClick={handleDecrease} aria-label="Retirer un">−</button>
-            <span className={styles.qtyValue}>{cartQty}</span>
-            <button className={styles.qtyBtn} onClick={handleAdd} disabled={maxReached || availLoading} aria-label="Ajouter un">+</button>
-          </div>
-          <div className={styles.cartInfo}>
-            🛒 {cartQty} sélectionné{cartQty > 1 ? 's' : ''} dans le panier
-            {maxReached && <span className={styles.stockEpuise}> · Stock épuisé</span>}
-          </div>
-        </div>
-      )}
-      {maxReached && cartQty === 0 && <span className={styles.stockBadge}>STOCK ÉPUISÉ</span>}
-      {availCount === 1 && !maxReached && (
-        <div className={styles.lastDispo}>⚡ Plus qu'un article dispo pour ces dates</div>
-      )}
+      <div className={styles.selectedActions}>
+        {cartQty === 0 ? (
+          <>
+            <div className={styles.qtySelector}>
+              <button className={styles.qtyBtn} onClick={() => setPendingQty(q => Math.max(1, q - 1))} disabled={pendingQty <= 1} aria-label="Retirer un">−</button>
+              <span className={styles.qtyValue}>{pendingQty}</span>
+              <button className={styles.qtyBtn} onClick={() => setPendingQty(q => Math.min(availCount ?? 99, q + 1))} disabled={availCount !== null && pendingQty >= availCount} aria-label="Ajouter un">+</button>
+            </div>
+            <Button variant="primary" size="md" onClick={handleAdd} disabled={maxReached || availLoading}>
+              + Ajouter au panier
+            </Button>
+          </>
+        ) : (
+          <>
+            <div className={styles.qtySelector}>
+              <button className={styles.qtyBtn} onClick={handleDecrease} aria-label="Retirer un">−</button>
+              <span className={styles.qtyValue}>{cartQty}</span>
+              <button className={styles.qtyBtn} onClick={handleAdd} disabled={maxReached || availLoading} aria-label="Ajouter un">+</button>
+            </div>
+            <span className={styles.cartInfo}>
+              🛒 {cartQty} dans le panier{maxReached && <span className={styles.stockEpuise}> · Stock épuisé</span>}
+            </span>
+          </>
+        )}
+      </div>
+      {availCount === 1 && !maxReached && <div className={styles.lastDispo}>⚡ Plus qu'un article dispo pour ces dates</div>}
+      {maxReached && cartQty === 0 && <div className={styles.lastDispo} style={{color:'#e05252'}}>Stock épuisé pour ces dates</div>}
     </div>
   ) : null;
 
