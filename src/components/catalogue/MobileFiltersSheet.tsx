@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { AUDIENCES, type Audience } from '../../data/categories';
 import type { FilterState } from '../../lib/filterProducts';
 import styles from './MobileFiltersSheet.module.css';
@@ -18,7 +19,12 @@ const AUDIENCE_LABELS: Record<Audience, string> = {
 };
 
 export function MobileFiltersSheet({ open, value, maxAvailable, onChange, onDateChange, onClose }: Props) {
-  if (!open) return null;
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [open, onClose]);
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -41,6 +47,8 @@ export function MobileFiltersSheet({ open, value, maxAvailable, onChange, onDate
   const hasActiveFilters =
     value.audiences.length > 0 || value.maxPrice < maxAvailable || !!value.dateStart;
 
+  if (!open) return null;
+
   return (
     <div
       className={styles.overlay}
@@ -50,6 +58,9 @@ export function MobileFiltersSheet({ open, value, maxAvailable, onChange, onDate
       <div
         className={styles.sheet}
         data-testid="sheet-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Filtres"
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.handle} />

@@ -78,4 +78,11 @@ describe('MobileFiltersSheet', () => {
     expect(onDateChange).toHaveBeenCalled();
     expect(onChange).not.toHaveBeenCalled();
   });
+
+  it('appelle onClose quand la touche Escape est pressée', () => {
+    const onClose = vi.fn();
+    render(<MobileFiltersSheet {...baseProps} onClose={onClose} />);
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(onClose).toHaveBeenCalledOnce();
+  });
 });
