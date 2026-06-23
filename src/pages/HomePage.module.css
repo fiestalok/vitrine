@@ -33,6 +33,13 @@
   opacity: 0.12;
   z-index: 0;
   pointer-events: none;
+  transform-origin: bottom right;
+  animation: castle-enter 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+}
+
+@keyframes castle-enter {
+  from { opacity: 0; transform: scale(0.15); }
+  to   { opacity: 0.12; transform: scale(1); }
 }
 
 .heroBadge {
@@ -87,6 +94,7 @@
 @media (prefers-reduced-motion: reduce) {
   .animBadge, .animTitle, .animLead, .animCtas { animation: none; }
   .scrollIndicator { animation: none; }
+  .castleBg { animation: none; opacity: 0.12; }
 }
 
 /* === Scroll indicator === */
