@@ -56,7 +56,7 @@ export function EntreprisePage() {
           <h1 className={styles.title}>L'événementiel <br/>qui donne <span>envie de se retrouver.</span></h1>
           <p className={styles.lead}>De la kermesse d'entreprise au séminaire festif — on s'occupe de tout, vous profitez.</p>
           <div className={styles.ctas}>
-            <Button variant="primary" size="lg">Demander un devis →</Button>
+            <Button href="mailto:contact@fiestalok.fr" variant="primary" size="lg">Demander un devis →</Button>
             <Button to="/catalogue" variant="secondary" size="lg">Voir le catalogue</Button>
           </div>
         </div>
@@ -104,7 +104,7 @@ export function EntreprisePage() {
       <Section background="gradientWarm" title="Prêt à organiser votre prochain événement ?">
         <p className={styles.darkLead}>Devis gratuit sous 24h. On s'adapte à votre budget et à vos contraintes logistiques.</p>
         <div className={styles.center}>
-          <Button variant="primary" size="lg">Demander un devis gratuit →</Button>
+          <Button href="mailto:contact@fiestalok.fr" variant="primary" size="lg">Demander un devis gratuit →</Button>
         </div>
       </Section>
     </>
