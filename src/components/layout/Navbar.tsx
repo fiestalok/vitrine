@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import styles from './Navbar.module.css';
 
@@ -12,8 +12,10 @@ const LINKS = [
 
 export function Navbar() {
   const { totalItems, open } = useCart();
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const isHero = location.pathname === '/' && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -22,7 +24,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''} ${isHero ? styles.onHero : ''}`}>
       <div className={styles.inner}>
         <Link to="/" className={styles.logo} onClick={() => setMobileOpen(false)}>
           Hoplalo'<span>K</span>

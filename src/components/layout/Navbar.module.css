@@ -25,7 +25,7 @@
   margin: 0 auto;
   padding: 0 var(--space-lg);
 
-  background: rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(28px) saturate(200%);
   -webkit-backdrop-filter: blur(28px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.7);
@@ -35,7 +35,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
     inset 0 -1px 0 rgba(45, 52, 54, 0.04),
     0 8px 32px rgba(45, 52, 54, 0.10);
-  transition: background 0.35s ease, box-shadow 0.35s ease;
+  transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .scrolled .inner {
@@ -45,6 +45,24 @@
     inset 0 -1px 0 rgba(45, 52, 54, 0.06),
     0 12px 40px rgba(45, 52, 54, 0.14);
 }
+
+/* ── Mode hero (home non-scrollée) ───────────────────────────── */
+.onHero .inner {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+.onHero .logo  { color: #fff; }
+.onHero .logo span { color: #fff; }
+.onHero .link  { color: rgba(255, 255, 255, 0.88); }
+.onHero .link:hover { background: rgba(255, 255, 255, 0.15); color: #fff; }
+.onHero .active { color: #fff !important; }
+.onHero .active::after { background: #fff; }
+.onHero .cart  { color: #fff; }
+.onHero .cart:hover { background: rgba(255, 255, 255, 0.15); }
+.onHero .burger { color: #fff; }
 
 /* ── Logo ────────────────────────────────────────────────────── */
 .logo {
