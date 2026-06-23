@@ -1,6 +1,7 @@
 /* ===== HERO ===== */
 .hero {
   min-height: 100vh;
+  margin-top: calc(-1 * var(--navbar-height));
   padding-top: var(--navbar-height);
   background: linear-gradient(135deg, #FF6B6B 0%, #ff8e53 55%, #FFE66D 100%);
   position: relative;
