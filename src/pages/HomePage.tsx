@@ -98,14 +98,14 @@ export function HomePage() {
         </div>
       </section>
 
-      <div className={styles.trustBand}>
+      <ul className={styles.trustBand}>
         {TRUST.map((t) => (
-          <div key={t.kicker} className={styles.trustItem}>
+          <li key={t.kicker} className={styles.trustItem}>
             <strong>{t.kicker}</strong>
             <span>{t.label}</span>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <Section id="how-it-works" background="gradientWarm" eyebrow="Simple & rapide" title="Comment ça marche ?">
         <Castle size={220} rotation={6} className={styles.castleWarm} />
