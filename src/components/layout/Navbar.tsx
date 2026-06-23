@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import styles from './Navbar.module.css';
@@ -13,12 +13,24 @@ const LINKS = [
 export function Navbar() {
   const { totalItems, open } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className={styles.header}>
-      <div className={`container ${styles.inner}`}>
-        <Link to="/" className={styles.logo} onClick={() => setMobileOpen(false)}>Hoplalo'<span>K</span></Link>
-        <nav className={`${styles.nav} ${mobileOpen ? styles.navOpen : ''}`} aria-label="Navigation principale">
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+      <div className={styles.inner}>
+        <Link to="/" className={styles.logo} onClick={() => setMobileOpen(false)}>
+          Hoplalo'<span>K</span>
+        </Link>
+        <nav
+          className={`${styles.nav} ${mobileOpen ? styles.navOpen : ''}`}
+          aria-label="Navigation principale"
+        >
           {LINKS.map((l) => (
             <NavLink
               key={l.to}
@@ -33,9 +45,15 @@ export function Navbar() {
         </nav>
         <div className={styles.actions}>
           <button className={styles.cart} onClick={open} aria-label={`Panier, ${totalItems} articles`}>
-            🛒 <span className={styles.cartLabel}>Panier</span> {totalItems > 0 && <span className={styles.badge}>{totalItems}</span>}
+            🛒 <span className={styles.cartLabel}>Panier</span>
+            {totalItems > 0 && <span className={styles.badge}>{totalItems}</span>}
           </button>
-          <button className={styles.burger} onClick={() => setMobileOpen((v) => !v)} aria-label="Menu" aria-expanded={mobileOpen}>
+          <button
+            className={styles.burger}
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Menu"
+            aria-expanded={mobileOpen}
+          >
             {mobileOpen ? '✕' : '☰'}
           </button>
         </div>

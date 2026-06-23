@@ -42,8 +42,8 @@ export function HomePage() {
   return (
     <>
       <PageSEO
-        title="Location de matériel festif en Alsace"
-        description="Hoplalo'K loue du matériel festif en Alsace : châteaux gonflables, enceintes, machines à pop-corn, plancha. Livraison dans tout le Bas-Rhin et le Haut-Rhin."
+        title="Location Château Gonflable Strasbourg & Alsace"
+        description="Louez un château gonflable à Strasbourg avec Hoplalo'K. Livraison et installation dans tout le Bas-Rhin et le Haut-Rhin. Photobooths, sono, machines à pop-corn — certifiés CE, assurés RC Pro."
         path="/"
       />
       <section className={styles.hero}>
