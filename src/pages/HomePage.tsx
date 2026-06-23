@@ -73,7 +73,7 @@ export function HomePage() {
             on s'occupe de tout, vous profitez.
           </p>
           <div className={`${styles.ctas} ${styles.animCtas}`}>
-            <Button to="/devis" variant="secondary" size="lg" className={styles.ctaDevis}>
+            <Button href="mailto:contact@fiestalok.fr" variant="secondary" size="lg" className={styles.ctaDevis}>
               Demander un devis →
             </Button>
             <Button to="/catalogue" variant="secondary" size="lg">
