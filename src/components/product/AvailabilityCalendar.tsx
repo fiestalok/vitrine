@@ -25,6 +25,7 @@ export function AvailabilityCalendar({ articleIds, totalArticles, range, onChang
   const [rangeError, setRangeError] = useState(false);
   const [unavailDates, setUnavailDates] = useState<string[]>([]);
   const [loadingDates, setLoadingDates] = useState(false);
+  const [hoverDate, setHoverDate] = useState<Date | null>(null);
   const today = startOfDay(new Date());
 
   const articleKey = articleIds.join(',');
@@ -81,33 +82,45 @@ export function AvailabilityCalendar({ articleIds, totalArticles, range, onChang
       </div>
       <div className={styles.grid}>
         {Array.from({ length: startWeekday }).map((_, i) => <span key={`b${i}`} />)}
-        {days.map((d) => {
+        {(() => {
+          // Compute once outside the per-day loop
+          const previewEnd = range.start && !range.end && hoverDate &&
+            !isBefore(hoverDate, range.start) ? hoverDate : null;
+          const effectiveEnd = range.end ?? previewEnd;
+          return days.map((d) => {
           const past    = isBefore(d, today) && !isSameDay(d, today);
           const unavail = isUnavailable(d);
           const isStart = range.start && isSameDay(d, range.start);
-          const isEnd   = range.end   && isSameDay(d, range.end);
-          const inRange =
-            range.start && range.end &&
-            isAfter(d, range.start) && isBefore(d, range.end);
+
+          const isEnd   = effectiveEnd ? isSameDay(d, effectiveEnd) : false;
+          const inRange = !!(range.start && effectiveEnd &&
+            isAfter(d, range.start) && isBefore(d, effectiveEnd));
+
           return (
             <button
               key={d.toISOString()}
               disabled={past || unavail || !isSameMonth(d, view)}
               className={[
                 styles.day,
-                past    ? styles.dayPast   : '',
-                unavail ? styles.unavail   : '',
+                past    ? styles.dayPast    : '',
+                unavail ? styles.unavail    : '',
                 isStart ? styles.rangeStart : '',
                 isEnd   ? styles.rangeEnd   : '',
                 inRange ? styles.inRange    : '',
               ].filter(Boolean).join(' ')}
               onClick={() => handleDayClick(d)}
+              onMouseEnter={() => { if (range.start && !range.end && !past && !unavail) setHoverDate(d); }}
+              onMouseLeave={() => setHoverDate(null)}
             >
               {d.getDate()}
             </button>
           );
-        })}
+        });
+        })()}
       </div>
+      {range.start && !range.end && !rangeError && (
+        <p className={styles.hint}>Choisissez votre date de fin</p>
+      )}
       {rangeError && (
         <p role="alert" className={styles.error}>
           Cette plage contient des jours indisponibles, choisissez une autre période.
