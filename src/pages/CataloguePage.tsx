@@ -12,6 +12,8 @@ import { DateChangeModal } from '../components/ui/DateChangeModal';
 import { Bubbles } from '../components/ui/Bubbles';
 import { Castle } from '../components/ui/Castle';
 import { PageSEO } from '../components/seo/PageSEO';
+import { MobileFilterBar } from '../components/catalogue/MobileFilterBar';
+import { MobileFiltersSheet } from '../components/catalogue/MobileFiltersSheet';
 import styles from './CataloguePage.module.css';
 
 export function CataloguePage() {
@@ -92,6 +94,7 @@ export function CataloguePage() {
     unavailableNames: string[];
   };
   const [pendingDateChange, setPendingDateChange] = useState<PendingDateChange | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const handleDateChange = useCallback(async (newFilter: FilterState) => {
     const datedItems = cartItems.filter((i) => i.startDate && i.endDate);
@@ -146,13 +149,29 @@ export function CataloguePage() {
       <div className={styles.contentArea}>
         <Bubbles variant="warm" />
         <Castle size={120} rotation={5} className={styles.castleRight} noInflate />
-        <div className={`container ${styles.tabsBar}`}>
+
+        {/* Desktop: category tabs bar */}
+        <div className={`container ${styles.tabsBar} ${styles.desktopOnly}`}>
           <div />
           <CategoryTabs active={filters.category} onChange={(c) => setFilters((f) => ({ ...f, category: c }))} />
         </div>
 
+        {/* Mobile: compact category chips bar */}
+        <MobileFilterBar
+          filters={filters}
+          onCategoryChange={(c) => setFilters((f) => ({ ...f, category: c }))}
+        />
+
         <div className={`container ${styles.layout}`}>
-          <CatalogueFilters value={filters} onChange={setFilters} onDateChange={handleDateChange} maxAvailable={maxProductPrice} />
+          {/* Desktop: filters sidebar */}
+          <div className={styles.desktopOnly}>
+            <CatalogueFilters
+              value={filters}
+              onChange={setFilters}
+              onDateChange={handleDateChange}
+              maxAvailable={maxProductPrice}
+            />
+          </div>
 
           <div className={styles.results}>
             <div className={styles.resultsHeader}>
@@ -165,12 +184,12 @@ export function CataloguePage() {
                       return `${availableCount} disponible${availableCount > 1 ? 's' : ''} sur ${displayed.length}`;
                     })()}
               </p>
-              <div className={styles.sortWrap}>
+              {/* Desktop: sort buttons */}
+              <div className={`${styles.sortWrap} ${styles.desktopOnly}`}>
                 {([
                   { value: 'default',    label: 'Défaut' },
                   { value: 'price-asc',  label: 'Prix ↑' },
                   { value: 'price-desc', label: 'Prix ↓' },
-                  { value: 'rating',     label: '★ Notes' },
                 ] as const).map((o) => (
                   <button
                     key={o.value}
@@ -181,6 +200,21 @@ export function CataloguePage() {
                   </button>
                 ))}
               </div>
+              {/* Mobile: filters button */}
+              {(() => {
+                let activeCount = 0;
+                if (filters.audiences.length > 0) activeCount++;
+                if (filters.maxPrice < maxProductPrice) activeCount++;
+                if (filters.dateStart || filters.dateEnd) activeCount++;
+                return (
+                  <button
+                    className={`${styles.mobileFiltersBtn} ${activeCount > 0 ? styles.mobileFiltersBtnActive : ''}`}
+                    onClick={() => setFiltersOpen(true)}
+                  >
+                    ⚙ Filtres{activeCount > 0 ? ` (${activeCount})` : ''}
+                  </button>
+                );
+              })()}
             </div>
 
             {isLoading ? (
@@ -209,6 +243,16 @@ export function CataloguePage() {
             )}
           </div>
         </div>
+
+        {/* Mobile: filters bottom sheet */}
+        <MobileFiltersSheet
+          open={filtersOpen}
+          value={filters}
+          maxAvailable={maxProductPrice}
+          onChange={setFilters}
+          onDateChange={handleDateChange}
+          onClose={() => setFiltersOpen(false)}
+        />
       </div>
     </div>
 

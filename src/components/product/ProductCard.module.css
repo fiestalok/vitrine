@@ -14,7 +14,9 @@
 .badge { position: absolute; top: var(--space-sm); right: var(--space-sm); }
 .price { position: absolute; bottom: var(--space-sm); right: var(--space-sm); background: var(--color-ink); color: var(--color-bg); padding: 0.2rem 0.55rem; border-radius: var(--radius-pill); font-weight: 800; font-size: 0.75rem; }
 .body { padding: var(--space-lg); }
-.name { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: var(--space-xs); }
+.name { font-family: var(--font-body); font-size: 1rem; font-weight: 700; margin-bottom: 0.15rem; }
+.priceBody { font-size: 1rem; font-weight: 800; color: var(--color-primary); margin-bottom: var(--space-xs); }
+.priceBody span { font-size: 0.75rem; font-weight: 600; color: var(--color-ink-soft); }
 .footer { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-xs); gap: var(--space-xs); }
 .availBadge { font-size: 0.72rem; padding: 0.15rem 0.55rem; }
 .lastDispo { display: block; font-size: 0.65rem; color: #e05252; font-weight: 600; margin-top: 0.25rem; }

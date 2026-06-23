@@ -1,0 +1,44 @@
+.bar {
+  display: none; /* hidden on desktop, shown only via media query */
+}
+
+@media (max-width: 900px) {
+  .bar {
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background: #fff;
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: var(--navbar-height);
+    z-index: 10;
+  }
+}
+
+.chips {
+  display: flex;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  flex: 1;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chips::-webkit-scrollbar { display: none; }
+
+.chip {
+  background: #f5f5f5;
+  color: var(--color-ink-soft);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
+}
+.chipActive {
+  background: var(--color-primary);
+  color: #fff;
+}
