@@ -36,7 +36,8 @@
 .selected { margin-top: var(--space-sm); padding: var(--space-sm); background: var(--color-accent); border-radius: var(--radius-md); display: inline-block; }
 .selectedCard { margin-top: var(--space-sm); padding: var(--space-sm) var(--space-md); background: var(--color-bg-alt); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: var(--space-xs); width: 100%; }
 .selectedRow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); }
-.selectedActions { display: flex; align-items: center; gap: var(--space-sm); flex-shrink: 0; }
+.selectedActions { display: flex; align-items: center; gap: var(--space-sm); width: 100%; }
+.selectedActions > :last-child { flex: 1; }
 .selectedDates { font-size: 0.88rem; color: var(--color-ink-soft); }
 .selectedPrice { font-family: var(--font-display); font-size: 1.3rem; color: var(--color-ink); font-weight: 800; white-space: nowrap; }
 .calBtn { margin-top: var(--space-md); }

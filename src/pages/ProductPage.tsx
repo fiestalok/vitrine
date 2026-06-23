@@ -52,9 +52,14 @@ export function ProductPage() {
     end:   toParam   ? new Date(toParam)   : null,
   }));
   const [availCount, setAvailCount] = useState<number | null>(null);
+  const [pendingQty, setPendingQty] = useState(1);
   const planningRef = useRef<HTMLElement>(null);
   type PendingAdd = { unavailableIds: string[]; unavailableNames: string[]; newStart: string; newEnd: string };
   const [pendingAdd, setPendingAdd] = useState<PendingAdd | null>(null);
+
+  useEffect(() => {
+    setPendingQty(1);
+  }, [range.start?.getTime(), range.end?.getTime()]);
 
   useEffect(() => {
     if (!product || !range.start || !range.end) { setAvailCount(null); return; }
@@ -116,7 +121,8 @@ export function ProductPage() {
       }
     }
 
-    add({ productId: product.id, startDate: newStart, endDate: newEnd, quantity: 1 });
+    const qty = cartQty === 0 ? pendingQty : 1;
+    add({ productId: product.id, startDate: newStart, endDate: newEnd, quantity: qty });
     open();
   }
 
@@ -141,9 +147,16 @@ export function ProductPage() {
         <div className={styles.selectedPrice}>{totalPrice}€</div>
       </div>
       {cartQty === 0 ? (
-        <Button variant="primary" size="lg" onClick={handleAdd} disabled={maxReached || availLoading}>
-          + Ajouter au panier
-        </Button>
+        <div className={styles.selectedActions}>
+          <div className={styles.qtySelector}>
+            <button className={styles.qtyBtn} onClick={() => setPendingQty(q => Math.max(1, q - 1))} disabled={pendingQty <= 1} aria-label="Retirer un">−</button>
+            <span className={styles.qtyValue}>{pendingQty}</span>
+            <button className={styles.qtyBtn} onClick={() => setPendingQty(q => Math.min(availCount ?? 99, q + 1))} disabled={availCount !== null && pendingQty >= availCount} aria-label="Ajouter un">+</button>
+          </div>
+          <Button variant="primary" size="lg" onClick={handleAdd} disabled={maxReached || availLoading}>
+            + Ajouter au panier
+          </Button>
+        </div>
       ) : (
         <div className={styles.selectedActions}>
           <div className={styles.qtySelector}>
