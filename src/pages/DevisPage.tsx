@@ -4,7 +4,7 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useCart } from '../context/CartContext';
 import { useProducts } from '../context/ProductsContext';
 import { createReservation, type ReservationCartItem } from '../lib/directus';
-import { formatPrice, lineTotal } from '../lib/format';
+import { formatPrice, lineTotal, rentalDays } from '../lib/format';
 import { PageSEO } from '../components/seo/PageSEO';
 import styles from './DevisPage.module.css';
 
@@ -181,9 +181,15 @@ export function DevisPage() {
                     ) : null;
                   })}
                 </ul>
+                {dateStart && (
+                  <div className={styles.daysRow}>
+                    <span>Durée</span>
+                    <strong>{rentalDays(dateStart, dateEnd)} jour{rentalDays(dateStart, dateEnd) > 1 ? 's' : ''}</strong>
+                  </div>
+                )}
                 <div className={styles.totalRow}>
                   <span>Total estimé</span>
-                  <strong>{formatPrice(total)}</strong>
+                  <strong>{total}€</strong>
                 </div>
               </aside>
             </div>
