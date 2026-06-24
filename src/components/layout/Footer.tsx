@@ -33,6 +33,7 @@ export function Footer() {
           <h4 className={styles.title}>Navigation</h4>
           <ul>
             <li><Link to="/catalogue">Catalogue</Link></li>
+            <li><Link to="/zones-de-livraison">Zones de livraison</Link></li>
             <li><Link to="/entreprise">Entreprise</Link></li>
             <li><Link to="/qui-sommes-nous">Qui sommes-nous</Link></li>
             <li><Link to="/mentions-legales">Mentions légales</Link></li>
