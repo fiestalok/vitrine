@@ -359,12 +359,26 @@ export interface ReservationData {
   cf_token: string;
 }
 
+async function findOrCreateClient(clientData: ReservationClientData): Promise<number> {
+  const res = await fetch(
+    `${DIRECTUS_URL}/flows/trigger/b84ce377-0d9c-49c9-87d5-ad8f74881d7e`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(clientData),
+    }
+  );
+  if (!res.ok) throw new Error(`Erreur flow client : ${res.status}`);
+  const json = await res.json() as { id: number };
+  return json.id;
+}
+
 export async function createReservation(data: ReservationData): Promise<string> {
   const trackingToken = crypto.randomUUID();
 
-  const client = await directusPost<{ id: number }>('/items/clients', data.client);
+  const clientId = await findOrCreateClient(data.client);
   const reservation = await directusPost<{ id: number }>('/items/reservations', {
-    client: client.id,
+    client: clientId,
     date_start: data.date_start,
     date_end: data.date_end,
     status: 'en_attente',
