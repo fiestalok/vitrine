@@ -1,0 +1,133 @@
+.hero {
+  background: var(--color-bg);
+  padding: calc(var(--navbar-height) + var(--space-2xl)) 0 var(--space-2xl);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  color: var(--color-ink);
+  margin-bottom: var(--space-lg);
+}
+
+.accent {
+  color: var(--color-primary);
+}
+
+.intro {
+  font-size: 1.1rem;
+  color: var(--color-ink-soft);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: var(--space-xl);
+}
+
+/* Services grid */
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.serviceCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--color-bg-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-lg);
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.serviceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.serviceEmoji {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.serviceLabel {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: var(--space-xs);
+}
+
+.serviceDesc {
+  font-size: 0.875rem;
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+/* Zone */
+.zoneText {
+  font-size: 1rem;
+  color: var(--color-ink-soft);
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+.zoneLink {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.zoneLink:hover { text-decoration: underline; }
+
+/* FAQ */
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 720px;
+}
+
+.faqItem {
+  background: var(--color-bg-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.faqQ {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--color-ink);
+  margin-bottom: var(--space-xs);
+}
+
+.faqA {
+  font-size: 0.95rem;
+  color: var(--color-ink-soft);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* CTA group */
+.ctaGroup {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
