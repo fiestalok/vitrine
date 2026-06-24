@@ -133,7 +133,7 @@ export function CataloguePage() {
     <>
     <PageSEO
       title="Location Château Gonflable & Matériel Festif — Alsace"
-      description="Catalogue de location : châteaux gonflables, photobooths, sono, machines à pop-corn, plancha. Livraison avec installation à Strasbourg et dans toute l'Alsace."
+      description="Catalogue de location : châteaux gonflables, photobooths, enceintes, machines à pop-corn. Livraison avec installation à Strasbourg et dans toute l'Alsace."
       path="/catalogue"
     />
     <div className={styles.page}>
