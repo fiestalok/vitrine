@@ -1,6 +1,7 @@
 /* ===== HERO ===== */
 .hero {
   min-height: 100vh;
+  min-height: 100dvh;
   margin-top: -80px; /* full unscrolled header height: 12px padding + 56px pill + 12px padding */
   padding-top: 80px;
   background: linear-gradient(135deg, #FF6B6B 0%, #ff8e53 55%, #FFE66D 100%);
@@ -229,7 +230,8 @@
 @media (max-width: 560px) {
   .steps, .categories, .values, .productGrid { grid-template-columns: 1fr; }
   /* Hero */
-  .hero { padding-top: calc(80px + var(--space-md)); }
+  .hero { padding-top: calc(80px + var(--space-md)); align-items: flex-start; }
+  .heroInner { min-height: calc(100dvh - 80px - var(--space-md)); }
   .title { font-size: clamp(2.8rem, 13vw, 4rem); }
   .lead  { font-size: 1.05rem; }
   .title br, .lead br { display: none; }
@@ -240,16 +242,20 @@
   .trustBand { gap: var(--space-lg); padding: var(--space-md) var(--space-lg); }
 
   /* Steps — pas de hover sur mobile, on aplatit et on affiche tout le contenu */
-  .steps { gap: var(--space-md); }
+  /* display:block (pas grid) : le sticky de chaque card est contraint à la section entière,
+     pas à sa ligne de grille — toutes les cards restent collées simultanément */
+  .steps { display: block; }
   .step {
     min-height: 0; perspective: none; padding: 0;
-    /* Empilement au scroll : chaque carte sticky avec offset progressif (effet deck) */
+    margin-bottom: var(--space-md);
     position: sticky;
   }
+  .step:last-child { margin-bottom: 0; }
   /* "Comment ça marche" : section sticky — titre épinglé au top,
      card 1 statique sous le titre, cards 2/3/4 stack par-dessus */
   :global(#how-it-works) {
     --section-header-h: 87px; /* hauteur titre + margin (~63 + 24 = --space-lg) */
+    padding-bottom: 25vh; /* dwell time : les 4 cards restent visibles empilées avant de remonter */
   }
   :global(#how-it-works) > div > header {
     position: sticky;
