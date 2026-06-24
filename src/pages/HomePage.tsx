@@ -43,7 +43,7 @@ const STEPS = [
   { n: '01', icon: '🏰', iconBg: '#D4F0EE', title: 'Choisissez', text: 'Naviguez par catégorie ou utilisez les filtres. Besoin d\'un conseil ? Contactez-nous.' },
   { n: '02', icon: '📅', iconBg: '#FFF3C4', title: 'Livraison ou retrait', text: 'Livraison sur site en Alsace ou retrait dans notre dépôt à Strasbourg.' },
   { n: '03', icon: '🚚', iconBg: '#D4F0E0', title: 'On installe', text: 'Notre équipe monte et sécurise le matériel sur place. Démonstration incluse.' },
-  { n: '04', icon: '🎉', iconBg: '#FFE0DC', title: 'Vous kiffez', text: 'Profitez de votre fête sans stress. À l\'heure convenue, on revient tout démonter.' },
+  { n: '04', icon: '🎉', iconBg: '#FFE0DC', title: 'Vous profitez', text: 'Profitez de votre fête sans stress. À l\'heure convenue, on revient tout démonter.' },
 ];
 
 const TRUST = [

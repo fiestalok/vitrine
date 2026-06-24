@@ -9,7 +9,7 @@ export function Footer() {
       <div className={`container ${styles.grid}`}>
         <div>
           <p className={styles.logo}>Hoplalo'<span>K</span></p>
-          <p className={styles.tagline}>Location de matériel festif en Alsace.<br/>On gonfle, vous kiffez.</p>
+          <p className={styles.tagline}>Location de matériel festif en Alsace.<br/>On livre, vous profitez.</p>
           <div className={styles.socials}>
             <a href="https://www.instagram.com/hoplalok" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
