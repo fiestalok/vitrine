@@ -190,7 +190,7 @@ export function ProductPage() {
           '@context': 'https://schema.org',
           '@type': 'Product',
           name: `Location ${product.name}`,
-          description: product.shortDescription,
+          ...(product.shortDescription && { description: product.shortDescription }),
           image: product.images[0] ?? undefined,
           brand: { '@type': 'Brand', name: "Hoplalo'K" },
           offers: {
@@ -198,7 +198,6 @@ export function ProductPage() {
             priceCurrency: 'EUR',
             price: product.price,
             priceValidUntil: '2027-12-31',
-            availability: 'https://schema.org/InStock',
             areaServed: 'Bas-Rhin, Haut-Rhin',
             url: `https://www.hoplalok.fr/produit/${product.id}`,
           },
