@@ -5,7 +5,7 @@ interface PageSEOProps {
   description: string;
   path: string;
   image?: string;
-  jsonLd?: object;
+  jsonLd?: Record<string, unknown>;
 }
 
 const BASE_URL = 'https://www.hoplalok.fr';
