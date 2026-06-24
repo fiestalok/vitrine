@@ -37,8 +37,20 @@
 /* Services grid */
 .services {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-md);
+}
+
+@media (max-width: 768px) {
+  .services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .services {
+    grid-template-columns: 1fr;
+  }
 }
 
 .serviceCard {
@@ -100,6 +112,7 @@
   flex-direction: column;
   gap: var(--space-md);
   max-width: 720px;
+  margin-inline: auto;
 }
 
 .faqItem {
