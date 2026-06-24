@@ -95,8 +95,8 @@ export function HomePage() {
         </div>
         <div className={`container ${styles.heroInner}`}>
           <h1 className={`${styles.title} ${styles.animTitle}`}>
-            Ta fête va<br/>
-            <span className={styles.titleAccent}>décoller.</span>
+            Ta fête<br/>
+            <span className={styles.titleAccent}>gonflée à bloc.</span>
           </h1>
           <p className={`${styles.lead} ${styles.animLead}`}>
             Châteaux gonflables, photobooths, sono et bien plus —<br/>
