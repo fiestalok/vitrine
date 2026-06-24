@@ -339,6 +339,7 @@ export interface ReservationClientData {
   company_name?: string;
   email: string;
   phone: string;
+  address?: string;
 }
 
 export interface ReservationCartItem {
