@@ -50,3 +50,19 @@ test('la trust band affiche les éléments de confiance', () => {
   expect(screen.getByText(/équipe certifiée/i)).toBeInTheDocument();
   expect(screen.getAllByText(/alsacien/i).length).toBeGreaterThan(0);
 });
+
+test('la section FAQ affiche la question sur les zones de livraison', () => {
+  renderHomePage();
+  expect(screen.getByText(/dans quelles villes livrez-vous/i)).toBeInTheDocument();
+});
+
+test('la section FAQ affiche la question sur le week-end', () => {
+  renderHomePage();
+  expect(screen.getByText(/livrez-vous.*week-end/i)).toBeInTheDocument();
+});
+
+test('la section FAQ contient un lien vers zones-de-livraison', () => {
+  renderHomePage();
+  const link = screen.getByRole('link', { name: /toutes les zones/i });
+  expect(link).toHaveAttribute('href', '/zones-de-livraison');
+});

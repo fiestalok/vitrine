@@ -297,3 +297,45 @@
   .stepBack .stepNum, .stepBack h3 { display: none; } /* doublons du recto */
   .stepBack p { color: var(--color-ink-soft); font-size: 0.95rem; margin-top: 0; }
 }
+
+/* ===== FAQ ===== */
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.faqItem {
+  background: var(--color-bg-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.faqQ {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--color-ink);
+  margin-bottom: var(--space-xs);
+}
+
+.faqA {
+  font-size: 0.95rem;
+  color: var(--color-ink-soft);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.faqLink {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.faqLink:hover {
+  text-decoration: underline;
+}
+
