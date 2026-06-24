@@ -55,7 +55,7 @@ export function VillePage() {
             <span className={styles.accent}>à {ville.nom}</span>
           </h1>
           <p className={styles.intro}>{ville.intro}</p>
-          <Button to="/devis" variant="primary" size="lg">
+          <Button href="mailto:contact@fiestalok.fr" variant="primary" size="lg">
             Demander un devis pour {ville.nom} →
           </Button>
         </div>
@@ -96,7 +96,7 @@ export function VillePage() {
 
       <Section background="gradientWarm" eyebrow="Prêt ?" title={`Organisez votre fête à ${ville.nom}`}>
         <div className={styles.ctaGroup}>
-          <Button to="/devis" variant="primary" size="lg">Demander un devis gratuit →</Button>
+          <Button href="mailto:contact@fiestalok.fr" variant="primary" size="lg">Demander un devis gratuit →</Button>
           <Button to="/catalogue" variant="secondary" size="lg">Voir le catalogue</Button>
         </div>
       </Section>
