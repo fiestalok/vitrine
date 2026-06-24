@@ -62,7 +62,7 @@ export function DevisPage() {
       });
 
       const token = await createReservation({
-        client: { type, first_name: firstName, last_name: lastName, company_name: type === 'professionnel' ? company : undefined, email, phone },
+        client: { type, first_name: firstName, last_name: lastName, company_name: type === 'professionnel' ? company : "", email, phone, address: delivery ? deliveryAddress : "" },
         date_start: dateStart,
         date_end: dateEnd,
         delivery,
