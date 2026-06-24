@@ -169,7 +169,7 @@ export function HomePage() {
         </div>
       </Section>
 
-      <Section background="gradientCool" eyebrow="Produits stars" title="On dirait qu'ils kiffent.">
+      <Section background="gradientCool" eyebrow="Produits stars" title="Les préférés de l'Alsace">
         <Castle size={200} rotation={-7} className={styles.castleCool} />
         <div className={styles.productGrid}>
           {featured.map((p) => (
