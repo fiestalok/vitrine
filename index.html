@@ -46,7 +46,7 @@
       "@type": "LocalBusiness",
       "@id": "https://www.hoplalok.fr/#organization",
       "name": "Hoplalo'K",
-      "description": "Location de château gonflable à Strasbourg et en Alsace. Châteaux gonflables, photobooths, sono, machines festives. Livraison dans tout le Bas-Rhin et le Haut-Rhin.",
+      "description": "Location de matériel festif à Strasbourg et en Alsace : châteaux gonflables, photobooths, machines à pop-corn, enceintes. Livraison et installation dans tout le Bas-Rhin et le Haut-Rhin.",
       "url": "https://www.hoplalok.fr/",
       "telephone": "+33679515925",
       "email": "contact@fiestalok.fr",
@@ -56,7 +56,35 @@
         "addressRegion": "Alsace",
         "addressCountry": "FR"
       },
-      "areaServed": ["Bas-Rhin", "Haut-Rhin", "Alsace"],
+      "areaServed": [
+        { "@type": "City", "name": "Strasbourg" },
+        { "@type": "City", "name": "Schiltigheim" },
+        { "@type": "City", "name": "Bischheim" },
+        { "@type": "City", "name": "Hoenheim" },
+        { "@type": "City", "name": "Illkirch-Graffenstaden" },
+        { "@type": "City", "name": "Ostwald" },
+        { "@type": "City", "name": "Lingolsheim" },
+        { "@type": "City", "name": "La Wantzenau" },
+        { "@type": "City", "name": "Haguenau" },
+        { "@type": "City", "name": "Saverne" },
+        { "@type": "City", "name": "Obernai" },
+        { "@type": "City", "name": "Sélestat" },
+        { "@type": "City", "name": "Molsheim" },
+        { "@type": "City", "name": "Colmar" },
+        { "@type": "City", "name": "Mulhouse" },
+        { "@type": "AdministrativeArea", "name": "Bas-Rhin" },
+        { "@type": "AdministrativeArea", "name": "Haut-Rhin" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Location de matériel festif",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Location château gonflable" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Location photobooth" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Location machine à pop-corn" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Location enceinte sono" } }
+        ]
+      },
       "image": "https://www.hoplalok.fr/logo.png",
       "priceRange": "€€",
       "openingHoursSpecification": {

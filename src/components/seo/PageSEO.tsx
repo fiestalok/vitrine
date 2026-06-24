@@ -5,12 +5,13 @@ interface PageSEOProps {
   description: string;
   path: string;
   image?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
 const BASE_URL = 'https://www.hoplalok.fr';
 const DEFAULT_IMAGE = `${BASE_URL}/logo.png`;
 
-export function PageSEO({ title, description, path, image = DEFAULT_IMAGE }: PageSEOProps) {
+export function PageSEO({ title, description, path, image = DEFAULT_IMAGE, jsonLd }: PageSEOProps) {
   const url = `${BASE_URL}${path}`;
   const fullTitle = `${title} | Hoplalo'K`;
 
@@ -28,6 +29,11 @@ export function PageSEO({ title, description, path, image = DEFAULT_IMAGE }: Pag
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
+      {jsonLd && (
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
+      )}
     </Helmet>
   );
 }

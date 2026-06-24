@@ -15,6 +15,8 @@ import { QuiSommesNousPage } from './pages/QuiSommesNousPage';
 import { DevisPage } from './pages/DevisPage';
 import { SuiviPage } from './pages/SuiviPage';
 import { MentionsLegalesPage } from './pages/MentionsLegalesPage';
+import { VillePage } from './pages/VillePage';
+import { ZonesPage } from './pages/ZonesPage';
 
 export default function App() {
   return (
@@ -33,6 +35,8 @@ export default function App() {
                 <Route path="/qui-sommes-nous" element={<QuiSommesNousPage />} />
                 <Route path="/devis" element={<DevisPage />} />
             <Route path="/suivi" element={<SuiviPage />} />
+                <Route path="/zones-de-livraison" element={<ZonesPage />} />
+                <Route path="/location/:slug" element={<VillePage />} />
                 <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
               </Routes>
             </main>

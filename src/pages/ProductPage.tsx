@@ -186,6 +186,22 @@ export function ProductPage() {
         description={`Louez ${product.name} pour votre événement en Alsace. ${product.longDescription.slice(0, 120)}…`}
         path={`/produit/${product.id}`}
         image={product.images[0] ?? undefined}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: `Location ${product.name}`,
+          ...(product.shortDescription && { description: product.shortDescription }),
+          image: product.images[0] ?? undefined,
+          brand: { '@type': 'Brand', name: "Hoplalo'K" },
+          offers: {
+            '@type': 'Offer',
+            priceCurrency: 'EUR',
+            price: product.price,
+            priceValidUntil: '2027-12-31',
+            areaServed: 'Bas-Rhin, Haut-Rhin',
+            url: `https://www.hoplalok.fr/produit/${product.id}`,
+          },
+        }}
       />
       <nav className={styles.crumbs}>
         <Link to="/catalogue">Catalogue</Link> / <span>{product.name}</span>

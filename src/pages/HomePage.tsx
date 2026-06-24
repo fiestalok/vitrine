@@ -11,6 +11,27 @@ import { useCart } from '../context/CartContext';
 import { PageSEO } from '../components/seo/PageSEO';
 import styles from './HomePage.module.css';
 
+const FAQ = [
+  {
+    q: 'Dans quelles villes livrez-vous ?',
+    a: "Nous livrons dans tout le Bas-Rhin et le Haut-Rhin : Strasbourg, Schiltigheim, Illkirch-Graffenstaden, Haguenau, Colmar, Mulhouse et des dizaines d'autres communes.",
+    linkLabel: 'Voir toutes les zones →',
+    linkTo: '/zones-de-livraison',
+  },
+  {
+    q: 'Livrez-vous le week-end ?',
+    a: 'Oui, nous livrons 7j/7 de 8h à 20h, y compris le samedi et le dimanche pour vos fêtes.',
+  },
+  {
+    q: 'Quelle superficie faut-il prévoir pour un château gonflable ?',
+    a: 'Comptez au minimum 5 × 5 m de surface plane et dégagée, avec 2 m de hauteur libre au-dessus.',
+  },
+  {
+    q: 'Faut-il une autorisation pour installer un château gonflable ?',
+    a: "Pour un usage privé dans votre jardin, aucune autorisation n'est requise. Pour un espace public, nous vous accompagnons dans les démarches.",
+  },
+];
+
 const CAT_COLORS: Record<string, { bg: string; circle: string }> = {
   'chateau-gonflable': { bg: '#FFF0F0', circle: '#FF6B6B' },
   'accessoire':        { bg: '#F3EEFF', circle: '#8E72D9' },
@@ -22,7 +43,7 @@ const STEPS = [
   { n: '01', icon: '🏰', iconBg: '#D4F0EE', title: 'Choisissez', text: 'Naviguez par catégorie ou utilisez les filtres. Besoin d\'un conseil ? Contactez-nous.' },
   { n: '02', icon: '📅', iconBg: '#FFF3C4', title: 'Livraison ou retrait', text: 'Livraison sur site en Alsace ou retrait dans notre dépôt à Strasbourg.' },
   { n: '03', icon: '🚚', iconBg: '#D4F0E0', title: 'On installe', text: 'Notre équipe monte et sécurise le matériel sur place. Démonstration incluse.' },
-  { n: '04', icon: '🎉', iconBg: '#FFE0DC', title: 'Vous kiffez', text: 'Profitez de votre fête sans stress. À l\'heure convenue, on revient tout démonter.' },
+  { n: '04', icon: '🎉', iconBg: '#FFE0DC', title: 'Vous profitez', text: 'Profitez de votre fête sans stress. À l\'heure convenue, on revient tout démonter.' },
 ];
 
 const TRUST = [
@@ -55,8 +76,17 @@ export function HomePage() {
     <>
       <PageSEO
         title="Location Château Gonflable Strasbourg & Alsace"
-        description="Louez un château gonflable à Strasbourg avec Hoplalo'K. Livraison et installation dans tout le Bas-Rhin et le Haut-Rhin. Photobooths, sono, machines à pop-corn — certifiés CE, assurés RC Pro."
+        description="Louez un château gonflable à Strasbourg avec Hoplalo'K. Livraison et installation dans tout le Bas-Rhin et le Haut-Rhin. Photobooths, machines à pop-corn, enceintes — certifiés CE, assurés RC Pro."
         path="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: FAQ.map(({ q, a }) => ({
+            '@type': 'Question',
+            name: q,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
+        }}
       />
       <section className={styles.hero}>
         <Bubbles variant="hero" />
@@ -139,7 +169,7 @@ export function HomePage() {
         </div>
       </Section>
 
-      <Section background="gradientCool" eyebrow="Produits stars" title="On dirait qu'ils kiffent.">
+      <Section background="gradientCool" eyebrow="Produits stars" title="Les préférés de l'Alsace">
         <Castle size={200} rotation={-7} className={styles.castleCool} />
         <div className={styles.productGrid}>
           {featured.map((p) => (
@@ -172,6 +202,22 @@ export function HomePage() {
             </article>
           ))}
         </div>
+      </Section>
+
+      <Section eyebrow="Questions fréquentes" title="Tout ce que vous voulez savoir.">
+        <dl className={styles.faq}>
+          {FAQ.map((item) => (
+            <div key={item.q} className={styles.faqItem}>
+              <dt className={styles.faqQ}>{item.q}</dt>
+              <dd className={styles.faqA}>
+                {item.a}
+                {item.linkTo && (
+                  <> <Link to={item.linkTo} className={styles.faqLink}>{item.linkLabel}</Link></>
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </Section>
     </>
   );
