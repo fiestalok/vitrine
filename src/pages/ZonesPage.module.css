@@ -1,0 +1,97 @@
+.hero {
+  background: var(--color-bg);
+  padding: calc(var(--navbar-height) + var(--space-2xl)) 0 var(--space-2xl);
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  color: var(--color-ink);
+  margin-bottom: var(--space-lg);
+}
+
+.accent {
+  color: var(--color-primary);
+}
+
+.lead {
+  font-size: 1.05rem;
+  color: var(--color-ink-soft);
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* Zone groups */
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-xl);
+}
+
+.group {
+  background: var(--color-bg-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+}
+
+.groupTitle {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--color-ink);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.communeList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.communeItem {
+  font-size: 0.95rem;
+  color: var(--color-ink-soft);
+}
+
+.communeLink {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.communeLink:hover { text-decoration: underline; }
+
+/* CTA */
+.ctaText {
+  font-size: 1rem;
+  color: var(--color-ink-soft);
+  margin-bottom: var(--space-xl);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.ctaGroup {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
