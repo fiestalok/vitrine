@@ -27,12 +27,12 @@ const FORMULES = [
 
 const BASE = import.meta.env.BASE_URL;
 const EVENTS = [
-  `${BASE}event1.jpg`,
-  `${BASE}event2.jpg`,
-  `${BASE}event3.jpg`,
-  `${BASE}event4.jpg`,
-  `${BASE}event5.jpg`,
-  `${BASE}event6.jpg`,
+  `${BASE}event1.webp`,
+  `${BASE}event2.webp`,
+  `${BASE}event3.webp`,
+  `${BASE}event4.webp`,
+  `${BASE}event5.webp`,
+  `${BASE}event6.webp`,
 ];
 
 const COMPLIANCE = [
@@ -81,9 +81,9 @@ export function EntreprisePage() {
 
       <Section background="gradientCool" eyebrow="En images" title="Nos événements corporate">
         <div className={styles.gallery}>
-          {EVENTS.map((src) => (
+          {EVENTS.map((src, i) => (
             <div key={src} className={styles.galleryItem}>
-              <img src={src} alt="" />
+              <img src={src} alt="" loading={i === 0 ? 'eager' : 'lazy'} />
             </div>
           ))}
         </div>
