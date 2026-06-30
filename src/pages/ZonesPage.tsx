@@ -59,7 +59,7 @@ const ZONE_GROUPS: Array<{ title: string; communes: ZoneEntry[] }> = [
 const areaServedSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  '@id': 'https://www.hoplalok.fr/#organization',
+  '@id': 'https://hoplalok.fr/#organization',
   areaServed: ZONE_GROUPS.flatMap((g) =>
     g.communes.map((c) => ({ '@type': 'City', name: c.nom }))
   ),

@@ -8,7 +8,7 @@ interface PageSEOProps {
   jsonLd?: Record<string, unknown>;
 }
 
-const BASE_URL = 'https://www.hoplalok.fr';
+const BASE_URL = 'https://hoplalok.fr';
 const DEFAULT_IMAGE = `${BASE_URL}/logo.webp`;
 
 export function PageSEO({ title, description, path, image = DEFAULT_IMAGE, jsonLd }: PageSEOProps) {

@@ -199,7 +199,7 @@ export function ProductPage() {
             price: product.price,
             priceValidUntil: '2027-12-31',
             areaServed: 'Bas-Rhin, Haut-Rhin',
-            url: `https://www.hoplalok.fr/produit/${product.id}`,
+            url: `https://hoplalok.fr/produit/${product.id}`,
           },
         }}
       />

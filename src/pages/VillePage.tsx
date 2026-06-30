@@ -40,7 +40,7 @@ export function VillePage() {
             {
               '@type': 'Service',
               name: `Location château gonflable à ${ville.nom}`,
-              provider: { '@id': 'https://www.hoplalok.fr/#organization' },
+              provider: { '@id': 'https://hoplalok.fr/#organization' },
               areaServed: { '@type': 'City', name: ville.nom },
             },
           ],
