@@ -7,6 +7,7 @@ import { Navbar } from './components/layout/Navbar';
 import { ScrollToTop } from './components/layout/ScrollToTop';
 import { Footer } from './components/layout/Footer';
 import { CartDrawer } from './components/layout/CartDrawer';
+import { ChatWidget } from './components/layout/ChatWidget';
 import { HomePage } from './pages/HomePage';
 import { CataloguePage } from './pages/CataloguePage';
 import { ProductPage } from './pages/ProductPage';
@@ -42,6 +43,7 @@ export default function App() {
             </main>
             <Footer />
             <CartDrawer />
+            <ChatWidget />
           </ReviewsProvider>
         </CartProvider>
       </CategoriesProvider>
