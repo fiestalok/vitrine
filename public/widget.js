@@ -16,16 +16,19 @@
   const CID_KEY = 'direct_chat_cid';
   const OPEN_KEY = 'direct_chat_open';
 
-  // Design tokens (Fiestalok-inspired)
+  // Design tokens — repris des CSS custom properties du site (palette "Pop
+  // Décalé", src/styles/tokens.css) avec fallback pour un déploiement
+  // standalone sur une page qui ne les définit pas.
   const TOKENS = {
-    pink:   '#EC2D7E',
-    pinkD:  '#C71F68',
-    navy:   '#1F1B4D',
-    navy2:  '#2A2563',
-    cream:  '#F7F5F1',
-    ink:    '#0F0E2C',
-    muted:  '#6B6A86',
-    line:   '#E7E3DC',
+    primary:  'var(--color-primary, #FF6B6B)',
+    primaryD: 'color-mix(in srgb, var(--color-primary, #FF6B6B) 82%, black)',
+    success:  'var(--color-success, #44CF6C)',
+    ink:      'var(--color-ink, #2D3436)',
+    inkSoft:  'var(--color-ink-soft, #5b6266)',
+    bg:       'var(--color-bg, #F8F9FA)',
+    bgAlt:    'var(--color-bg-alt, #FFFFFF)',
+    border:   'var(--color-border, #e6e8eb)',
+    font:     "var(--font-body, 'Nunito', system-ui, sans-serif)",
   };
 
   const host = document.createElement('div');
@@ -45,17 +48,17 @@
       width: 60px;
       height: 60px;
       border-radius: 999px;
-      background: ${TOKENS.pink};
+      background: ${TOKENS.primary};
       color: #fff;
       border: 0;
       cursor: pointer;
       display: grid;
       place-items: center;
-      box-shadow: 0 10px 30px rgba(236, 45, 126, .35), 0 2px 6px rgba(0,0,0,.12);
+      box-shadow: 0 10px 30px rgba(255, 107, 107, .35), 0 2px 6px rgba(0,0,0,.12);
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: ${TOKENS.font};
     }
-    .bubble:hover { transform: translateY(-2px); background: ${TOKENS.pinkD}; }
+    .bubble:hover { transform: translateY(-2px); background: ${TOKENS.primaryD}; }
     .bubble:active { transform: translateY(0); }
     .bubble svg { width: 26px; height: 26px; }
 
@@ -67,14 +70,14 @@
       max-width: calc(100vw - 32px);
       height: 560px;
       max-height: calc(100vh - 140px);
-      background: ${TOKENS.cream};
+      background: ${TOKENS.bg};
       color: ${TOKENS.ink};
       border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(15, 14, 44, .25), 0 4px 12px rgba(15,14,44,.08);
+      box-shadow: 0 20px 60px rgba(45, 52, 54, .25), 0 4px 12px rgba(45,52,54,.08);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: ${TOKENS.font};
       transform-origin: bottom right;
       opacity: 0;
       transform: translateY(12px) scale(.98);
@@ -88,7 +91,7 @@
     }
 
     .header {
-      background: ${TOKENS.navy};
+      background: ${TOKENS.ink};
       color: #fff;
       padding: 18px 20px;
       display: flex;
@@ -98,17 +101,9 @@
     .header .eyebrow {
       font-size: 10px;
       letter-spacing: .15em;
-      font-weight: 600;
-      color: ${TOKENS.pink};
+      font-weight: 700;
+      color: ${TOKENS.primary};
       text-transform: uppercase;
-      margin-bottom: 2px;
-    }
-    .header h3 {
-      font-family: 'Fraunces', Georgia, serif;
-      font-weight: 600;
-      font-size: 20px;
-      margin: 0;
-      letter-spacing: -.01em;
     }
     .header .titles { flex: 1; }
     .header .status {
@@ -119,7 +114,7 @@
       color: rgba(255,255,255,.7);
       margin-top: 4px;
     }
-    .dot { width: 7px; height: 7px; border-radius: 999px; background: #22C55E; box-shadow: 0 0 0 3px rgba(34,197,94,.22); }
+    .dot { width: 7px; height: 7px; border-radius: 999px; background: ${TOKENS.success}; box-shadow: 0 0 0 3px rgba(68,207,108,.22); }
     .dot.off { background: #9CA3AF; box-shadow: 0 0 0 3px rgba(156,163,175,.22); }
     .close {
       background: transparent;
@@ -140,11 +135,11 @@
       flex-direction: column;
       gap: 8px;
       background:
-        radial-gradient(ellipse at top, rgba(236,45,126,.04), transparent 60%),
-        ${TOKENS.cream};
+        radial-gradient(ellipse at top, rgba(255,107,107,.05), transparent 60%),
+        ${TOKENS.bg};
     }
     .log::-webkit-scrollbar { width: 8px; }
-    .log::-webkit-scrollbar-thumb { background: ${TOKENS.line}; border-radius: 999px; }
+    .log::-webkit-scrollbar-thumb { background: ${TOKENS.border}; border-radius: 999px; }
 
     .row { display: flex; }
     .row.me { justify-content: flex-end; }
@@ -160,21 +155,21 @@
       word-wrap: break-word;
     }
     .me .bubble-msg {
-      background: ${TOKENS.pink};
+      background: ${TOKENS.primary};
       color: #fff;
       border-bottom-right-radius: 6px;
     }
     .them .bubble-msg {
-      background: #fff;
+      background: ${TOKENS.bgAlt};
       color: ${TOKENS.ink};
-      border: 1px solid ${TOKENS.line};
+      border: 1px solid ${TOKENS.border};
       border-bottom-left-radius: 6px;
     }
     .sys {
       align-self: center;
       font-size: 11px;
-      color: ${TOKENS.muted};
-      background: rgba(31,27,77,.06);
+      color: ${TOKENS.inkSoft};
+      background: rgba(45,52,54,.06);
       padding: 4px 10px;
       border-radius: 999px;
     }
@@ -182,41 +177,41 @@
     .intro {
       text-align: center;
       padding: 24px 12px 12px;
-      color: ${TOKENS.muted};
+      color: ${TOKENS.inkSoft};
     }
     .intro h4 {
-      font-family: 'Fraunces', Georgia, serif;
+      font-family: ${TOKENS.font};
+      font-weight: 800;
       font-size: 18px;
-      font-weight: 600;
       color: ${TOKENS.ink};
       margin: 0 0 6px;
     }
     .intro p { margin: 0; font-size: 13px; }
 
     form {
-      border-top: 1px solid ${TOKENS.line};
+      border-top: 1px solid ${TOKENS.border};
       padding: 12px;
       display: flex;
       gap: 8px;
-      background: #fff;
+      background: ${TOKENS.bgAlt};
     }
     input {
       flex: 1;
       padding: 11px 14px;
-      border: 1px solid ${TOKENS.line};
+      border: 1px solid ${TOKENS.border};
       border-radius: 999px;
       font-family: inherit;
       font-size: 14px;
-      background: ${TOKENS.cream};
+      background: ${TOKENS.bg};
       color: ${TOKENS.ink};
       outline: none;
       transition: border-color .15s ease, background .15s ease;
     }
-    input:focus { border-color: ${TOKENS.pink}; background: #fff; }
+    input:focus { border-color: ${TOKENS.primary}; background: ${TOKENS.bgAlt}; }
     input:disabled { opacity: .6; cursor: not-allowed; }
 
     .send {
-      background: ${TOKENS.pink};
+      background: ${TOKENS.primary};
       color: #fff;
       border: 0;
       width: 42px; height: 42px;
@@ -225,19 +220,10 @@
       display: grid; place-items: center;
       transition: background .15s ease, transform .1s ease;
     }
-    .send:hover { background: ${TOKENS.pinkD}; }
+    .send:hover { background: ${TOKENS.primaryD}; }
     .send:active { transform: scale(.96); }
-    .send:disabled { background: ${TOKENS.line}; cursor: not-allowed; }
+    .send:disabled { background: ${TOKENS.border}; cursor: not-allowed; }
     .send svg { width: 18px; height: 18px; }
-
-    .footer {
-      text-align: center;
-      font-size: 10px;
-      color: ${TOKENS.muted};
-      padding: 6px 0 10px;
-      background: #fff;
-      letter-spacing: .02em;
-    }
 
     /* Mobile: full-screen panel */
     @media (max-width: 520px) {
@@ -263,7 +249,6 @@
     <div class="header">
       <div class="titles">
         <div class="eyebrow">Support</div>
-        <h3>Direct_Chat</h3>
         <div class="status"><span class="dot off" id="status-dot"></span><span id="status-text">hors-ligne</span></div>
       </div>
       <button class="close" id="close" aria-label="Fermer">${ICON_CLOSE}</button>
@@ -278,7 +263,6 @@
       <input id="input" type="text" autocomplete="off" placeholder="Écrivez un message…" maxlength="2000" disabled />
       <button class="send" id="send" type="submit" aria-label="Envoyer" disabled>${ICON_SEND}</button>
     </form>
-    <div class="footer">Propulsé par Direct_Chat</div>
   `;
   root.appendChild(panel);
 
