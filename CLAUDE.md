@@ -46,6 +46,8 @@ aucun autre fichier ne doit faire de `fetch`. Variables d'env (préfixe `VITE_`,
 - `VITE_DIRECTUS_URL` — base de l'API. En dev = `/api` (réécrit par le proxy Vite vers
   `back.fiestalok.fr`, voir `vite.config.ts`). Fallback hardcodé : `http://localhost:8055`.
 - `VITE_TURNSTILE_SITE_KEY` — clé Cloudflare Turnstile (anti-bot du formulaire de devis).
+- `VITE_CHAT_WIDGET_URL` — origine du backend Direct_Chat (widget de chat support, repo
+  séparé). Vide = widget désactivé (tant que le backend n'est pas déployé).
 
 Collections Directus consommées : `produits`, `categories`, `articles` (= unités physiques
 individuelles d'un produit), `clients`, `reservations`, `reservations_articles`.
@@ -67,7 +69,10 @@ plage, 5. crée les `reservations_articles`. Retourne le `tracking_token`.
 ### Frontend
 
 - `src/App.tsx` — providers imbriqués (Products → Categories → Cart → Reviews) autour des
-  `<Routes>`. Layout commun : `Navbar`, `Footer`, `CartDrawer`, `ScrollToTop`.
+  `<Routes>`. Layout commun : `Navbar`, `Footer`, `CartDrawer`, `ScrollToTop`, `ChatWidget`.
+- `ChatWidget` (`src/components/layout/ChatWidget.tsx`) — injecte le script vanilla
+  `public/widget.js` (copie adaptée du widget Direct_Chat, backend configurable via
+  `data-backend`) et masque le widget sur `/devis` et `/suivi`.
 - `src/main.tsx` — **HashRouter** (URLs en `/#/…`), nécessaire pour GitHub Pages. `base: '/'`.
 - **Contexts** (`src/context/`) :
   - `ProductsContext` / `CategoriesContext` — fetch Directus au montage, exposent `{ data, loading }`.
