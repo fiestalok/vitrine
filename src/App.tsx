@@ -8,6 +8,7 @@ import { ScrollToTop } from './components/layout/ScrollToTop';
 import { Footer } from './components/layout/Footer';
 import { CartDrawer } from './components/layout/CartDrawer';
 import { ChatWidget } from './components/layout/ChatWidget';
+import { CookieBanner } from './components/layout/CookieBanner';
 import { HomePage } from './pages/HomePage';
 import { CataloguePage } from './pages/CataloguePage';
 import { ProductPage } from './pages/ProductPage';
@@ -44,6 +45,7 @@ export default function App() {
             <Footer />
             <CartDrawer />
             <ChatWidget />
+            <CookieBanner />
           </ReviewsProvider>
         </CartProvider>
       </CategoriesProvider>
