@@ -2,6 +2,30 @@
 <html lang="fr">
 
 <head>
+  <!-- Axeptio (consent manager) -->
+  <script>
+    window.axeptioSettings = {
+      clientId: "6a6096e586754a4b14de5f27",
+      cookiesVersion: "b41c6836-c35c-4ccf-b95a-9cbb6fac2794",
+      googleConsentMode: {
+        default: {
+          analytics_storage: "denied",
+          ad_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+          wait_for_update: 500
+        }
+      }
+    };
+
+    (function(d, s) {
+      var t = d.getElementsByTagName(s)[0], e = d.createElement(s);
+      e.async = true; e.src = "//static.axept.io/sdk.js";
+      t.parentNode.insertBefore(e, t);
+    })(document, "script");
+  </script>
+  <!-- End Axeptio -->
+
   <!-- Google Tag Manager -->
   <script>(function (w, d, s, l, i) {
       w[l] = w[l] || []; w[l].push({
