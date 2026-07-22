@@ -1,46 +1,60 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4" />
-    <link rel="apple-touch-icon" href="/icone.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- GitHub Pages SPA: restaure l'URL encodée par 404.html -->
-    <script>
-      (function (l) {
-        if (l.search[1] === 'p') {
-          var parts = l.search.slice(1).split('&').map(function (s) {
-            return s.replace(/~and~/g, '&');
-          });
-          window.history.replaceState(
-            null, null,
-            parts[0].slice(2) +
-            (parts[1] ? '?' + parts[1].slice(2) : '') +
-            l.hash
-          );
-        }
-      }(window.location));
-    </script>
-    <title>Hoplalo'K — Location Château Gonflable Strasbourg &amp; Alsace</title>
-    <meta name="description" content="Location de château gonflable à Strasbourg et en Alsace. Hoplalo'K livre et installe châteaux gonflables, photobooths, sono et machines festives dans tout le Bas-Rhin et le Haut-Rhin." />
-    <meta name="theme-color" content="#FFE66D" />
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://hoplalok.fr/" />
-    <meta property="og:title" content="Hoplalo'K — Location Château Gonflable Strasbourg &amp; Alsace" />
-    <meta property="og:description" content="Location de château gonflable à Strasbourg et en Alsace. Livraison et installation dans tout le Bas-Rhin et le Haut-Rhin." />
-    <meta property="og:image" content="https://hoplalok.fr/logo.png" />
-    <meta property="og:locale" content="fr_FR" />
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-M9BJF8N5');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4" />
+  <link rel="apple-touch-icon" href="/icone.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- GitHub Pages SPA: restaure l'URL encodée par 404.html -->
+  <script>
+    (function (l) {
+      if (l.search[1] === 'p') {
+        var parts = l.search.slice(1).split('&').map(function (s) {
+          return s.replace(/~and~/g, '&');
+        });
+        window.history.replaceState(
+          null, null,
+          parts[0].slice(2) +
+          (parts[1] ? '?' + parts[1].slice(2) : '') +
+          l.hash
+        );
+      }
+    }(window.location));
+  </script>
+  <title>Hoplalo'K — Location Château Gonflable Strasbourg &amp; Alsace</title>
+  <meta name="description"
+    content="Location de château gonflable à Strasbourg et en Alsace. Hoplalo'K livre et installe châteaux gonflables, photobooths, sono et machines festives dans tout le Bas-Rhin et le Haut-Rhin." />
+  <meta name="theme-color" content="#FFE66D" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Hoplalo'K — Location Château Gonflable Strasbourg &amp; Alsace" />
-    <meta name="twitter:description" content="Location de château gonflable à Strasbourg et en Alsace. Livraison dans tout le Bas-Rhin et le Haut-Rhin." />
-    <meta name="twitter:image" content="https://hoplalok.fr/logo.png" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hoplalok.fr/" />
+  <meta property="og:title" content="Hoplalo'K — Location Château Gonflable Strasbourg &amp; Alsace" />
+  <meta property="og:description"
+    content="Location de château gonflable à Strasbourg et en Alsace. Livraison et installation dans tout le Bas-Rhin et le Haut-Rhin." />
+  <meta property="og:image" content="https://hoplalok.fr/logo.png" />
+  <meta property="og:locale" content="fr_FR" />
 
-    <!-- JSON-LD LocalBusiness -->
-    <script type="application/ld+json">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Hoplalo'K — Location Château Gonflable Strasbourg &amp; Alsace" />
+  <meta name="twitter:description"
+    content="Location de château gonflable à Strasbourg et en Alsace. Livraison dans tout le Bas-Rhin et le Haut-Rhin." />
+  <meta name="twitter:image" content="https://hoplalok.fr/logo.png" />
+
+  <!-- JSON-LD LocalBusiness -->
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
@@ -96,11 +110,17 @@
     }
     </script>
 
-    <!-- Preload LCP image -->
-    <link rel="preload" as="image" href="/event1.webp" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <!-- Preload LCP image -->
+  <link rel="preload" as="image" href="/event1.webp" />
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9BJF8N5" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
