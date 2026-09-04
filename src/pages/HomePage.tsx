@@ -75,8 +75,8 @@ export function HomePage() {
   return (
     <>
       <PageSEO
-        title="Location Château Gonflable Strasbourg & Alsace"
-        description="Louez un château gonflable à Strasbourg avec Hoplalo'K. Livraison et installation dans tout le Bas-Rhin et le Haut-Rhin. Photobooths, machines à pop-corn, enceintes — certifiés CE, assurés RC Pro."
+        title="Location Structure Gonflable & Château Gonflable Strasbourg & Alsace"
+        description="Louez une structure gonflable ou un château gonflable à Strasbourg avec Hoplalo'K. Livraison et installation dans tout le Bas-Rhin et le Haut-Rhin. Photobooths, machines à pop-corn, enceintes — certifiés CE, assurés RC Pro."
         path="/"
         jsonLd={{
           '@context': 'https://schema.org',

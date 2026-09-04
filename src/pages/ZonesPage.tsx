@@ -70,7 +70,7 @@ export function ZonesPage() {
     <>
       <PageSEO
         title="Zones de livraison — Bas-Rhin & Haut-Rhin"
-        description="Hoplalo'K livre châteaux gonflables, photobooths et matériel festif dans tout le Bas-Rhin et le Haut-Rhin : Strasbourg, Haguenau, Colmar, Mulhouse et des dizaines de communes."
+        description="Hoplalo'K livre structures gonflables, châteaux gonflables, photobooths et matériel festif dans tout le Bas-Rhin et le Haut-Rhin : Strasbourg, Haguenau, Colmar, Mulhouse et des dizaines de communes."
         path="/zones-de-livraison"
         jsonLd={areaServedSchema}
       />

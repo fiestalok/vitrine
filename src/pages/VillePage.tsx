@@ -23,7 +23,7 @@ export function VillePage() {
   return (
     <>
       <PageSEO
-        title={`Location château gonflable à ${ville.nom}`}
+        title={`Location structure gonflable & château gonflable à ${ville.nom}`}
         description={ville.metaDescription}
         path={`/location/${ville.slug}`}
         jsonLd={{
