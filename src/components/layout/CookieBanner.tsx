@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { loadJSON, saveJSON } from '../../lib/storage';
 import { initGTM } from '../../lib/analytics';
 import styles from './CookieBanner.module.css';
@@ -37,7 +38,7 @@ export function CookieBanner() {
         <p className={styles.text}>
           Nous utilisons Google Analytics pour mesurer l'audience du site et améliorer nos services.
           Aucune donnée n'est revendue à des tiers.{' '}
-          <a href="/#/mentions-legales">En savoir plus</a>
+          <Link to="/mentions-legales">En savoir plus</Link>
         </p>
         <div className={styles.actions}>
           <button className={styles.refuse} onClick={refuse}>Refuser</button>
