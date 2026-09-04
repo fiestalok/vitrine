@@ -31,15 +31,18 @@ export function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <div className={styles.banner} role="dialog" aria-label="Gestion des cookies">
-      <p className={styles.text}>
-        Nous utilisons des cookies analytiques (Google Analytics) pour mesurer l'audience du site
-        et améliorer nos services. Aucune donnée n'est revendue à des tiers.{' '}
-        <a href="/#/mentions-legales">En savoir plus</a>
-      </p>
-      <div className={styles.actions}>
-        <button className={styles.refuse} onClick={refuse}>Refuser</button>
-        <button className={styles.accept} onClick={accept}>Accepter</button>
+    <div className={styles.overlay}>
+      <div className={styles.banner} role="dialog" aria-label="Gestion des cookies">
+        <p className={styles.title}>🍪 Cookies</p>
+        <p className={styles.text}>
+          Nous utilisons Google Analytics pour mesurer l'audience du site et améliorer nos services.
+          Aucune donnée n'est revendue à des tiers.{' '}
+          <a href="/#/mentions-legales">En savoir plus</a>
+        </p>
+        <div className={styles.actions}>
+          <button className={styles.refuse} onClick={refuse}>Refuser</button>
+          <button className={styles.accept} onClick={accept}>Accepter</button>
+        </div>
       </div>
     </div>
   );

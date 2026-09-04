@@ -1,84 +1,107 @@
-.banner {
+.overlay {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: var(--color-ink);
-  color: #fff;
-  padding: var(--space-md) var(--space-lg);
+  inset: 0;
+  background: rgba(45, 52, 54, 0.55);
+  z-index: 2147483001;
   display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-  box-shadow: 0 -4px 24px rgba(45, 52, 54, 0.18);
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--space-lg);
+  padding-bottom: calc(var(--space-lg) + env(safe-area-inset-bottom, 0px));
+}
+
+.banner {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), 0 0 0 3px var(--color-accent);
+  padding: var(--space-lg) var(--space-xl);
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.03em;
+  color: var(--color-ink);
+  margin: 0;
 }
 
 .text {
-  flex: 1;
   font-family: var(--font-body);
   font-size: 0.9rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+  margin: 0;
 }
 
 .text a {
-  color: var(--color-accent);
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
 .actions {
   display: flex;
   gap: var(--space-sm);
-  flex-shrink: 0;
+  justify-content: flex-end;
 }
 
 .accept {
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 0.9rem;
-  padding: var(--space-xs) var(--space-lg);
+  font-size: 0.95rem;
+  padding: var(--space-sm) var(--space-xl);
   border-radius: var(--radius-pill);
   border: 2px solid var(--color-accent);
   background: var(--color-accent);
   color: var(--color-ink);
   cursor: pointer;
-  transition: opacity 0.15s;
+  box-shadow: var(--shadow-sticker);
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .accept:hover {
-  opacity: 0.85;
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 rgba(45, 52, 54, 0.85);
 }
 
 .refuse {
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.9rem;
-  padding: var(--space-xs) var(--space-lg);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-pill);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--color-border);
   background: transparent;
-  color: #fff;
+  color: var(--color-ink-soft);
   cursor: pointer;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, color 0.15s;
 }
 
 .refuse:hover {
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: var(--color-ink-soft);
+  color: var(--color-ink);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
+  .overlay {
+    padding: var(--space-md);
+  }
+
   .banner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
+    padding: var(--space-lg);
   }
 
   .actions {
-    width: 100%;
+    flex-direction: column-reverse;
   }
 
   .accept,
   .refuse {
-    flex: 1;
+    width: 100%;
     text-align: center;
   }
 }

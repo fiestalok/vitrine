@@ -19,9 +19,9 @@ export function MentionsLegalesPage() {
           <ul>
             <li><strong>Dénomination sociale :</strong> Hoplalo'K</li>
             <li><strong>Forme juridique :</strong> Association à but lucratif</li>
-            <li><strong>Siège social :</strong> XX rue XXXXX, XXXXX Strasbourg (67), France</li>
-            <li><strong>N° RNA :</strong> WXXXXXXXXX <em>(en cours d'immatriculation)</em></li>
-            <li><strong>N° SIRET :</strong> XXX XXX XXX XXXXX <em>(en cours d'immatriculation)</em></li>
+            <li><strong>Siège social :</strong> 5 rue du maire Sorgus, 67300 Schiltigheim (67), France</li>
+            <li><strong>N° RNA :</strong> A2026SCM000056</li>
+            <li><strong>N° SIRET :</strong> 108 736 497 00018</li>
             <li><strong>Téléphone :</strong> +33 6 79 51 59 25</li>
             <li><strong>E-mail :</strong> <a href="mailto:contact@fiestalok.fr">contact@fiestalok.fr</a></li>
           </ul>
@@ -94,8 +94,12 @@ export function MentionsLegalesPage() {
 
         <section className={styles.section}>
           <h2>5. Cookies et stockage local</h2>
-          <p>Ce site <strong>n'utilise pas de cookies de suivi ou de profilage</strong>.</p>
-          <p>Le site utilise le <strong>stockage local du navigateur</strong> uniquement pour retenir votre panier entre les pages. Ces données restent sur votre appareil et ne sont jamais transmises à nos serveurs.</p>
+          <h3>Cookies analytiques (Google Analytics)</h3>
+          <p>Ce site utilise <strong>Google Analytics</strong> (via Google Tag Manager) pour mesurer l'audience et améliorer nos services. Ces cookies ne sont déposés qu'après votre consentement explicite, recueilli via le bandeau affiché lors de votre première visite.</p>
+          <p>Vous pouvez retirer votre consentement à tout moment en vidant les données de site de votre navigateur. Google Analytics est soumis à la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">politique de confidentialité de Google</a>.</p>
+          <h3>Stockage local du navigateur</h3>
+          <p>Le site utilise le <strong>stockage local du navigateur</strong> (localStorage) pour retenir votre panier et votre choix de consentement entre les pages. Ces données restent sur votre appareil et ne sont jamais transmises à nos serveurs.</p>
+          <h3>Protection anti-spam</h3>
           <p>Un widget <strong>Cloudflare Turnstile</strong> est intégré sur le formulaire de devis à des fins de protection anti-spam. Ce service est soumis à la <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">politique de confidentialité de Cloudflare</a>.</p>
         </section>
 
