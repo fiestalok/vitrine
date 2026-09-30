@@ -193,7 +193,7 @@ export function HomePage() {
             { icon: '🛡️', title: 'Matériel homologué CE', text: 'Norme EN 14960 sur tous nos gonflables.' },
             { icon: '📋', title: 'Assurance RC Pro', text: 'Votre événement est couvert.' },
             { icon: '🎪', title: 'Équipe pro', text: 'On monte, on sécurise, avec le sourire.' },
-            { icon: '📍', title: 'Ancrage local', text: 'Livraison Bas-Rhin & Haut-Rhin sans surcoût.' },
+            { icon: '📍', title: 'Ancrage local', text: 'On livre et on installe dans tout le Bas-Rhin et le Haut-Rhin.' },
           ].map((v) => (
             <article key={v.title} className={styles.value}>
               <span className={styles.valueIcon}>{v.icon}</span>

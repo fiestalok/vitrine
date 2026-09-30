@@ -60,12 +60,12 @@ export const VILLES: VilleData[] = [
         a: "Oui, notre photobooth est disponible à Schiltigheim pour anniversaires, mariages et événements d'entreprise.",
       },
       {
-        q: 'Y a-t-il un surcoût de livraison pour Schiltigheim ?',
-        a: "Non, la livraison à Schiltigheim et dans l'Eurométropole de Strasbourg est incluse dans nos tarifs standards.",
+        q: 'Combien coûte la livraison à Schiltigheim ?',
+        a: "La livraison est facturée selon la distance depuis notre dépôt de Strasbourg, installation et démontage compris. Le montant exact figure sur votre devis.",
       },
     ],
     metaDescription:
-      "Location château gonflable à Schiltigheim — Hoplalo'K livre sans surcoût. Photobooths, machines à pop-corn, enceintes. Devis gratuit en ligne.",
+      "Location château gonflable à Schiltigheim — Hoplalo'K livre et installe chez vous. Photobooths, machines à pop-corn, enceintes. Devis gratuit en ligne.",
   },
   {
     slug: 'illkirch',
@@ -80,7 +80,7 @@ export const VILLES: VilleData[] = [
     faq: [
       {
         q: 'Livrez-vous à Illkirch-Graffenstaden ?',
-        a: "Oui, Illkirch-Graffenstaden et les communes du sud de Strasbourg (Ostwald, Lingolsheim, Geispolsheim) font partie de nos zones de livraison sans surcoût.",
+        a: "Oui, Illkirch-Graffenstaden et les communes du sud de Strasbourg (Ostwald, Lingolsheim, Geispolsheim) font partie de nos zones de livraison.",
       },
       {
         q: "Pouvez-vous installer un château gonflable dans une école à Illkirch ?",
@@ -115,7 +115,7 @@ export const VILLES: VilleData[] = [
       },
       {
         q: 'Quel est le prix de la livraison à Haguenau ?',
-        a: "Contactez-nous pour un devis personnalisé. La livraison est incluse dans nos tarifs standards pour la grande majorité de nos zones.",
+        a: "La livraison est facturée selon la distance depuis notre dépôt de Strasbourg, installation et démontage compris. Demandez un devis gratuit pour connaître le montant exact.",
       },
     ],
     metaDescription:
@@ -142,7 +142,7 @@ export const VILLES: VilleData[] = [
       },
       {
         q: 'Le prix de livraison est-il différent pour Colmar ?',
-        a: "Un éventuel surcoût de transport peut s'appliquer selon la distance. Demandez un devis gratuit pour connaître les conditions exactes.",
+        a: "Oui, la livraison est facturée selon la distance depuis notre dépôt de Strasbourg, installation et démontage compris. Demandez un devis gratuit pour connaître le montant exact.",
       },
     ],
     metaDescription:

@@ -47,7 +47,7 @@ export function EntreprisePage() {
     <>
       <PageSEO
         title="Location matériel événementiel entreprise"
-        description="Hoplalo'K équipe vos événements d'entreprise en Alsace : team building, séminaires, kermesses. Matériel festif professionnel, livraison et installation incluses."
+        description="Hoplalo'K équipe vos événements d'entreprise en Alsace : team building, séminaires, kermesses. Matériel festif professionnel, livré et installé par notre équipe."
         path="/entreprise"
       />
       <section className={styles.hero}>
