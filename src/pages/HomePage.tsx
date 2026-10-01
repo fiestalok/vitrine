@@ -99,8 +99,8 @@ export function HomePage() {
             <span className={styles.titleAccent}>gonflée à bloc.</span>
           </h1>
           <p className={`${styles.lead} ${styles.animLead}`}>
-            Châteaux gonflables, photobooths, sono et bien plus —<br/>
-            on s'occupe de tout, vous profitez.
+            Châteaux gonflables, photobooths, sono et bien plus.{' '}<br/>
+            On s'occupe de tout, vous profitez.
           </p>
           <div className={`${styles.ctas} ${styles.animCtas}`}>
             <Button href="mailto:contact@fiestalok.fr" variant="secondary" size="lg" className={styles.ctaDevis}>
@@ -108,6 +108,10 @@ export function HomePage() {
             </Button>
             <Button to="/catalogue" variant="secondary" size="lg">
               Voir le catalogue
+            </Button>
+            <span className={styles.ctaBreak} aria-hidden="true" />
+            <Button href="tel:+33679515925" size="lg" className={styles.ctaCall}>
+              📞 Appelez-nous<span className={styles.callNumber}> · 06 79 51 59 25</span>
             </Button>
           </div>
         </div>
