@@ -5,7 +5,7 @@
 
 .story { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2xl); align-items: center; }
 .photo { position: relative; }
-.photo img { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.photo img { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
 .photoTag { position: absolute; bottom: var(--space-md); left: var(--space-md); background: rgba(45,52,54,0.85); color: var(--color-bg); padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.8rem; font-weight: 700; }
 .eyebrow { color: var(--color-primary); font-family: var(--font-display); letter-spacing: 0.15em; font-size: 0.9rem; }
 .text h2 { margin: var(--space-xs) 0 var(--space-md); }

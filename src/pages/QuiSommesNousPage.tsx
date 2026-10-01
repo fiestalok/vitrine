@@ -36,15 +36,21 @@ export function QuiSommesNousPage() {
       <Section background="gradientWarm">
         <div className={styles.story}>
           <div className={styles.photo}>
-            <img src="https://images.unsplash.com/photo-1543007631-283050bb3e8c?w=900" alt="L'équipe Hoplalo'K" />
+            <img
+              src="/equipe.webp"
+              width={1200}
+              height={900}
+              loading="lazy"
+              alt="L'équipe Hoplalo'K devant le château gonflable Crocodile World"
+            />
             <span className={styles.photoTag}>L'équipe Hoplalo'K · Strasbourg · Alsace</span>
           </div>
           <div className={styles.text}>
             <p className={styles.eyebrow}>Notre histoire</p>
             <h2>Tout a commencé par une décision audacieuse.</h2>
-            <p>Six passionnés ont décidé de se lancer dans l'aventure de l'événementiel festif. Sans prétention, mais avec une conviction forte : rendre chaque fête inoubliable, peu importe l'occasion.</p>
-            <p>De cette belle idée est née Hoplalo'K à Strasbourg. Nous équipons des événements à travers toute l'Alsace — des anniversaires d'enfants aux team buildings d'entreprise, en passant par les kermesses de quartier.</p>
-            <p>Cette passion, nous ne l'avons pas perdue. Notre équipe reste à vos côtés du premier échange jusqu'au démontage du dernier équipement.</p>
+            <p>Hoplalo'K, c'est une équipe de copains alsaciens partis d'une idée simple : faire de chaque fête un moment dont on parle encore des mois après. Anniversaire, kermesse, mariage ou team building : peu importe l'occasion, on y met la même énergie.</p>
+            <p>Basés à Schiltigheim, aux portes de Strasbourg, on livre et on installe châteaux gonflables, photobooths et sono dans tout le Bas-Rhin et le Haut-Rhin. Vous n'avez plus qu'à profiter.</p>
+            <p>Eh oui, on teste nous-mêmes tous nos châteaux gonflables. Pour la science. Mais chez vous, place au sérieux : installation soignée et une équipe à vos côtés du premier message jusqu'au démontage.</p>
             <div className={styles.ctas}>
               <Button to="/catalogue" variant="primary" size="md">Voir nos produits →</Button>
               <Button to="/entreprise" variant="secondary" size="md">Offres entreprise</Button>
