@@ -102,6 +102,17 @@
 .animLead  { animation: pop-in 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.50s both; }
 .animCtas  { animation: pop-in 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.70s both; }
 
+/* Mobile: stacked buttons pop in one by one instead of as a single block */
+@media (max-width: 560px) {
+  .animCtas { animation: none; }
+}
+@media (max-width: 560px) and (prefers-reduced-motion: no-preference) {
+  .animCtas > * { animation: pop-in 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .animCtas > :nth-child(1) { animation-delay: 0.70s; }
+  .animCtas > :nth-child(2) { animation-delay: 0.90s; }
+  .animCtas > :nth-child(4) { animation-delay: 1.10s; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animBadge, .animTitle, .animLead, .animCtas { animation: none; }
   .scrollIndicator { animation: none; }
